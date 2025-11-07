@@ -34,3 +34,6 @@ backups/v*/applied-*.timestamp
 # TODO: Snyk (will be added in v1.2.0)
 # .snyk
 .mcp/
+
+# Build artifacts and temporary documentation processing
+.build-artifacts/
