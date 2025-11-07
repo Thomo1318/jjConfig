@@ -1,0 +1,15 @@
+{
+  \"version\": \"1.0.2\",
+  \"name\": \"init-alias\",
+  \"date\": \"2025-11-07\",
+  \"timestamp\": \"20251107-161309\",
+  \"description\": \"PATCH: Added missing init alias\",
+  \"changes\": [
+    \"Added 'init' alias for repo initialization\",
+    \"Added 'i' short alias\"
+  ],
+  \"breaking_changes\": [],
+  \"files_modified\": [
+    \"config.toml\"
+  ]
+}

@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# GitMCP Context Generator - Post-Commit Hook
+# Updates .mcp/context.json after every commit
+# Version: 1.1.0
+# Runs locally - Zero tokens, zero API calls
+
+set -e
+
+# Get repo info
+REPO_URL=$(git remote get-url origin 2>/dev/null || echo "local-repo")
+REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
+COMMIT=$(git rev-parse HEAD 2>/dev/null || echo "none")
+TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+# Extract GitHub repo path if it exists
+if [[ "$REPO_URL" =~ github\.com[:/](.+)\.git$ ]] || [[ "$REPO_URL" =~ github\.com[:/](.+)$ ]]; then
+    GITHUB_REPO="${BASH_REMATCH[1]}"
+    MCP_URL="https://gitmcp.io/${GITHUB_REPO}"
+    IS_GITHUB="true"
+else
+    GITHUB_REPO="local"
+    MCP_URL="N/A (not a GitHub repo)"
+    IS_GITHUB="false"
+fi
+
+# Create .mcp directory
+mkdir -p .mcp
+
+# Generate context file
+cat > .mcp/context.json << CTXEOF
+{
+  "repository": "${REPO_NAME}",
+  "github_repo": "${GITHUB_REPO}",
+  "github_url": "${REPO_URL}",
+  "mcp_url": "${MCP_URL}",
+  "is_github_repo": ${IS_GITHUB},
+  "generated_at": "${TIMESTAMP}",
+  "branch": "${BRANCH}",
+  "commit": "${COMMIT}",
+  "mcp_endpoints": {
+    "readme": "${MCP_URL}/readme",
+    "docs": "${MCP_URL}/docs",
+    "structure": "${MCP_URL}/structure"
+  },
+  "local_paths": {
+    "root": "$(pwd)",
+    "git_dir": "$(git rev-parse --git-dir 2>/dev/null || echo '.git')",
+    "jj_dir": ".jj"
+  }
+}
+CTXEOF
+
+# Only generate AI configs if it's a GitHub repo
+if [ "$IS_GITHUB" = "true" ]; then
+    cat > .mcp/cursor-config.json << CURSOREOF
+{
+  "mcpServers": {
+    "${REPO_NAME}": {
+      "url": "${MCP_URL}",
+      "description": "GitMCP server for ${REPO_NAME}"
+    }
+  }
+}
+CURSOREOF
+
+    cat > .mcp/claude-config.json << CLAUDEEOF
+{
+  "mcpServers": {
+    "${REPO_NAME}": {
+      "url": "${MCP_URL}"
+    }
+  }
+}
+CLAUDEEOF
+
+    cat > .mcp/README.md << READMEEOF
+# AI Context Integration
+
+**Repository:** ${REPO_NAME}  
+**GitHub:** ${GITHUB_REPO}  
+**MCP Server:** ${MCP_URL}  
+**Updated:** ${TIMESTAMP}
+
+## Quick Setup
+
+### Cursor IDE
+\`\`\`bash
+cat .mcp/cursor-config.json >> ~/.cursor/mcp.json
+\`\`\`
+
+### Claude Desktop
+\`\`\`bash
+cat .mcp/claude-config.json >> ~/Library/Application\ Support/Claude/claude_desktop_config.json
+\`\`\`
+
+### Manual
+Copy MCP URL: \`${MCP_URL}\`
+
+## Auto-Update
+Context files update automatically via Git hooks.
+
+## Status
+- Branch: ${BRANCH}
+- Commit: ${COMMIT}
+- Generated: ${TIMESTAMP}
+READMEEOF
+else
+    echo "Local repo (not GitHub) - MCP integration limited" > .mcp/README.md
+fi
+
+# Add .mcp to .gitignore
+if [ -f .gitignore ]; then
+    grep -q "^\.mcp" .gitignore 2>/dev/null || echo ".mcp/" >> .gitignore
+fi
+
+exit 0

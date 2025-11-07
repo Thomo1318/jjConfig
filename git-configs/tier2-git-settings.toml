@@ -1,0 +1,19 @@
+# Tier 2: Git Configuration Settings
+# Additional useful Git settings for later implementation
+# 
+# To enable these settings, copy desired sections to your main config.toml
+# Reference: https://jj-vcs.github.io/jj/latest/config/
+
+[git]
+# Explicitly enable colocated repos (already default, but documents intent)
+colocate = true
+
+# Default push remote (useful with multiple remotes)
+push = "origin"
+
+# Track default bookmark on clone (already default)
+track-default-bookmark-on-clone = true
+
+# Example: Multiple fetch remotes for fork workflows
+# Uncomment and customize for upstream + origin workflow:
+# fetch = ["upstream", "origin"]

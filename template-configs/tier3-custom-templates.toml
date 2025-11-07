@@ -1,0 +1,90 @@
+# Tier 3: Custom Templates
+# Advanced template configurations for specific workflows
+#
+# To enable, copy desired sections to main config.toml
+
+[templates]
+# Custom log node symbols
+log_node = '''
+coalesce(
+  if(!self, "🮀"),
+  if(current_working_copy, "@"),
+  if(root, "┴"),
+  if(immutable, "●", "○"),
+)
+'''
+
+# Custom operation log node
+op_log_node = 'if(current_operation, "@", "○")'
+
+# Duplicate commit description template
+duplicate_description = '''
+concat(
+  description,
+  "\n(cherry picked from commit ",
+  commit_id,
+  ")"
+)
+'''
+
+# Backout commit description
+backout_description = '''
+"Backout of commit " ++ commit_id.short() ++ "\n\n" ++ description
+'''
+
+# Draft commit description with diff stats
+draft_commit_description = '''
+concat(
+  coalesce(description, default_commit_description, "\n"),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.stat(72)),
+  ),
+  "\nJJ: ignore-rest\n",
+  diff.git(),
+)
+'''
+
+# Commit trailers (Signed-off-by, Change-Id for Gerrit)
+commit_trailers = '''
+format_signed_off_by_trailer(self)
+++ if(!trailers.contains_key("Change-Id"), format_gerrit_change_id_trailer(self))
+'''
+
+# Custom config list template
+config_list = "builtin_config_list_detailed"
+
+# Annotate commit summary (for jj file annotate)
+# annotate_commit_summary = 'change_id.short() ++ " " ++ author.email().local() ++ " " ++ format_timestamp(committer.timestamp())'
+
+[template-aliases]
+# Hyperlink support (for terminals with OSC8)
+'format_commit_link(commit)' = '''
+"\u001b]8;;" ++ "https://github.com/OWNER/REPO/commit/" ++ commit.commit_id ++ "\u001b\\"
+++ commit.commit_id.short()
+++ "\u001b]8;;\u001b\\"
+'''
+
+# Custom label insertion
+'custom_label(label, content)' = 'label(label, content)'
+
+# JSON serialization
+'to_json(value)' = 'json(value)'
+
+# String manipulation
+'uppercase(str)' = 'str.upper()'
+'lowercase(str)' = 'str.lower()'
+
+# Padding and truncation
+'pad_left(str, width)' = 'str.pad_start(width)'
+'pad_right(str, width)' = 'str.pad_end(width)'
+'pad_center(str, width)' = 'str.pad_centered(width)'
+'truncate_left(str, width)' = 'str.truncate_start(width)'
+'truncate_right(str, width)' = 'str.truncate_end(width)'
+
+# Author timestamp instead of committer
+'commit_timestamp(commit)' = 'commit.author().timestamp()'
+
+# Username extraction
+'author_username()' = 'author.username()'
+'committer_username()' = 'committer.username()'

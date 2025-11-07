@@ -1,0 +1,26 @@
+# Tier 2: Intermediate Aliases
+# Bookmark management and specialized logs
+#
+# To enable, copy desired sections to main config.toml
+
+[aliases]
+# Bookmark management
+nb = ["bookmark", "create", "-r", "@-"]  # New bookmark on parent
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]  # Move bookmark up
+tug- = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@--"]  # Move to grandparent
+
+# Specialized logs
+logconflicts = ["log", "-r", "conflicts()"]  # Show conflicting commits
+logpush = ["log", "-r", "trunk()::@"]  # Unpushed commits
+logpull = ["log", "-r", "@..trunk()"]  # Unpulled commits
+open = ["log", "-r", "open()"]  # Open/unfinished commits
+
+# Better naming
+credit = ["file", "annotate"]  # Git blame equivalent
+
+# Rebase shortcuts
+retrunk = ["rebase", "-d", "trunk()"]  # Rebase onto trunk
+nt = ["new", "trunk()"]  # New change from trunk
+
+# Cleanup
+abandonempties = ["abandon", "-r", "description(exact:'') ~ root()"]  # Remove empty commits

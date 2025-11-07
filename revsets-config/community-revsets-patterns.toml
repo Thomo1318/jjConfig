@@ -1,0 +1,23 @@
+# Community Revsets Section Patterns
+# Proven [revsets] configurations from experienced users
+#
+# Sources:
+# - https://github.com/jj-vcs/jj/discussions/5812
+# - https://willhbr.net/2024/08/18/understanding-revsets-for-a-better-jj-log-output/
+
+[revsets]
+# From willhbr.net - focused on recent work
+# log = "ancestors(reachable(@, mutable()), 2)"
+
+# From community - show only unpushed
+# log = "remote_bookmarks()..@"
+
+# From community - show recent with trunk context
+# log = "ancestors(mutable() & ~empty(), 5) | trunk()"
+
+# Short prefixes for active development
+# short-prefixes = "(trunk()..@)::"
+
+# Graph prioritization examples
+# log-graph-prioritize = "trunk()"
+# log-graph-prioritize = "coalesce(bookmarks(), trunk())"

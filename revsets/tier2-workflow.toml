@@ -1,0 +1,29 @@
+# Tier 2: Workflow Revset Aliases
+# Additional revset functions for common workflows
+#
+# To enable, copy desired sections to main config.toml
+
+[revset-aliases]
+# Open/unfinished commits
+'open()' = 'description(exact:"") | description(glob:"wip*") | description(glob:"WIP*")'
+
+# Local stale branches (not in current work)
+'localstale' = 'local() & ~(trunk()..@)'
+
+# Closest bookmark to a revision
+'closest_bookmark(rev)' = 'heads(::rev & bookmarks())'
+
+# Commits ready to push
+'pushable()' = 'mine() & mutable() & ~empty() & ::@'
+
+# Unpushed commits
+'unpushed()' = 'remote_bookmarks()..@'
+
+# Unpulled commits  
+'unpulled()' = '@..remote_bookmarks()'
+
+# Visible heads (for custom log views)
+'visible_heads()' = 'heads(all())'
+
+# Local commits only
+'local()' = 'mutable() & ~remote_bookmarks()'

@@ -1,0 +1,35 @@
+# Tier 3: Advanced Git Configuration Settings
+# Expert-level Git settings for specific use cases
+#
+# To enable these settings, copy desired sections to your main config.toml
+# Reference: https://jj-vcs.github.io/jj/latest/config/
+
+[git]
+# Use external git subprocess instead of libgit2
+# Useful for: SSH authentication issues, credential helpers
+# Trade-off: Slightly slower but more compatible
+# subprocess = true
+
+# Custom git executable path
+# Use when: git not in PATH, or need specific version
+# executable-path = "/opt/homebrew/bin/git"
+
+# Sign commits on push (requires [signing] configuration)
+# sign-on-push = true
+
+# Example: Fork workflow with multiple remotes
+# fetch = ["upstream", "origin"]
+# push = "origin"
+
+[signing]
+# SSH commit signing (uncomment and configure when needed)
+# behavior = "own"
+# backend = "ssh"
+# key = "ssh-ed25519 YOUR_PUBLIC_KEY_HERE"
+# Or use key path:
+# key = "~/.ssh/id_ed25519.pub"
+
+# Lazy signing - only sign on push
+# behavior = "drop"
+# backend = "ssh"
+# key = "ssh-ed25519 YOUR_PUBLIC_KEY_HERE"

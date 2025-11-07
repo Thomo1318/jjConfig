@@ -1,0 +1,65 @@
+# Community Alias Collection
+# Useful aliases from jj community sources
+#
+# Sources:
+# - https://github.com/jj-vcs/jj/discussions/5812
+# - https://zerowidth.com/2025/jj-tips-and-tricks/
+# - https://willhbr.net/2024/05/26/some-hot-jj-tips/
+# - https://danverbraganza.com/writings/most-frequent-jj-commands
+
+[aliases]
+# From simonmichael (extensive alias set)
+ab = ["absorb"]
+am = ["amend"]
+list = ["log", "--no-graph"]
+reword = ["describe"]
+hide = ["abandon"]
+revlog = ["evolog"]
+rollback = ["backout"]
+up = ["new"]
+whatsout = ["diff", "--summary"]
+
+# Background/no-pager operations
+bg = ["--config=ui.log-word-wrap=false", "--ignore-working-copy", "--no-pager"]
+bgc = ["bg", "--color=always"]
+
+# Bookmark/change/commit listing
+bookmarks = ["list", "--template=bookmarks ++ \"\\n\""]
+changes = ["list", "--template=change_id.short() ++ \"\\n\""]
+commits = ["list", "--template=commit_id.short() ++ \"\\n\""]
+
+# Delta diff viewer integration
+delta = [
+  "--config=ui.pager=[\"delta\", \"--line-numbers\", \"--navigate\", \"--side-by-side\"]",
+  "diff", "--git"
+]
+
+# From willhbr.net
+# Progression log (obslog with patches)
+pl = ["obslog", "-p"]
+
+# Full log (all commits)
+xl = ["log", "-r", "all()"]
+
+# Push with auto-created branches
+cl = ["git", "push", "-c", "@-"]
+upload = ["git", "push", "--all"]
+
+# Repository configuration editor
+configure = ["config", "edit", "--repo"]
+
+# From zerowidth.com
+# Interactive commit with add -p style
+ci = ["commit", "--interactive"]
+
+# From community patterns
+# Mine alias (show my bookmarks)
+mine = ["bookmark", "list", "-r", "mine()"]
+
+# Operation log shortcuts
+o = ["op", "log"]
+oo = ["op", "log", "-T", "builtin_op_log_comfortable"]
+
+# Detailed log variants
+ll = ["log", "-T", "builtin_log_detailed"]
+lll = ["log", "-T", "builtin_log_detailed", "-r", "all()"]

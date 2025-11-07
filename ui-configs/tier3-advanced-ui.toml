@@ -1,0 +1,38 @@
+# Tier 3: Advanced UI Configuration
+# Expert-level UI customizations
+
+[ui]
+# External diff formatter (alternative to builtin)
+# Examples:
+# diff-formatter = ["difft", "--color=always", "$left", "$right"]
+# diff-formatter = ":git"  # Git-style diffs
+# diff-formatter = ":summary"  # Summary only
+# diff-formatter = ":stat"  # Statistics only
+
+# External pager (alternative to builtin)
+# pager = ["delta", "--line-numbers", "--navigate", "--side-by-side"]
+# pager = ["less", "-FRX"]
+# pager = ["sh", "-c", "diff-so-fancy | less -RFX"]
+
+# Conditional configuration examples
+# [[--scope]]
+# --when.commands = ["diff", "show"]
+# [--scope.ui]
+# diff-formatter = ":git"
+
+# [[--scope]]
+# --when.platforms = ["macos"]
+# [--scope.ui]
+# pager = ":builtin"
+
+[merge-tools.vimdiff]
+# File-by-file diff invocation
+# diff-invocation-mode = "file-by-file"
+# diff-args = ["$left", "$right"]
+
+[merge]
+# Merge hunk granularity: "line" (default) or "word"
+# hunk-level = "word"
+
+# Same-change conflict resolution: "accept" (default) or "keep"
+# same-change = "accept"

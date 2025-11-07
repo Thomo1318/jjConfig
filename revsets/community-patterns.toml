@@ -1,0 +1,37 @@
+# Community Revset Patterns
+# Useful patterns from jj community sources
+#
+# Sources:
+# - https://github.com/jj-vcs/jj/discussions/5812
+# - https://v5.chriskrycho.com/notes/jj-tip-cool-revsets-and-per-repo-aliases/
+# - https://zerowidth.com/2025/jj-tips-and-tricks/
+
+[revset-aliases]
+# Active work (ancestors + descendants) - from Chris Krycho
+'active(rev)' = 'ancestors(rev) | descendants(rev) | rev'
+
+# Work revset (focused view) - from zerowidth
+'work_focused' = 'ancestors(mutable() & ~empty(), 2) | trunk()'
+
+# Git-style HEAD~n notation - from scott2000
+'HEAD' = '@-'
+
+# Recent commits by time
+'recent_time(days)' = 'committer_date(after:days ++ " days ago")'
+
+# Commits by specific author
+'by_author(email)' = 'author_email(email)'
+
+# Commits with specific description pattern
+'desc_contains(pattern)' = 'description(glob:pattern)'
+
+# Commits modifying specific files
+'touches(pattern)' = 'file(pattern)'
+
+# Bookmark-based queries
+'on_bookmark(name)' = '::bookmarks(exact:name)'
+'bookmark_ancestors(name)' = 'ancestors(bookmarks(exact:name))'
+
+# Mutable vs immutable
+'mutable_mine()' = 'mine() & mutable()'
+'immutable_mine()' = 'mine() & immutable()'

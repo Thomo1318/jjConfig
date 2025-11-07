@@ -1,0 +1,44 @@
+{
+  \"version\": \"1.0.0\",
+  \"name\": \"optimized\",
+  \"date\": \"2025-11-01\",
+  \"description\": \"Comprehensive optimization with Synthwave84 colors and full configuration\",
+  \"changes\": [
+    \"Fixed TOML structure ([user], [ui], [git] sections)\",
+    \"Added editor (micro)\",
+    \"Added diff-editor (jj-fzf)\",
+    \"Added Synthwave84 color scheme\",
+    \"Added 15 starter aliases\",
+    \"Added 7 revset aliases\",
+    \"Added Git integration settings\",
+    \"Added template aliases\",
+    \"Added revsets section configuration\"
+  ],
+  \"breaking_changes\": [
+    \"Moved name/email from root to [user] section\",
+    \"Moved color from root to [ui] section\"
+  ],
+  \"files_modified\": [
+    \"config.toml\"
+  ],
+  \"reference_files\": [
+    \"aliases/tier2-intermediate.toml\",
+    \"aliases/tier3-expert.toml\",
+    \"aliases/advanced-workflows.toml\",
+    \"aliases/community-collection.toml\",
+    \"revsets/tier2-workflow.toml\",
+    \"revsets/tier3-advanced.toml\",
+    \"revsets/community-patterns.toml\",
+    \"git-configs/tier2-git-settings.toml\",
+    \"git-configs/tier3-git-advanced.toml\",
+    \"ui-configs/synthwave84-colors.toml\",
+    \"ui-configs/tier2-ui-settings.toml\",
+    \"ui-configs/tier3-advanced-ui.toml\",
+    \"template-configs/tier2-template-aliases.toml\",
+    \"template-configs/tier3-custom-templates.toml\",
+    \"template-configs/community-templates.toml\",
+    \"revsets-config/tier2-revsets-settings.toml\",
+    \"revsets-config/tier3-advanced-revsets.toml\",
+    \"revsets-config/willhbr-pattern.toml\"
+  ]
+}

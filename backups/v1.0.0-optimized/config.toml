@@ -1,0 +1,170 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+# ============================================================================
+# JJ Configuration - Version 1 (Draft)
+# Created: 2025-11-01
+# 
+# Additional configurations available in:
+# - ~/.config/jj/aliases/          (Command aliases - tier2, tier3, advanced, community)
+# - ~/.config/jj/revsets/          (Revset aliases - tier2, tier3, community)
+# - ~/.config/jj/git-configs/      (Git settings - tier2, tier3)
+# - ~/.config/jj/ui-configs/       (UI settings, Synthwave84 colors - tier2, tier3)
+# - ~/.config/jj/template-configs/ (Template aliases - tier2, tier3, community)
+# - ~/.config/jj/revsets-config/   (Revsets section settings - tier2, tier3, willhbr)
+# ============================================================================
+
+# User Information (Change 1 - Fixed structure)
+[user]
+name = "Thomo1318"
+email = "steele.thompson13@gmail.com"
+
+# UI Settings (Changes 2, 5, 10)
+[ui]
+editor = "micro"
+diff-editor = "jj-fzf"
+diff-formatter = ":color-words"
+graph.style = "curved"
+pager = ":builtin"
+log-word-wrap = true
+default-command = ["log"]
+color = "always"
+
+# Git Integration (Change 9)
+[git]
+push-new-bookmarks = true
+auto-local-bookmark = true
+fetch = "glob:*"
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+
+# Templates (Changes 4, 11)
+[templates]
+log = "builtin_log_comfortable"
+show = "builtin_log_detailed"
+op_log = "builtin_op_log_comfortable"
+git_push_bookmark = '"Thomo1318/push-" ++ change_id.short()'
+
+# Template Aliases (Change 11)
+[template-aliases]
+'format_short_id(id)' = 'id.shortest()'
+'format_short_change_id(id)' = 'format_short_id(id)'
+'format_timestamp(timestamp)' = 'timestamp.ago()'
+'format_short_signature(signature)' = 'signature.email().local()'
+'format_short_operation_id(id)' = 'id.shortest()'
+'format_field(key, value)' = 'key ++ ": " ++ value ++ "\n"'
+
+# Revset Aliases (Change 8)
+[revset-aliases]
+'mine()' = 'author("steele.thompson13@gmail.com") | committer("steele.thompson13@gmail.com")'
+'trunk()' = 'latest(remote_bookmarks(exact:"main") | remote_bookmarks(exact:"master") | remote_bookmarks(exact:"trunk"))'
+'work' = 'ancestors(mutable() & ~empty(), 2) | trunk()'
+'recent()' = 'ancestors(@, 10)'
+'p(n)' = '@-n'
+'p(r, n)' = 'r-n'
+'active(rev)' = 'ancestors(rev) | descendants(rev) | rev'
+
+# Command Aliases (Change 7)
+[aliases]
+# Basic operations
+st = ["status"]
+d = ["diff"]
+ds = ["diff", "--stat"]
+s = ["show"]
+c = ["commit"]
+ci = ["commit", "--interactive"]
+
+# Log viewing
+l = ["log"]
+ll = ["log", "--limit", "20"]
+lll = ["log", "--limit", "50"]
+
+# Editing
+e = ["edit"]
+amend = ["squash"]
+
+# Rebase
+r = ["rebase"]
+
+# Git integration
+pull = ["git", "fetch"]
+push = ["git", "push", "--allow-new"]
+sync = ["git", "fetch", "--all-remotes"]
+
+# New changes
+n = ["new"]
+co = ["new"]
+
+# TUI launchers
+fzf = ["!jj-fzf"]
+tui = ["!lazyjj"]
+ui = ["!gg"]
+
+# Revsets Section (Change 12 - Pending approval)
+# [revsets]
+# log = "@ | ancestors(immutable_heads().., 2) | trunk()"
+# short-prefixes = "(trunk()..@)::"
+
+# Synthwave84 Colors (Change 10 - Pending approval)
+# See: ~/.config/jj/ui-configs/synthwave84-colors.toml for full color scheme
+# To enable: cat ~/.config/jj/ui-configs/synthwave84-colors.toml >> ~/.config/jj/config.toml
+
+# Revsets Section (Change 12 - APPROVED Option B)
+[revsets]
+# Keep jj's excellent default log view
+log = "@ | ancestors(immutable_heads().., 2) | trunk()"
+
+# Shorter IDs for your active work
+short-prefixes = "(trunk()..@)::"
+
+# Synthwave84 Color Scheme (Change 13 - APPROVED)
+# Based on brewSearch project themes
+# Source: /Users/admin/dev/activeProjects/brewSearch/config/themes.conf
+
+[colors]
+# Commit and Change IDs
+"commit_id" = { fg = "#24decd", bold = true }
+"commit_id prefix" = { fg = "#24decd", bold = true }
+"change_id" = { fg = "#f15bb5", bold = true }
+"change_id prefix" = { fg = "#f15bb5", bold = true }
+
+# Working copy indicators
+"working_copy" = { fg = "#fe28a2", bold = true }
+"working_copy commit_id" = { fg = "#fe28a2", underline = true }
+"working_copy change_id" = { fg = "#fe28a2", underline = true }
+
+# Bookmarks and branches
+"bookmark" = { fg = "#480ca8" }
+"bookmark present" = { fg = "#480ca8", bold = true }
+"tag" = { fg = "#f15bb5" }
+"git_head" = { fg = "#24decd", bold = true }
+
+# Graph elements
+"node" = { fg = "#480ca8" }
+"node current_operation" = { fg = "#fe28a2", bold = true }
+"node immutable" = { fg = "#261838" }
+"node working_copy" = { fg = "#fe28a2" }
+
+# Diff colors
+"diff header" = { fg = "#480ca8", bold = true }
+"diff file_header" = { fg = "#f15bb5", bold = true }
+"diff hunk_header" = { fg = "#24decd" }
+"diff removed" = { fg = "#ff0080" }
+"diff added" = { fg = "#24decd" }
+"diff removed token" = { fg = "#ff0080", bg = "#261838", underline = false }
+"diff added token" = { fg = "#24decd", bg = "#261838", underline = false }
+
+# Status and messages
+"error" = { fg = "#fe28a2", bold = true }
+"warning" = { fg = "#f15bb5", bold = true }
+"hint" = { fg = "#24decd" }
+
+# Descriptions and text
+"description placeholder" = { fg = "#480ca8", italic = true }
+"empty" = { fg = "#261838" }
+"conflict" = { fg = "#fe28a2", bold = true }
+
+# Email and author info
+"email" = { fg = "#24decd" }
+"timestamp" = { fg = "#480ca8" }
+
+# Rest (fallback)
+"rest" = { fg = "#f15bb5" }

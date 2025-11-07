@@ -1,0 +1,61 @@
+# Synthwave84 Color Scheme for jj
+# Based on brewSearch project color themes
+# Source: /Users/admin/dev/activeProjects/brewSearch/config/themes.conf
+#
+# Synthwave84 RGB Values:
+# Color 1: RGB(38, 24, 56)   - Dark Purple (backgrounds)
+# Color 2: RGB(72, 12, 168)  - Purple (secondary elements)
+# Color 3: RGB(241, 91, 181) - Pink (warnings/highlights)
+# Color 4: RGB(254, 40, 162) - Hot Pink (primary highlights)
+# Color 5: RGB(36, 222, 205) - Cyan (info/metadata)
+# Color 6: RGB(255, 0, 128)  - Neon Pink (success/emphasis)
+
+[colors]
+# Commit and Change IDs
+"commit_id" = { fg = "#24decd", bold = true }                    # Cyan
+"commit_id prefix" = { fg = "#24decd", bold = true }
+"change_id" = { fg = "#f15bb5", bold = true }                    # Pink
+"change_id prefix" = { fg = "#f15bb5", bold = true }
+
+# Working copy indicators
+"working_copy" = { fg = "#fe28a2", bold = true }                 # Hot Pink
+"working_copy commit_id" = { fg = "#fe28a2", underline = true }
+"working_copy change_id" = { fg = "#fe28a2", underline = true }
+
+# Bookmarks and branches
+"bookmark" = { fg = "#480ca8" }                                  # Purple
+"bookmark present" = { fg = "#480ca8", bold = true }
+"tag" = { fg = "#f15bb5" }                                       # Pink
+"git_head" = { fg = "#24decd", bold = true }                     # Cyan
+
+# Graph elements
+"node" = { fg = "#480ca8" }                                      # Purple
+"node current_operation" = { fg = "#fe28a2", bold = true }       # Hot Pink
+"node immutable" = { fg = "#261838" }                            # Dark Purple
+"node working_copy" = { fg = "#fe28a2" }                         # Hot Pink
+
+# Diff colors
+"diff header" = { fg = "#480ca8", bold = true }                  # Purple
+"diff file_header" = { fg = "#f15bb5", bold = true }             # Pink
+"diff hunk_header" = { fg = "#24decd" }                          # Cyan
+"diff removed" = { fg = "#ff0080" }                              # Neon Pink
+"diff added" = { fg = "#24decd" }                                # Cyan
+"diff removed token" = { fg = "#ff0080", bg = "#261838", underline = false }
+"diff added token" = { fg = "#24decd", bg = "#261838", underline = false }
+
+# Status and messages
+"error" = { fg = "#fe28a2", bold = true }                        # Hot Pink
+"warning" = { fg = "#f15bb5", bold = true }                      # Pink
+"hint" = { fg = "#24decd" }                                      # Cyan
+
+# Descriptions and text
+"description placeholder" = { fg = "#480ca8", italic = true }    # Purple
+"empty" = { fg = "#261838" }                                     # Dark Purple (dim)
+"conflict" = { fg = "#fe28a2", bold = true }                     # Hot Pink
+
+# Email and author info
+"email" = { fg = "#24decd" }                                     # Cyan
+"timestamp" = { fg = "#480ca8" }                                 # Purple
+
+# Rest (fallback)
+"rest" = { fg = "#f15bb5" }                                      # Pink

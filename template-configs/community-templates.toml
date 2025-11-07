@@ -1,0 +1,77 @@
+# Community Template Patterns
+# Interesting templates found from community sources
+#
+# Sources:
+# - https://github.com/jj-vcs/jj/discussions/5812
+# - https://zerowidth.com/2025/jj-tips-and-tricks/
+# - https://v5.chriskrycho.com/notes/jj-tip-cool-revsets-and-per-repo-aliases/
+
+[templates]
+# Custom detailed log format (from simonmichael)
+log1 = '''
+separate(" ",
+  change_id.shortest(),
+  if(current_working_copy, "@"),
+  bookmarks,
+  tags,
+  working_copies,
+  git_head,
+  format_timestamp(committer.timestamp()),
+  if(author.email() != committer.email(), author.email().local()),
+  if(empty, "(empty)"),
+  if(conflict, "(conflict)"),
+  description.first_line(),
+)
+'''
+
+# Verbose log with full description
+logv = '''
+separate(" ",
+  change_id.shortest(),
+  if(current_working_copy, "@"),
+  bookmarks,
+  tags,
+  format_timestamp(committer.timestamp()),
+  author.email().local(),
+  if(empty, "(empty)"),
+  if(conflict, "(conflict)"),
+) ++ "\n" ++ description
+'''
+
+# Redacted/anonymized log (for sharing)
+# Use builtin: builtin_log_redacted
+
+# Redacted op log
+# Use builtin: builtin_op_log_redacted
+
+[template-aliases]
+# Hyperlinks with custom repo URL (replace OWNER/REPO)
+'github_link(commit)' = '''
+"\u001b]8;;" ++ "https://github.com/OWNER/REPO/commit/" ++ commit.commit_id ++ "\u001b\\"
+++ commit.commit_id.short()
+++ "\u001b]8;;\u001b\\"
+'''
+
+# Conditional diff display
+'show_diff_if_working_copy()' = 'if(current_working_copy, diff.summary())'
+
+# String pattern matching
+'matches_pattern(str, pattern)' = 'str.match(pattern)'
+
+# List filtering examples
+'filter_mine(commits)' = 'commits.filter(|c| c.mine())'
+
+# Timestamp comparisons
+'is_recent(timestamp)' = 'timestamp.after("7 days ago")'
+'is_old(timestamp)' = 'timestamp.before("30 days ago")'
+
+# String trimming
+'trim_whitespace(str)' = 'str.trim()'
+'trim_start(str)' = 'str.trim_start()'
+'trim_end(str)' = 'str.trim_end()'
+
+# String replacement (regex support)
+'swap_words(str)' = 'str.replace(regex:"(\\w+) (\\w+)", "$2 $1")'
+
+# Truncate with ellipsis
+'truncate_with_ellipsis(str, width)' = 'str.truncate_end(width, "...")'

@@ -1,0 +1,21 @@
+{
+  "repository": "jjConfig",
+  "github_repo": "local",
+  "github_url": "local-repo",
+  "mcp_url": "N/A (not a GitHub repo)",
+  "is_github_repo": false,
+  "generated_at": "2025-11-07T05:42:39Z",
+  "branch": "main",
+  "commit": "HEAD
+none",
+  "mcp_endpoints": {
+    "readme": "N/A (not a GitHub repo)/readme",
+    "docs": "N/A (not a GitHub repo)/docs",
+    "structure": "N/A (not a GitHub repo)/structure"
+  },
+  "local_paths": {
+    "root": "/Users/admin/dev/activeProjects/jjConfig",
+    "git_dir": ".git",
+    "jj_dir": ".jj"
+  }
+}
