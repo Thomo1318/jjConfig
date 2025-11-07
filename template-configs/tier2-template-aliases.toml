@@ -1,0 +1,48 @@
+# Tier 2: Template Aliases
+# Additional template customizations for enhanced output
+#
+# To enable, copy desired sections to main config.toml
+
+[template-aliases]
+# Uppercase change IDs (jj treats IDs as case-insensitive)
+'format_short_change_id_upper(id)' = 'format_short_id(id).upper()'
+
+# Show unique prefix with rest in brackets
+'format_short_id_bracketed(id)' = 'id.shortest(12).prefix() ++ "[" ++ id.shortest(12).rest() ++ "]"'
+
+# Fixed-length IDs (always 12 chars)
+'format_short_id_fixed(id)' = 'id.short(12)'
+
+# Full author signature (name + email)
+'format_full_signature(signature)' = 'signature'
+
+# Full email address
+'format_email_full(signature)' = 'signature.email()'
+
+# Timestamp in ISO 8601 format
+'format_timestamp_iso(timestamp)' = 'timestamp.format("%Y-%m-%d %H:%M:%S")'
+
+# Timestamp with timezone
+'format_timestamp_tz(timestamp)' = 'timestamp.format("%Y-%m-%d %H:%M:%S %z")'
+
+# Custom field formatter
+'format_field(key, value)' = 'key ++ ": " ++ value ++ "\n"'
+
+# Commit + Change ID display
+'commit_change_ids' = '''
+concat(
+  format_field("Commit ID", commit_id),
+  format_field("Change ID", change_id),
+)
+'''
+
+# Time range formatter (for op log)
+'format_time_range(time_range)' = 'time_range.start() ++ " - " ++ time_range.end()'
+
+# Cryptographic signature (when enabled)
+'format_short_cryptographic_signature(sig)' = '''
+  if(sig,
+    sig.status(),
+    "(no sig)",
+  )
+'''

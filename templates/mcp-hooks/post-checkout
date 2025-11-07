@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# GitMCP Context Generator - Post-Checkout Hook
+# Triggers post-commit to update context
+.git/hooks/post-commit

@@ -1,0 +1,33 @@
+# Tier 3: Advanced Revset Aliases
+# Complex graph operations and queries
+#
+# To enable, copy desired sections to main config.toml
+
+[revset-aliases]
+# All roots of mutable work
+'retrunk_all()' = 'all:roots(trunk()..mutable())'
+
+# Stack of commits from trunk to revision
+'stack(rev)' = 'trunk()..rev'
+
+# All conflicting commits
+'conflicts_all()' = 'conflicts()'
+
+# Exclude gh-pages from views
+'gh-pages' = 'remote_bookmarks(exact:"gh-pages")'
+'no_gh_pages()' = 'all() ~ ancestors(gh-pages)'
+
+# Immutable commits (prevent rewriting others' work)
+'immutable_others()' = 'builtin_immutable_heads() | (trunk().. & ~mine())'
+
+# Commits on remote branches
+'on_remote()' = '::remote_bookmarks()'
+
+# Divergent changes
+'divergent()' = 'divergent(all())'
+
+# Empty commits
+'empties()' = 'empty()'
+
+# Merges only
+'merges_all()' = 'merges()'

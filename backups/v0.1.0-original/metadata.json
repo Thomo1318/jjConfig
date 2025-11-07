@@ -1,0 +1,12 @@
+{
+  \"version\": \"0.1.0\",
+  \"name\": \"original\",
+  \"date\": \"2025-11-01\",
+  \"description\": \"Original basic configuration before optimization\",
+  \"changes\": [
+    \"Initial state with name, email, color at root level\"
+  ],
+  \"breaking_changes\": [],
+  \"files_modified\": [],
+  \"reference_files\": []
+}

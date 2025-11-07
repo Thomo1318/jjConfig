@@ -1,0 +1,48 @@
+# Tier 2: UI Configuration Settings
+# Additional UI customizations for later implementation
+#
+# To enable these settings, copy desired sections to your main config.toml
+
+[ui]
+# Conflict marker style - how conflicts are displayed
+# Options: "diff" (single snapshot with diffs), "snapshot" (each side), "git" (git diff3)
+conflict-marker-style = "diff"
+
+# Pagination behavior
+paginate = "auto"
+
+# Disable diff instructions file (JJ-INSTRUCTIONS)
+diff-instructions = false
+
+# Bookmark list sorting
+bookmark-list-sort-keys = ["name"]
+
+# Auto-edit mode for prev/next navigation
+movement.edit = false
+
+[ui.streampager]
+# Pager screen interface behavior
+# Options: "quit-if-one-page", "full-screen-clear-output", "quit-quickly-or-clear-output"
+interface = "quit-if-one-page"
+
+# Show ruler by default
+show-ruler = false
+
+# Line wrapping behavior
+# Options: "anywhere" (wrap at edge), "word" (word boundaries), "none" (horizontal scroll)
+wrapping = "word"
+
+[diff.color-words]
+# Context lines for color-words diff
+context = 3
+
+# Max inline word alternation
+max-inline-alternation = 3
+
+[diff.git]
+# Context lines for git-style diff
+context = 3
+
+[snapshot]
+# Maximum size for new files (default 1MiB)
+max-new-file-size = "10MiB"

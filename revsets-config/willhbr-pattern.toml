@@ -1,0 +1,23 @@
+# Will Richardson's Revset Pattern
+# Source: https://willhbr.net/2024/08/18/understanding-revsets-for-a-better-jj-log-output/
+#
+# Problem: Default log shows ALL unmergered branches (can be 2000+ lines in large repos)
+# Solution: Show only YOUR work that hasn't been merged
+
+[revsets]
+# Will Richardson's optimized log view
+# Shows: Your uncommitted work + trunk context
+# Hides: Other people's unmerged branches
+log = "ancestors(trunk()..(visible_heads() & mine())) | trunk() | @"
+
+# Explanation:
+# 1. visible_heads() & mine() = Your leaf commits
+# 2. trunk()..(visible_heads() & mine()) = Range from trunk to your heads
+# 3. ancestors(...) = Show parent commits for context
+# 4. | trunk() | @ = Always show trunk and current commit
+
+# Alternative simpler version (less context)
+# log = "mine() ~ ::trunk() | trunk() | @"
+
+# Short prefixes for your active work
+short-prefixes = "(trunk()..@)::"

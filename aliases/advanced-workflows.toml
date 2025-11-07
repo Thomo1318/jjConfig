@@ -1,0 +1,46 @@
+# Advanced Workflow Aliases
+# Complex scripted operations using util exec
+#
+# WARNING: These use shell scripts and can be dangerous
+
+[aliases]
+# Smart push workflow (from stavros.io)
+# Auto-commits if needed, finds bookmark, moves it, and pushes
+ps = ["util", "exec", "--", "bash", "-c", '''
+set -e
+has_description=$(jj log -r @ --no-graph --color never -T 'description' | grep -q . && echo "yes" || echo "no")
+has_changes=$(jj log -r @ --no-graph --color never -T 'empty' | grep -q "false" && echo "yes" || echo "no")
+if [ "$has_description" = "yes" ] && [ "$has_changes" = "yes" ]; then
+    echo "Current commit has description and changes, creating new commit..."
+    jj new
+fi
+bookmark=$(jj log -r 'ancestors(@) & bookmarks()' -n 1 --no-graph --color never -T 'bookmarks' | sed 's/\\*$//' | tr -d ' ')
+if [ -z "$bookmark" ]; then
+    echo "No bookmark found on parent commit"
+    exit 1
+fi
+echo "Moving bookmark '$bookmark' to parent commit and pushing..."
+jj bookmark set "$bookmark" -r @-
+jj git fetch
+jj git push --bookmark "$bookmark" --allow-new
+''']
+
+# Archive commits (prefix description with "(archived)")
+archive = ["util", "exec", "--", "sh", "-c", '''
+m=$(jj log --no-graph --color never --template='"(archived) " ++ description' --revisions="$@")
+&& jj describe --message="$m" "$@"
+''', '']
+
+# Unarchive commits (remove "(archived)" prefix)
+unarchive = ["util", "exec", "--", "sh", "-c", '''
+m=$(jj log --no-graph --color never --template='description' --revisions="$@" | sed 's/^(archived) //')
+&& jj describe --message="$m" "$@"
+''', '']
+
+# Custom conflict resolution workflow
+resolve = ["util", "exec", "--", "bash", "-c", '''
+# Open all conflicted files in editor
+# Customize this script for your preferred editor/workflow
+echo "Opening conflicts in editor..."
+jj diff --conflicts | grep "^+++ " | sed 's/^+++ //' | xargs $EDITOR
+''']

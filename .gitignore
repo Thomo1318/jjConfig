@@ -1,0 +1,35 @@
+# Redundant backups (local only)
+.backups-redundant/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+.Trash
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.code-workspace
+
+# JJ files
+.jj/
+
+# Keep version-tracked backups in repo
+!backups/VERSION_HISTORY.md
+!backups/v*/config.toml
+!backups/v*/metadata.json
+
+# Exclude timestamp markers (regenerated)
+backups/v*/applied-*.timestamp
+
+# TODO: GitGuardian (will be added in v1.2.0)
+# .ggshield.yaml
+
+# TODO: Snyk (will be added in v1.2.0)
+# .snyk

@@ -1,0 +1,50 @@
+# Tier 3: Advanced Revsets Section Configuration
+# Expert-level revset behavior customizations
+#
+# To enable, copy desired sections to main config.toml
+
+[revsets]
+# Advanced log views
+
+# Show only mine, unpushed work
+# log = "mine() & (remote_bookmarks()..@)"
+
+# Show visible heads with deep context
+# log = "ancestors(visible_heads(), 5) | trunk()"
+
+# Show all mutable work (can be large)
+# log = "mutable() | trunk()"
+
+# Focused view - only current branch
+# log = "::@ | trunk()"
+
+# Will Richardson's pattern - reachable mutable with context
+# log = "ancestors(reachable(@, mutable()), 2)"
+
+# Short prefix strategies
+
+# Prioritize only current change and parents
+# short-prefixes = "ancestors(@, 5)"
+
+# Prioritize all visible heads
+# short-prefixes = "visible_heads()::"
+
+# Prioritize bookmarked commits
+# short-prefixes = "bookmarks()::"
+
+# Graph prioritization strategies
+
+# Always show trunk on left (stable reference)
+# log-graph-prioritize = "trunk()"
+
+# Show bookmarks on left
+# log-graph-prioritize = "bookmarks()"
+
+# Show current work on left
+# log-graph-prioritize = "@"
+
+# Conditional prioritization (megamerge example)
+# log-graph-prioritize = "coalesce(description(exact:'megamerge'), trunk())"
+
+# Prioritize specific bookmark
+# log-graph-prioritize = "coalesce(bookmarks(exact:'main'), trunk())"

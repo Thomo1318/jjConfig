@@ -1,0 +1,46 @@
+# Tier 3: Expert Aliases
+# Complex operations requiring deep jj knowledge
+#
+# WARNING: These can be dangerous if misused. Understand before using.
+
+[aliases]
+# Advanced rebase operations
+rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]
+reheat = ["rebase", "-d", "trunk()", "-s", "all:roots(trunk()..stack(@))"]
+rebasestale = ["rebase", "--source=all:roots(localstale)", "--destination=trunk()", "--skip-emptied"]
+
+# Content movement between commits
+consume = ["squash", "--into", "@", "--from"]  # Pull content into current
+eject = ["squash", "--from", "@", "--into"]  # Push content to another
+
+# Cleanup operations
+hideempty = ["abandon", "empty() & local() ~ root()"]
+
+# Complex push workflow (auto-commit and push)
+ps = ["util", "exec", "--", "bash", "-c", '''
+set -e
+has_description=$(jj log -r @ --no-graph --color never -T 'description' | grep -q . && echo "yes" || echo "no")
+has_changes=$(jj log -r @ --no-graph --color never -T 'empty' | grep -q "false" && echo "yes" || echo "no")
+if [ "$has_description" = "yes" ] && [ "$has_changes" = "yes" ]; then
+    jj new
+fi
+bookmark=$(jj log -r 'ancestors(@) & bookmarks()' -n 1 --no-graph --color never -T 'bookmarks' | sed 's/\\*$//' | tr -d ' ')
+if [ -z "$bookmark" ]; then
+    echo "No bookmark found"
+    exit 1
+fi
+jj bookmark set "$bookmark" -r @-
+jj git fetch
+jj git push --bookmark "$bookmark" --allow-new
+''']
+
+# Archive/unarchive commits (prefix description)
+archive = ["util", "exec", "--", "sh", "-c", '''
+m=$(jj list --template='"(archived) " ++ description' --revisions="$@")
+&& jj describe --message="$m" "$@"
+''', '']
+
+unarchive = ["util", "exec", "--", "sh", "-c", '''
+m=$(jj list --template='description' --revisions="$@" | sed 's/^(archived) //')
+&& jj describe --message="$m" "$@"
+''', '']

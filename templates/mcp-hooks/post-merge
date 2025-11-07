@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# GitMCP Context Generator - Post-Merge Hook
+# Triggers post-commit to update context
+.git/hooks/post-commit

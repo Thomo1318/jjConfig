@@ -1,0 +1,32 @@
+# Tier 2: Revsets Section Configuration
+# Advanced revset behavior settings
+#
+# To enable, copy desired sections to main config.toml
+
+[revsets]
+# Custom default log view (alternative to builtin)
+# Show all work since trunk
+# log = "trunk().."
+
+# Show recent mutable commits
+# log = "ancestors(mutable(), 10) | trunk()"
+
+# Show visible heads with context
+# log = "ancestors(visible_heads(), 3) | trunk()"
+
+# Prioritize shorter prefixes for active work
+# This makes IDs shorter for commits in your current branch
+# short-prefixes = "(trunk()..@)::"
+
+# Alternative: prioritize all mutable work
+# short-prefixes = "mutable()::"
+
+# Graph prioritization - which branch shows on left
+# Useful for large merges or complex graphs
+# log-graph-prioritize = "trunk()"
+
+# Alternative: prioritize current work
+# log-graph-prioritize = "@"
+
+# Alternative: prioritize specific commit/merge
+# log-graph-prioritize = "coalesce(description(exact:'megamerge'), trunk())"
