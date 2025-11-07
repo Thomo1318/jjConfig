@@ -1,17 +1,16 @@
 {
   "repository": "jjConfig",
-  "github_repo": "local",
-  "github_url": "local-repo",
-  "mcp_url": "N/A (not a GitHub repo)",
-  "is_github_repo": false,
-  "generated_at": "2025-11-07T05:42:39Z",
-  "branch": "main",
-  "commit": "HEAD
-none",
+  "github_repo": "Thomo1318/jjConfig",
+  "github_url": "https://github.com/Thomo1318/jjConfig.git",
+  "mcp_url": "https://gitmcp.io/Thomo1318/jjConfig",
+  "is_github_repo": true,
+  "generated_at": "2025-11-07T11:45:23Z",
+  "branch": "",
+  "commit": "f51998a125ed0d08d04ab1485dad038a8f5a5984",
   "mcp_endpoints": {
-    "readme": "N/A (not a GitHub repo)/readme",
-    "docs": "N/A (not a GitHub repo)/docs",
-    "structure": "N/A (not a GitHub repo)/structure"
+    "readme": "https://gitmcp.io/Thomo1318/jjConfig/readme",
+    "docs": "https://gitmcp.io/Thomo1318/jjConfig/docs",
+    "structure": "https://gitmcp.io/Thomo1318/jjConfig/structure"
   },
   "local_paths": {
     "root": "/Users/admin/dev/activeProjects/jjConfig",

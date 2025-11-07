@@ -33,3 +33,4 @@ backups/v*/applied-*.timestamp
 
 # TODO: Snyk (will be added in v1.2.0)
 # .snyk
+.mcp/
