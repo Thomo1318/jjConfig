@@ -164,3 +164,165 @@
 - GitMCP article: https://medium.com/the-context-layer/stop-letting-ai-guess-your-code-instantly-make-every-github-repo-ai-savvy-with-this-one-liner-cc23e00c9ea2
 - Raycast AI docs: https://developers.raycast.com/
 
+
+---
+
+## GitHub Integration TODO
+
+### TODO 4: GitHub CLI Integration with Interactive Prompts
+**Priority:** High  
+**Version:** v1.1.1-gh-integration  
+**Status:** Planned
+
+**Purpose:** Streamline GitHub repo creation from jj
+
+**Features to Implement:**
+- [ ] Interactive repo creation with prompts
+- [ ] Auto-generate description from repo content
+- [ ] Choose public/private visibility
+- [ ] Automatic commit signing
+- [ ] All-in-one init-github workflow
+
+**Proposed Aliases:**
+
+```toml
+[aliases]
+# Interactive GitHub repo creation
+gh-create = ["util", "exec", "--", "bash", "-c", '''
+set -e
+
+# Interactive prompts
+read -p "Repository name: " REPO_NAME
+read -p "Description (press Enter to auto-generate): " DESCRIPTION
+
+# Auto-generate description if empty
+if [ -z "$DESCRIPTION" ]; then
+    # Try to extract from README.md first line
+    if [ -f README.md ]; then
+        DESCRIPTION=$(head -1 README.md | sed "s/^# //")
+    else
+        DESCRIPTION="Personal repository"
+    fi
+    echo "Auto-generated description: $DESCRIPTION"
+fi
+
+# Choose visibility
+echo "Visibility:"
+echo "  1) Public"
+echo "  2) Private"
+read -p "Choose (1 or 2): " VISIBILITY
+
+if [ "$VISIBILITY" = "2" ]; then
+    VISIBILITY_FLAG="--private"
+else
+    VISIBILITY_FLAG="--public"
+fi
+
+# Create repo
+echo "Creating GitHub repository: Thomo1318/$REPO_NAME"
+gh repo create "Thomo1318/$REPO_NAME" $VISIBILITY_FLAG --description "$DESCRIPTION"
+
+echo "✓ Repository created: https://github.com/Thomo1318/$REPO_NAME"
+''']
+
+# All-in-one: init + create GitHub + push
+init-github = ["util", "exec", "--", "bash", "-c", '''
+set -e
+
+# Interactive prompts
+read -p "Repository name: " REPO_NAME
+read -p "Description (press Enter to auto-generate): " DESCRIPTION
+
+if [ -z "$DESCRIPTION" ]; then
+    if [ -f README.md ]; then
+        DESCRIPTION=$(head -1 README.md | sed "s/^# //")
+    else
+        DESCRIPTION="Personal repository"
+    fi
+fi
+
+echo "Visibility:"
+echo "  1) Public"
+echo "  2) Private"
+read -p "Choose (1 or 2): " VISIBILITY
+
+VISIBILITY_FLAG="--public"
+[ "$VISIBILITY" = "2" ] && VISIBILITY_FLAG="--private"
+
+# Create GitHub repo
+gh repo create "Thomo1318/$REPO_NAME" $VISIBILITY_FLAG --description "$DESCRIPTION"
+
+# Initialize jj with MCP
+jj init
+
+# Add remote
+git remote add origin "https://github.com/Thomo1318/$REPO_NAME.git"
+
+# Create main bookmark
+jj bookmark create main -r @-
+
+# Push
+jj git push --bookmark main --allow-new
+
+echo "✓ Complete! https://github.com/Thomo1318/$REPO_NAME"
+''']
+
+# Clone GitHub repo and init with jj
+gh-clone = ["util", "exec", "--", "bash", "-c", '''
+REPO_URL="$1"
+gh repo clone "$REPO_URL"
+REPO_NAME=$(basename "$REPO_URL")
+cd "$REPO_NAME"
+jj init
+''']
+```
+
+**Commit Signing Integration:**
+
+```toml
+[signing]
+# TODO: Configure commit signing (v1.2.0-security)
+# behavior = "own"              # Sign your own commits
+# backend = "ssh"               # Use SSH keys (or "gpg")
+# key = "~/.ssh/id_ed25519.pub" # Path to your public key
+
+[git]
+# TODO: Enable sign-on-push (v1.2.0-security)
+# sign-on-push = true           # Auto-sign when pushing
+```
+
+**Setup Steps (when implementing v1.1.1):**
+
+1. Generate SSH signing key (if not exists):
+```bash
+ssh-keygen -t ed25519 -C "steele.thompson13@gmail.com" -f ~/.ssh/id_ed25519_signing
+```
+
+2. Add public key to GitHub:
+- Go to GitHub Settings → SSH and GPG keys
+- Add new SSH key (Signing Key)
+- Paste contents of `~/.ssh/id_ed25519_signing.pub`
+
+3. Configure Git to use SSH signing:
+```bash
+git config --global gpg.format ssh
+git config --global user.signingkey ~/.ssh/id_ed25519_signing.pub
+git config --global commit.gpgsign true
+```
+
+4. Add to jj config:
+```toml
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/id_ed25519_signing.pub"
+
+[git]
+sign-on-push = true
+```
+
+**Reference:**
+- GitHub CLI: https://cli.github.com/
+- SSH signing: https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification
+- jj signing docs: https://jj-vcs.github.io/jj/latest/config/#signing
+
