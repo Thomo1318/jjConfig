@@ -15,6 +15,7 @@
 - 🔍 Smart revsets for advanced commit selection
 - 🔗 Git integration with colocated repo support
 - 🤖 GitMCP: AI context generation via local Git hooks
+- 📦 Repomix: Full repository consolidation for AI context injection
 - 🖥️ TUI support: jj-fzf, lazyjj, and gg integration
 - 📚 21 reference files for tiered configurations
 - 📦 SemVer tracking and versioned backups
@@ -32,6 +33,7 @@
 - [Basic Workflow](#basic-workflow)
 - [Configuration](#configuration)
 - [GitMCP Integration](#gitmcp-integration)
+- [Repomix Integration](#repomix-integration)
 - [Directory Structure](#directory-structure)
 - [Version History](#version-history)
 - [Contributing](#contributing)
@@ -177,6 +179,51 @@ See [MCP docs](https://gitmcp.io/docs) for details.
 
 ---
 
+## 📦 Repomix Integration
+
+Repomix consolidates your entire repository into a single AI-friendly file for context injection.
+
+**How It Works:**  
+- Git hooks automatically generate `.repomix/repomix-latest.txt` after commits  
+- Contains full repository content optimized for AI tools  
+- Includes token counts and file statistics  
+- Automatic cleanup (keeps last 3 versions)
+
+**Generated Files:**  
+```
+.repomix/
+├── context.json              # Metadata and usage info
+├── repomix-latest.txt        # Symlink to latest (use this!)
+├── repomix-repo-TIMESTAMP.txt  # Latest generation
+└── repomix-repo-TIMESTAMP.txt  # Previous versions
+```
+
+**Usage:**  
+```bash
+# Copy to AI tool
+cat .repomix/repomix-latest.txt | pbcopy
+
+# Check token count
+repomix --token-count-tree 50 .
+
+# View file stats
+wc -l .repomix/repomix-latest.txt
+```
+
+**Aliases:**  
+```bash
+jj repomix-update    # Install/update hooks
+jj repomix-status    # Show status
+jj repomix-generate  # Manual generation
+jj repomix-view      # Open in editor
+jj repomix-tokens    # Show token counts
+```
+
+**Install repomix:** `npm install -g repomix`  
+See [templates/repomix-hooks/README.md](templates/repomix-hooks/README.md) for details.
+
+---
+
 ## 📂 Directory Structure
 
 ```
@@ -194,6 +241,10 @@ jjConfig/
 │   ├── cursor-config.json
 │   ├── claude-config.json
 │   └── README.md
+├── .repomix/                 # Repomix AI context
+│   ├── context.json
+│   ├── repomix-latest.txt
+│   └── repomix-*.txt
 ├── aliases/                  # Alias configs
 │   ├── README.md
 │   └── ...
@@ -257,7 +308,7 @@ MIT License. See [LICENSE](LICENSE).
 ## 👤 Author
 
 **Thomo1318**  
-Email: <YOUR_EMAIL@example.com>  
+Email: <steele.thompson13@gmail.com>  
 GitHub: [@Thomo1318](https://github.com/Thomo1318)
 
 ---

@@ -295,7 +295,7 @@ jj init
 
 1. Generate SSH signing key (if not exists):
 ```bash
-ssh-keygen -t ed25519 -C "YOUR_EMAIL@example.com" -f ~/.ssh/id_ed25519_signing
+ssh-keygen -t ed25519 -C "steele.thompson13@gmail.com" -f ~/.ssh/id_ed25519_signing
 ```
 
 2. Add public key to GitHub:

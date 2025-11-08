@@ -1,0 +1,18 @@
+{
+  "repository": "jjConfig",
+  "generated_at": "2025-11-08T03:46:33Z",
+  "branch": "",
+  "commit": "242c1f825f94dc1fd0baf92a6a387f1edf8cf6c6",
+  "latest_file": "repomix-jjConfig-20251108-144633.txt",
+  "description": "Complete repository consolidation for AI context generation",
+  "usage": {
+    "ai_tools": "Copy repomix-latest.txt content to AI tool context",
+    "size_info": "Run: wc -l .repomix/repomix-latest.txt",
+    "token_count": "Run: repomix --token-count-tree .repomix/repomix-latest.txt"
+  },
+  "files": {
+    "repomix_latest": ".repomix/repomix-latest.txt (symlink to latest)",
+    "context_json": ".repomix/context.json (this file)",
+    "historical": ".repomix/repomix-*.txt (previous generations)"
+  }
+}
