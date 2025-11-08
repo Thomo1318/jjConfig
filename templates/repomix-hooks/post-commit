@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# Repomix Context Generator - Post-Commit Hook
+# Generates consolidated repository file for AI context
+# Version: 1.0.0
+# Runs locally - Zero tokens, zero API calls
+# Complements .mcp integration with full repository content
+
+set -e
+
+# Check if repomix is installed
+if ! command -v repomix &> /dev/null; then
+    echo "⚠️  repomix not installed. Skipping repository consolidation."
+    echo "   Install with: npm install -g repomix"
+    exit 0
+fi
+
+# Get repo info
+REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+COMMIT=$(git rev-parse HEAD 2>/dev/null || echo "none")
+BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
+
+# Create .repomix directory
+mkdir -p .repomix
+
+# Generate repository consolidation file
+# Output format: repomix-REPO_NAME-TIMESTAMP.txt
+OUTPUT_FILE=".repomix/repomix-${REPO_NAME}-$(date +%Y%m%d-%H%M%S).txt"
+
+# Run repomix with appropriate flags
+# --quiet: Suppress console output (runs silently in hook)
+# --output: Specify output file location
+repomix --quiet --output "$OUTPUT_FILE" . 2>/dev/null || {
+    echo "⚠️  repomix generation failed for $REPO_NAME"
+    exit 0
+}
+
+# Keep only the latest repomix file (clean up old ones)
+# This prevents accumulation of historical files
+LATEST_FILE=$(ls -t .repomix/repomix-*.txt 2>/dev/null | head -1)
+if [ -n "$LATEST_FILE" ]; then
+    # Create symlink to latest for easy access
+    ln -sf "$(basename "$LATEST_FILE")" .repomix/repomix-latest.txt
+fi
+
+# Remove old files (keep only last 3)
+ls -t .repomix/repomix-*.txt 2>/dev/null | tail -n +4 | xargs -r rm -f
+
+# Generate context metadata file
+cat > .repomix/context.json << CTXEOF
+{
+  "repository": "${REPO_NAME}",
+  "generated_at": "${TIMESTAMP}",
+  "branch": "${BRANCH}",
+  "commit": "${COMMIT}",
+  "latest_file": "$(basename "$LATEST_FILE")",
+  "description": "Complete repository consolidation for AI context generation",
+  "usage": {
+    "ai_tools": "Copy repomix-latest.txt content to AI tool context",
+    "size_info": "Run: wc -l .repomix/repomix-latest.txt",
+    "token_count": "Run: repomix --token-count-tree .repomix/repomix-latest.txt"
+  },
+  "files": {
+    "repomix_latest": ".repomix/repomix-latest.txt (symlink to latest)",
+    "context_json": ".repomix/context.json (this file)",
+    "historical": ".repomix/repomix-*.txt (previous generations)"
+  }
+}
+CTXEOF
+
+# Add .repomix to .gitignore
+if [ -f .gitignore ]; then
+    grep -q "^\\.repomix" .gitignore 2>/dev/null || echo ".repomix/" >> .gitignore
+fi
+
+exit 0

@@ -127,10 +127,6 @@ chmod +x .git/hooks/post-merge
 cp ~/.config/jj/templates/mcp-hooks/post-checkout .git/hooks/post-checkout
 chmod +x .git/hooks/post-checkout
 
-# Install Repomix hooks
-cp ~/.config/jj/templates/repomix-hooks/post-commit .git/hooks/post-commit-repomix
-chmod +x .git/hooks/post-commit-repomix
-
 # Generate initial MCP context
 .git/hooks/post-commit
 
@@ -178,10 +174,6 @@ cp ~/.config/jj/templates/mcp-hooks/post-merge .git/hooks/post-merge
 cp ~/.config/jj/templates/mcp-hooks/post-checkout .git/hooks/post-checkout
 chmod +x .git/hooks/post-*
 
-# Install Repomix hooks
-cp ~/.config/jj/templates/repomix-hooks/post-commit .git/hooks/post-commit-repomix
-chmod +x .git/hooks/post-commit-repomix
-
 # Generate initial context
 .git/hooks/post-commit
 
@@ -214,73 +206,6 @@ else
     echo "Not a GitHub repository"
 fi
 ''']
-
-# Repomix Integration (v1.2.0)
-# Install/update repomix hooks
-repomix-update = ["util", "exec", "--", "bash", "-c", '''
-set -e
-echo "Installing Repomix hooks..."
-
-mkdir -p .git/hooks
-
-cp ~/.config/jj/templates/repomix-hooks/post-commit .git/hooks/post-commit-repomix
-chmod +x .git/hooks/post-commit-repomix
-
-# Generate initial repomix file
-if command -v repomix &> /dev/null; then
-    .git/hooks/post-commit-repomix
-    echo "✓ Repomix hooks installed and initial file generated"
-else
-    echo "⚠️  repomix not installed. Install with: npm install -g repomix"
-fi
-''']
-
-# Show repomix status
-repomix-status = ["util", "exec", "--", "bash", "-c", '''
-if [ -f .repomix/context.json ]; then
-    echo "Repomix Status:"
-    cat .repomix/context.json | grep -E "(repository|generated_at|latest_file)" || cat .repomix/context.json
-    echo ""
-    if [ -f .repomix/repomix-latest.txt ]; then
-        echo "Latest file:"
-        ls -lh .repomix/repomix-latest.txt
-        echo ""
-        echo "Line count:"
-        wc -l .repomix/repomix-latest.txt
-    fi
-else
-    echo "Repomix not initialized. Run: jj repomix-update"
-fi
-''']
-
-# Generate repomix file manually
-repomix-generate = ["util", "exec", "--", "bash", "-c", '''
-if command -v repomix &> /dev/null; then
-    .git/hooks/post-commit-repomix
-    echo "✓ Repomix file generated"
-else
-    echo "⚠️  repomix not installed. Install with: npm install -g repomix"
-fi
-''']
-
-# View latest repomix file
-repomix-view = ["util", "exec", "--", "bash", "-c", '''
-if [ -f .repomix/repomix-latest.txt ]; then
-    ${EDITOR:-micro} .repomix/repomix-latest.txt
-else
-    echo "No repomix file found. Run: jj repomix-generate"
-fi
-''']
-
-# Show token counts
-repomix-tokens = ["util", "exec", "--", "bash", "-c", '''
-if command -v repomix &> /dev/null; then
-    repomix --token-count-tree 50 .
-else
-    echo "⚠️  repomix not installed. Install with: npm install -g repomix"
-fi
-''']
-
 
 # Synthwave84 Color Scheme
 [colors]
