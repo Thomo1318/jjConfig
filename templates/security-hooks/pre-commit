@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Security Pre-Commit Hook
+# Automatically sanitizes sensitive information before committing
+# Version: 1.0.0 - Sanitize before commit
+
+set -e
+
+# Check if sanitization script exists
+if [ ! -f .build-artifacts/sanitize_all.py ]; then
+    exit 0
+fi
+
+# Only sanitize if we're about to commit files with real email
+if git diff --cached --name-only | grep -qE "(config\.toml|README\.md|QUICKSTART\.md|TASKS\.md)"; then
+    if git diff --cached | grep -q "steele.thompson13@gmail.com"; then
+        echo "🔒 Sanitizing emails before commit..."
+        
+        # Run sanitization
+        python3 .build-artifacts/sanitize_all.py
+        
+        # Re-stage sanitized files
+        git add -u
+        
+        echo "✅ Files sanitized for commit"
+    fi
+fi
+
+exit 0
