@@ -272,7 +272,7 @@ Having issues? See TROUBLESHOOTING.md for common problems and solutions:
 This project is licensed under the MIT License - see the LICENSE file for details.
 👤 Author
 Thomo1318
-	•	Email: steele.thompson13@gmail.com 	•	GitHub: @Thomo1318
+	•	Email: YOUR_EMAIL@example.com 	•	GitHub: @Thomo1318
 🙏 Acknowledgments
 	•	Jujutsu VCS - The version control system 	•	jj Community - Configuration patterns 	•	GitMCP - AI context integration 	•	Synthwave84 color scheme inspiration
 📚 Additional Resources
@@ -313,7 +313,7 @@ make deploy
 jj config list user
  You should see:
  user.name = "Thomo1318"
-user.email = "steele.thompson13@gmail.com"
+user.email = "YOUR_EMAIL@example.com"
  First Repository (2 minutes)
 Create a New Project
  # 1. Create project directory
