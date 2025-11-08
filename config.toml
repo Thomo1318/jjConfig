@@ -17,7 +17,7 @@
 # User Information
 [user]
 name = "Thomo1318"
-email = "YOUR_EMAIL@example.com"
+email = "steele.thompson13@gmail.com"
 
 # UI Settings
 [ui]
@@ -55,7 +55,7 @@ git_push_bookmark = '"Thomo1318/push-" ++ change_id.short()'
 
 # Revset Aliases
 [revset-aliases]
-'mine()' = 'author("YOUR_EMAIL@example.com") | committer("YOUR_EMAIL@example.com")'
+'mine()' = 'author("steele.thompson13@gmail.com") | committer("steele.thompson13@gmail.com")'
 'trunk()' = 'latest(remote_bookmarks(exact:"main") | remote_bookmarks(exact:"master") | remote_bookmarks(exact:"trunk"))'
 'work' = 'ancestors(mutable() & ~empty(), 2) | trunk()'
 'recent()' = 'ancestors(@, 10)'

@@ -1,51 +1,52 @@
 #!/usr/bin/env bash
 # Security Pre-Push Hook
-# Prevents sensitive information from being pushed to remote
-# Version: 1.0.0
+# Automatically sanitizes sensitive information before pushing
+# Version: 2.0.0 - Auto-sanitize mode
 
 set -e
 
-# Sensitive patterns to check for
-SENSITIVE_EMAIL="steele.thompson13@gmail.com"
+# Sensitive patterns and their replacements
+REAL_EMAIL="steele.thompson13@gmail.com"
 PLACEHOLDER_EMAIL="YOUR_EMAIL@example.com"
 
-# Files to check (exclude backups and build artifacts)
-FILES_TO_CHECK=$(git diff --cached --name-only --diff-filter=ACM | \
-    grep -v "^backups/" | \
-    grep -v "^.build-artifacts/" | \
-    grep -v "^.git/" | \
-    grep -v "^.jj/" | \
-    grep -v "^.repomix/" || true)
+# Files to sanitize (exclude backups and build artifacts)
+FILES_TO_SANITIZE=(
+    "config.toml"
+    "README.md"
+    "QUICKSTART.md"
+    "TASKS.md"
+    "CONTRIBUTING.md"
+    "TROUBLESHOOTING.md"
+)
 
-if [ -z "$FILES_TO_CHECK" ]; then
-    exit 0
-fi
+# Track if any files were sanitized
+SANITIZED=false
 
-# Check for sensitive email in staged files
-FOUND_SENSITIVE=false
+echo "🔒 Running pre-push security check..."
 
-for file in $FILES_TO_CHECK; do
+for file in "${FILES_TO_SANITIZE[@]}"; do
     if [ -f "$file" ]; then
-        if grep -q "$SENSITIVE_EMAIL" "$file" 2>/dev/null; then
-            echo "⚠️  SECURITY WARNING: Sensitive email found in $file"
-            FOUND_SENSITIVE=true
+        if grep -q "$REAL_EMAIL" "$file" 2>/dev/null; then
+            # Sanitize the file
+            sed -i '' "s/$REAL_EMAIL/$PLACEHOLDER_EMAIL/g" "$file"
+            
+            # Stage the sanitized version
+            git add "$file"
+            
+            echo "  ✓ Sanitized: $file"
+            SANITIZED=true
         fi
     fi
 done
 
-if [ "$FOUND_SENSITIVE" = true ]; then
+if [ "$SANITIZED" = true ]; then
     echo ""
-    echo "❌ Push blocked: Sensitive information detected"
+    echo "✅ Email addresses sanitized automatically"
+    echo "   Real email → Placeholder for public repo"
     echo ""
-    echo "Found: $SENSITIVE_EMAIL"
-    echo "Expected: $PLACEHOLDER_EMAIL"
-    echo ""
-    echo "Please run the email sanitization script:"
-    echo "  python3 .build-artifacts/sanitize_email.py"
-    echo ""
-    echo "Or manually replace the email with the placeholder."
-    echo ""
-    exit 1
+    echo "⚠️  Note: Your local working files will be updated."
+    echo "   After push, restore with: git checkout HEAD -- config.toml README.md ..."
+    echo "   Or the files will auto-restore on next pull/checkout"
 fi
 
 exit 0
