@@ -1,9 +1,9 @@
 {
   "repository": "jjConfig",
-  "generated_at": "2025-11-08T03:46:33Z",
+  "generated_at": "2025-11-08T14:27:25Z",
   "branch": "",
-  "commit": "242c1f825f94dc1fd0baf92a6a387f1edf8cf6c6",
-  "latest_file": "repomix-jjConfig-20251108-144633.txt",
+  "commit": "58b4d21817c40abb369a0d4b73877c7357056103",
+  "latest_file": "repomix-jjConfig-20251109-012725.txt",
   "description": "Complete repository consolidation for AI context generation",
   "usage": {
     "ai_tools": "Copy repomix-latest.txt content to AI tool context",

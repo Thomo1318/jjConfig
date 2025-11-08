@@ -1,52 +1,30 @@
 #!/usr/bin/env bash
 # Security Pre-Push Hook
 # Automatically sanitizes sensitive information before pushing
-# Version: 2.0.0 - Auto-sanitize mode
+# Version: 2.2.0 - Comprehensive sanitization including repomix files
 
 set -e
 
-# Sensitive patterns and their replacements
-REAL_EMAIL="steele.thompson13@gmail.com"
-PLACEHOLDER_EMAIL="YOUR_EMAIL@example.com"
-
-# Files to sanitize (exclude backups and build artifacts)
-FILES_TO_SANITIZE=(
-    "config.toml"
-    "README.md"
-    "QUICKSTART.md"
-    "TASKS.md"
-    "CONTRIBUTING.md"
-    "TROUBLESHOOTING.md"
-)
-
-# Track if any files were sanitized
-SANITIZED=false
-
 echo "🔒 Running pre-push security check..."
 
-for file in "${FILES_TO_SANITIZE[@]}"; do
-    if [ -f "$file" ]; then
-        if grep -q "$REAL_EMAIL" "$file" 2>/dev/null; then
-            # Sanitize the file
-            sed -i '' "s/$REAL_EMAIL/$PLACEHOLDER_EMAIL/g" "$file"
-            
-            # Stage the sanitized version
-            git add "$file"
-            
-            echo "  ✓ Sanitized: $file"
-            SANITIZED=true
-        fi
-    fi
-done
-
-if [ "$SANITIZED" = true ]; then
-    echo ""
-    echo "✅ Email addresses sanitized automatically"
-    echo "   Real email → Placeholder for public repo"
-    echo ""
-    echo "⚠️  Note: Your local working files will be updated."
-    echo "   After push, restore with: git checkout HEAD -- config.toml README.md ..."
-    echo "   Or the files will auto-restore on next pull/checkout"
+# Check if sanitization script exists
+if [ ! -f .build-artifacts/sanitize_all.py ]; then
+    echo "⚠️  Sanitization script not found"
+    echo "   Expected: .build-artifacts/sanitize_all.py"
+    exit 0
 fi
+
+# Run comprehensive sanitization (includes repomix files)
+python3 .build-artifacts/sanitize_all.py
+
+# Stage all sanitized files
+git add -u
+
+echo ""
+echo "✅ All files sanitized (including .repomix/)"
+echo "   Real email → Placeholder for public repo"
+echo ""
+echo "⚠️  Note: After push, restore locally with:"
+echo "   sed -i '' 's/YOUR_EMAIL@example.com/steele.thompson13@gmail.com/g' config.toml README.md QUICKSTART.md TASKS.md"
 
 exit 0

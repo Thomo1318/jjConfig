@@ -39,3 +39,4 @@ backups/v*/applied-*.timestamp
 .build-artifacts/
 
 # Repomix generated files (AI context consolidation)
+.repomix/
