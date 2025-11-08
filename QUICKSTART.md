@@ -26,7 +26,7 @@ make deploy
 jj config list user
  You should see:
  user.name = "Thomo1318"
-user.email = "steele.thompson13@gmail.com"
+user.email = "YOUR_EMAIL@example.com"
  First Repository (2 minutes)
 Create a New Project
  # 1. Create project directory
