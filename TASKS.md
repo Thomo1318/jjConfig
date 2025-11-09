@@ -172,157 +172,113 @@
 ### TODO 4: GitHub CLI Integration with Interactive Prompts
 **Priority:** High  
 **Version:** v1.1.1-gh-integration  
-**Status:** Planned
+**Status:** ✅ Implemented
 
 **Purpose:** Streamline GitHub repo creation from jj
 
-**Features to Implement:**
-- [ ] Interactive repo creation with prompts
-- [ ] Auto-generate description from repo content
-- [ ] Choose public/private visibility
-- [ ] Automatic commit signing
-- [ ] All-in-one init-github workflow
+**Implementation:** External script approach (recommended in Task4.md analysis)
 
-**Proposed Aliases:**
+**Features Implemented:**
+- [x] Interactive repo creation with prompts
+- [x] Auto-generate description from repo content (README.md, package.json, pyproject.toml, Cargo.toml)
+- [x] Choose public/private visibility
+- [x] Dynamic GitHub username detection (no hardcoding)
+- [x] Input validation and error handling
+- [x] Dependency checking (gh, jj, git)
+- [x] All-in-one init-github workflow
+- [x] Clone and initialize workflow
+- [x] Colored output and better UX
+- [ ] Automatic commit signing (deferred to v1.2.0-security)
+
+**Implemented Solution:**
+
+**File Structure:**
+```
+~/.config/jj/
+├── scripts/
+│   ├── gh-helper.sh          # Main helper script
+│   └── README.md             # Documentation
+└── config.toml               # JJ config with aliases
+```
+
+**Aliases (in config.toml):**
 
 ```toml
 [aliases]
-# Interactive GitHub repo creation
-gh-create = ["util", "exec", "--", "bash", "-c", '''
-set -e
-
-# Interactive prompts
-read -p "Repository name: " REPO_NAME
-read -p "Description (press Enter to auto-generate): " DESCRIPTION
-
-# Auto-generate description if empty
-if [ -z "$DESCRIPTION" ]; then
-    # Try to extract from README.md first line
-    if [ -f README.md ]; then
-        DESCRIPTION=$(head -1 README.md | sed "s/^# //")
-    else
-        DESCRIPTION="Personal repository"
-    fi
-    echo "Auto-generated description: $DESCRIPTION"
-fi
-
-# Choose visibility
-echo "Visibility:"
-echo "  1) Public"
-echo "  2) Private"
-read -p "Choose (1 or 2): " VISIBILITY
-
-if [ "$VISIBILITY" = "2" ]; then
-    VISIBILITY_FLAG="--private"
-else
-    VISIBILITY_FLAG="--public"
-fi
-
-# Create repo
-echo "Creating GitHub repository: Thomo1318/$REPO_NAME"
-gh repo create "Thomo1318/$REPO_NAME" $VISIBILITY_FLAG --description "$DESCRIPTION"
-
-echo "✓ Repository created: https://github.com/Thomo1318/$REPO_NAME"
-''']
-
-# All-in-one: init + create GitHub + push
-init-github = ["util", "exec", "--", "bash", "-c", '''
-set -e
-
-# Interactive prompts
-read -p "Repository name: " REPO_NAME
-read -p "Description (press Enter to auto-generate): " DESCRIPTION
-
-if [ -z "$DESCRIPTION" ]; then
-    if [ -f README.md ]; then
-        DESCRIPTION=$(head -1 README.md | sed "s/^# //")
-    else
-        DESCRIPTION="Personal repository"
-    fi
-fi
-
-echo "Visibility:"
-echo "  1) Public"
-echo "  2) Private"
-read -p "Choose (1 or 2): " VISIBILITY
-
-VISIBILITY_FLAG="--public"
-[ "$VISIBILITY" = "2" ] && VISIBILITY_FLAG="--private"
-
-# Create GitHub repo
-gh repo create "Thomo1318/$REPO_NAME" $VISIBILITY_FLAG --description "$DESCRIPTION"
-
-# Initialize jj with MCP
-jj init
-
-# Add remote
-git remote add origin "https://github.com/Thomo1318/$REPO_NAME.git"
-
-# Create main bookmark
-jj bookmark create main -r @-
-
-# Push
-jj git push --bookmark main --allow-new
-
-echo "✓ Complete! https://github.com/Thomo1318/$REPO_NAME"
-''']
-
-# Clone GitHub repo and init with jj
-gh-clone = ["util", "exec", "--", "bash", "-c", '''
-REPO_URL="$1"
-gh repo clone "$REPO_URL"
-REPO_NAME=$(basename "$REPO_URL")
-cd "$REPO_NAME"
-jj init
-''']
+# GitHub integration (uses external script for better UX)
+gh-create = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh create"]
+init-github = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh init-github"]
+gh-clone = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh clone \"$@\"", "--"]
 ```
+
+**Usage Examples:**
+
+```bash
+# Create a new GitHub repo (interactive)
+jj gh-create
+
+# Initialize jj repo and create GitHub repo (all-in-one)
+jj init-github
+
+# Clone and initialize with jj
+jj gh-clone owner/repo
+jj gh-clone https://github.com/owner/repo
+```
+
+**Key Improvements Over Original Plan:**
+
+| Feature | Original Plan | Implemented Solution |
+|---------|--------------|---------------------|
+| Error Handling | Minimal (`set -e`) | Comprehensive validation |
+| Username | Hardcoded "Thomo1318" | Dynamic via `gh api user` |
+| Description | Basic README check | Multi-source (README, package.json, etc.) |
+| Maintainability | Inline bash (hard to edit) | Separate script file |
+| UX | Plain text | Colored output, progress indicators |
+| Testing | Difficult | Easy to test independently |
+| Dependencies | No checking | Validates gh, jj, git, auth status |
+
+**Installation Steps:**
+
+```bash
+# 1. Create scripts directory
+mkdir -p ~/.config/jj/scripts
+
+# 2. Copy gh-helper.sh script
+cp ~/.config/jj/scripts/gh-helper.sh ~/.config/jj/scripts/
+chmod +x ~/.config/jj/scripts/gh-helper.sh
+
+# 3. Update config.toml with new aliases (already done)
+
+# 4. Test the script
+~/.config/jj/scripts/gh-helper.sh help
+
+# 5. Ensure gh is authenticated
+gh auth status || gh auth login
+```
+
+**Testing Results:**
+- ✅ Help command works
+- ✅ Script is executable
+- ✅ All dependencies available (gh, jj, git)
+- ✅ Invalid command handling works
+- ✅ Auto-description generation works
+- ⚠️  Interactive tests require GitHub authentication
 
 **Commit Signing Integration:**
 
+**Note:** Commit signing moved to v1.2.0-security for proper implementation
+with key management and testing.
+
 ```toml
 [signing]
-# TODO: Configure commit signing (v1.2.0-security)
-# behavior = "own"              # Sign your own commits
-# backend = "ssh"               # Use SSH keys (or "gpg")
-# key = "~/.ssh/id_ed25519.pub" # Path to your public key
-
-[git]
-# TODO: Enable sign-on-push (v1.2.0-security)
-# sign-on-push = true           # Auto-sign when pushing
-```
-
-**Setup Steps (when implementing v1.1.1):**
-
-1. Generate SSH signing key (if not exists):
-```bash
-ssh-keygen -t ed25519 -C "steele.thompson13@gmail.com" -f ~/.ssh/id_ed25519_signing
-```
-
-2. Add public key to GitHub:
-- Go to GitHub Settings → SSH and GPG keys
-- Add new SSH key (Signing Key)
-- Paste contents of `~/.ssh/id_ed25519_signing.pub`
-
-3. Configure Git to use SSH signing:
-```bash
-git config --global gpg.format ssh
-git config --global user.signingkey ~/.ssh/id_ed25519_signing.pub
-git config --global commit.gpgsign true
-```
-
-4. Add to jj config:
-```toml
-[signing]
-behavior = "own"
+sign-all = true
 backend = "ssh"
-key = "~/.ssh/id_ed25519_signing.pub"
-
-[git]
-sign-on-push = true
+key = "~/.ssh/id_ed25519"
 ```
 
 **Reference:**
 - GitHub CLI: https://cli.github.com/
 - SSH signing: https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification
 - jj signing docs: https://jj-vcs.github.io/jj/latest/config/#signing
-
+- Bash best practices: https://google.github.io/styleguide/shellguide.html
+- Task4.md analysis: Comprehensive evaluation of implementation approaches
