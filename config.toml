@@ -70,6 +70,12 @@ short-prefixes = "(trunk()..@)::"
 
 # Command Aliases
 [aliases]
+# GitHub integration aliases (v1.1.1-gh-integration)
+# Uses external script for better maintainability and error handling
+gh-create = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh create"]
+init-github = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh init-github"]
+gh-clone = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh clone \"$@\"", "--"]
+
 # Basic operations
 st = ["status"]
 d = ["diff"]
