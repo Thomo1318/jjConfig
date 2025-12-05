@@ -110,7 +110,7 @@ fzf = ["!jj-fzf"]
 tui = ["!lazyjj"]
 ui = ["!gg"]
 
-# Repository Initialization (v1.1.0 - MCP-enabled by default)
+# Repository Initialization (v1.1.2 - MCP-enabled + git-confirm)
 init = ["util", "exec", "--", "bash", "-c", '''
 set -e
 echo "Initializing jj repository with GitMCP integration..."
@@ -141,11 +141,21 @@ chmod +x .git/hooks/post-commit-repomix
 cp ~/.config/jj/templates/security-hooks/pre-push .git/hooks/pre-push
 chmod +x .git/hooks/pre-push
 
+# Install git-confirm pre-commit hook
+echo "Installing git-confirm hook..."
+if curl -sSfL https://cdn.rawgit.com/pimterry/git-confirm/v0.2.2/hook.sh > .git/hooks/pre-commit-confirm 2>/dev/null; then
+    chmod +x .git/hooks/pre-commit-confirm
+    echo "✓ git-confirm hook installed"
+else
+    echo "⚠️  git-confirm hook installation failed (continuing without it)"
+fi
+
 # Generate initial MCP context
 .git/hooks/post-commit
 
 echo "✓ Repository initialized"
 echo "✓ GitMCP hooks installed"
+echo "✓ Security hooks installed"
 
 # Show MCP URL if GitHub repo
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")

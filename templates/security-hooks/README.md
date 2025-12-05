@@ -1,228 +1,88 @@
 # Security Hooks
 
-Prevent sensitive information from being pushed to public repositories.
+This directory contains git hooks for preventing accidental commits of sensitive information.
 
-## Overview
-
-The security hooks protect against accidentally pushing sensitive information like email addresses, API keys, or credentials to public repositories.
-
-## Hooks
+## Available Hooks
 
 ### pre-push
-**Purpose:** Check for sensitive information before pushing to remote
+Sanitizes sensitive information before pushing to remote repositories.
 
-**Triggers:** Before `git push`
+**Features:**
+- Checks for personal email addresses
+- Validates repomix files
+- Can be extended for other sensitive data patterns
 
-**Checks for:**
-- Personal email addresses
-- API keys (future)
-- Credentials (future)
-- Private tokens (future)
+**Usage:**
+Automatically installed with `jj init` or `jj mcp-update`
 
-**Behavior:**
-- Scans staged files for sensitive patterns
-- Blocks push if sensitive data found
-- Provides instructions to fix
-- Excludes backups and build artifacts
+### pre-commit-confirm (git-confirm)
+Interactive confirmation before each commit to prevent accidental commits.
 
-## Installation
+**Features:**
+- Shows files being committed
+- Prompts for confirmation
+- Prevents accidental sensitive data commits
+- Lightweight and non-intrusive
 
-### Automatic (via jjConfig init)
+**Installation:**
+Automatically installed with `jj init` (v1.1.2+)
+
+**Manual Installation:**
 ```bash
-jj init  # Installs all hooks including security
+curl -sSfL https://cdn.rawgit.com/pimterry/git-confirm/v0.2.2/hook.sh > .git/hooks/pre-commit-confirm
+chmod +x .git/hooks/pre-commit-confirm
 ```
 
-### Manual Installation
+**Source:** [git-confirm by pimterry](https://github.com/pimterry/git-confirm)
+
+## Hook Installation
+
+All security hooks are automatically installed when you run:
 ```bash
-# Copy pre-push hook
-mkdir -p .git/hooks
-cp ~/.config/jj/templates/security-hooks/pre-push .git/hooks/pre-push
-chmod +x .git/hooks/pre-push
+jj init
 ```
 
-### Update Existing Repos
+Or update existing repos with:
 ```bash
-jj security-update  # Install/update security hooks
+jj security-update
 ```
 
-## Email Sanitization
+## Customization
 
-### Current Protection
-The pre-push hook blocks pushes containing:
-- `steele.thompson13@gmail.com` (real email)
-
-Expected placeholder:
-- `YOUR_EMAIL@example.com`
-
-### Sanitize Existing Files
+You can customize the hooks by editing the files in this directory, then re-running:
 ```bash
-# Run sanitization script
-python3 .build-artifacts/sanitize_email.py
-
-# Verify changes
-git diff
-
-# Commit sanitized files
-jj describe -m "security: sanitize email addresses"
+jj security-update
 ```
 
-### Manual Sanitization
-```bash
-# Find all occurrences
-grep -r "steele.thompson13@gmail.com" --exclude-dir=.git --exclude-dir=backups .
+## Disabling Hooks
 
-# Replace in specific file
-sed -i '' 's/steele.thompson13@gmail.com/YOUR_EMAIL@example.com/g' config.toml
+To temporarily disable a hook:
+```bash
+chmod -x .git/hooks/hook-name
 ```
 
-## Usage
-
-### Normal Workflow
+To re-enable:
 ```bash
-# Make changes
-echo 'email = "YOUR_EMAIL@example.com"' >> config.toml
-
-# Commit
-git commit -m "update config"
-
-# Push (hook runs automatically)
-git push origin main
-
-# ✓ Push succeeds (no sensitive data)
+chmod +x .git/hooks/hook-name
 ```
-
-### Blocked Push
-```bash
-# Accidentally add real email
-echo 'email = "steele.thompson13@gmail.com"' >> config.toml
-
-# Try to push
-git push origin main
-
-# Output:
-# ⚠️  SECURITY WARNING: Sensitive email found in config.toml
-# ❌ Push blocked: Sensitive information detected
-# 
-# Please run: python3 .build-artifacts/sanitize_email.py
-```
-
-## Configuration
-
-### Add More Patterns
-Edit `templates/security-hooks/pre-push`:
-
-```bash
-# Add more sensitive patterns
-SENSITIVE_PATTERNS=(
-    "steele.thompson13@gmail.com"
-    "sk-[a-zA-Z0-9]{48}"  # OpenAI API keys
-    "ghp_[a-zA-Z0-9]{36}"  # GitHub tokens
-)
-```
-
-### Exclude Files
-The hook automatically excludes:
-- `backups/` - Historical backups
-- `.build-artifacts/` - Build files
-- `.git/` - Git internals
-- `.jj/` - JJ internals
-- `.repomix/` - Generated files
 
 ## Best Practices
 
-### 1. Use Environment Variables
-```toml
-# In config.toml
-[user]
-email = "YOUR_EMAIL@example.com"  # Placeholder in repo
+1. **Never commit sensitive data** - Even with hooks, be vigilant
+2. **Review changes before committing** - Use `jj diff` or `git diff`
+3. **Use .gitignore** - Prevent sensitive files from being tracked
+4. **Rotate credentials** - If accidentally committed, rotate immediately
+5. **Use environment variables** - Never hardcode secrets in code
 
-# In your shell (~/.zshrc or ~/.bashrc)
-export GIT_USER_EMAIL="steele.thompson13@gmail.com"
-```
+## Related Tools
 
-### 2. Use Git Config
-```bash
-# Set email globally (not in repo)
-git config --global user.email "steele.thompson13@gmail.com"
-
-# JJ will use git config if not specified
-```
-
-### 3. Regular Audits
-```bash
-# Check for sensitive data
-grep -r "steele.thompson13@gmail.com" --exclude-dir=.git .
-
-# Run sanitization
-python3 .build-artifacts/sanitize_email.py
-```
-
-## Troubleshooting
-
-### Hook Not Running
-```bash
-# Check if hook exists
-ls -la .git/hooks/pre-push
-
-# Make executable
-chmod +x .git/hooks/pre-push
-
-# Test manually
-.git/hooks/pre-push
-```
-
-### False Positives
-```bash
-# Temporarily bypass (use with caution)
-git push --no-verify origin main
-
-# Or update hook to exclude specific files
-```
-
-### Hook Blocking Valid Push
-```bash
-# Check what triggered the block
-grep -r "steele.thompson13@gmail.com" --exclude-dir=.git .
-
-# Fix the issue
-python3 .build-artifacts/sanitize_email.py
-
-# Retry push
-git push origin main
-```
-
-## Git History Sanitization
-
-**WARNING:** The email already exists in git commit history. To remove it completely, you need to rewrite history (destructive operation).
-
-### Option 1: Keep History (Recommended)
-- Sanitize current files only
-- Use pre-push hook to prevent future exposure
-- Git history remains unchanged
-
-### Option 2: Rewrite History (Destructive)
-```bash
-# Backup first!
-git clone --mirror . ../jjConfig-backup
-
-# Use git filter-repo (install first)
-git filter-repo --email-callback '
-  return email.replace(b"steele.thompson13@gmail.com", b"YOUR_EMAIL@example.com")
-'
-
-# Force push (DANGEROUS - rewrites all history)
-git push --force origin main
-```
-
-**Note:** Rewriting history affects all collaborators and breaks existing clones.
+- **git-secrets** - AWS secret scanning
+- **gitleaks** - Comprehensive secret detection
+- **trufflehog** - Find secrets in git history
+- **git-crypt** - Transparent file encryption in git
 
 ## References
 
-- **Git Hooks:** https://git-scm.com/docs/githooks
-- **Git Filter-Repo:** https://github.com/newren/git-filter-repo
-- **BFG Repo-Cleaner:** https://rtyley.github.io/bfg-repo-cleaner/
-
-## See Also
-
-- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Development guidelines
-- [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) - Common issues
+- [git-confirm](https://github.com/pimterry/git-confirm)
+- [GitHub: Removing sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+- [OWASP: Secrets Management](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)

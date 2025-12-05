@@ -3,7 +3,7 @@
 **Repository:** jjConfig  
 **GitHub:** Thomo1318/jjConfig  
 **MCP Server:** https://gitmcp.io/Thomo1318/jjConfig  
-**Updated:** 2025-11-07T11:45:23Z
+**Updated:** 2025-12-05T10:03:59Z
 
 ## Quick Setup
 
@@ -25,5 +25,5 @@ Context files update automatically via Git hooks.
 
 ## Status
 - Branch: 
-- Commit: f51998a125ed0d08d04ab1485dad038a8f5a5984
-- Generated: 2025-11-07T11:45:23Z
+- Commit: 1a85507dda70e8d1a1748939d0853e8745442284
+- Generated: 2025-12-05T10:03:59Z
