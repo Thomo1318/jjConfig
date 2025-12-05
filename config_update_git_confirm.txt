@@ -1,0 +1,58 @@
+# Repository Initialization (v1.1.0 - MCP-enabled by default + git-confirm)
+init = ["util", "exec", "--", "bash", "-c", '''
+set -e
+echo "Initializing jj repository with GitMCP integration..."
+
+# Initialize jj repo
+jj git init --colocate
+
+# Install GitMCP hooks
+mkdir -p .git/hooks
+
+# Install post-commit hook
+cp ~/.config/jj/templates/mcp-hooks/post-commit .git/hooks/post-commit
+chmod +x .git/hooks/post-commit
+
+# Install post-merge hook
+cp ~/.config/jj/templates/mcp-hooks/post-merge .git/hooks/post-merge
+chmod +x .git/hooks/post-merge
+
+# Install post-checkout hook
+cp ~/.config/jj/templates/mcp-hooks/post-checkout .git/hooks/post-checkout
+chmod +x .git/hooks/post-checkout
+
+# Install Repomix hooks
+cp ~/.config/jj/templates/repomix-hooks/post-commit .git/hooks/post-commit-repomix
+chmod +x .git/hooks/post-commit-repomix
+
+# Install security hooks
+cp ~/.config/jj/templates/security-hooks/pre-push .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+
+# Install git-confirm pre-commit hook
+echo "Installing git-confirm hook..."
+if curl -sSfL https://cdn.rawgit.com/pimterry/git-confirm/v0.2.2/hook.sh > .git/hooks/pre-commit-confirm 2>/dev/null; then
+    chmod +x .git/hooks/pre-commit-confirm
+    echo "✓ git-confirm hook installed"
+else
+    echo "⚠️  git-confirm hook installation failed (continuing without it)"
+fi
+
+# Generate initial MCP context
+.git/hooks/post-commit
+
+echo "✓ Repository initialized"
+echo "✓ GitMCP hooks installed"
+echo "✓ Security hooks installed"
+
+# Show MCP URL if GitHub repo
+REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
+if [ -n "$REMOTE" ]; then
+    echo "✓ GitMCP URL: https://gitmcp.io/$REMOTE"
+    echo ""
+    echo "AI Context files created in .mcp/"
+    echo "See .mcp/README.md for integration instructions"
+else
+    echo "ℹ Local repo - MCP context generated for local use"
+fi
+''']
