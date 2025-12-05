@@ -40,3 +40,6 @@ backups/v*/applied-*.timestamp
 
 # Repomix generated files (AI context consolidation)
 .repomix/
+
+# relay state
+/.relay/
