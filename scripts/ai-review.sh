@@ -12,27 +12,27 @@ if ! command -v coderabbit &> /dev/null; then
     exit 1
 fi
 
-echo "🐰 Rabbit Check: Analyzing $TYPE changes..."
+echo "🐰 Rabbit Check: Analyzing ${TYPE} changes..."
 echo "----------------------------------------"
 
 # 2. Run CodeRabbit in Machine-Readable mode (--prompt-only)
 # We capture stderr to check for "No files found" which is not a real error for us.
-OUTPUT=$(coderabbit review --prompt-only -t "$TYPE" 2>&1)
+OUTPUT=$(coderabbit review --prompt-only -t "${TYPE}" 2>&1)
 EXIT_CODE=$?
 
 # 3. Handle Output
-if [[ $EXIT_CODE -ne 0 ]]; then
-    if echo "$OUTPUT" | grep -q "No files found"; then
+if [[ ${EXIT_CODE} -ne 0 ]]; then
+    if echo "${OUTPUT}" | grep -q "No files found"; then
         echo "✅ Clean State: No changes found to review."
         exit 0
     else
         echo "❌ Review Failed:"
-        echo "$OUTPUT"
-        exit $EXIT_CODE
+        echo "${OUTPUT}"
+        exit "${EXIT_CODE}"
     fi
 fi
 
 # 4. Success - Print the AI Analysis
-echo "$OUTPUT"
+echo "${OUTPUT}"
 echo "----------------------------------------"
 echo "✅ Analysis Complete."

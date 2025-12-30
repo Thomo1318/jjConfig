@@ -105,7 +105,13 @@ tui = ["!lazyjj"]
 ui = ["!gg"]
 
 # Repository Initialization (v1.1.0 - MCP-enabled by default)
-init = ["util", "exec", "--", "bash", "-c", '''
+init = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Initializing jj repository with GitMCP integration..."
 
@@ -143,10 +149,17 @@ if [ -n "$REMOTE" ]; then
 else
     echo "ℹ Local repo - MCP context generated for local use"
 fi
-''']
+''',
+]
 
 # Short version (same as init)
-i = ["util", "exec", "--", "bash", "-c", '''
+i = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 jj git init --colocate
 mkdir -p .git/hooks
@@ -157,13 +170,20 @@ chmod +x .git/hooks/post-*
 .git/hooks/post-commit
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "GitMCP: https://gitmcp.io/$REMOTE" || echo "Local repo initialized"
-''']
+''',
+]
 
 # Initialize without MCP (fallback)
 init-simple = ["git", "init", "--colocate"]
 
 # Install MCP hooks in existing repo
-mcp-update = ["util", "exec", "--", "bash", "-c", '''
+mcp-update = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Installing GitMCP hooks in existing repository..."
 
@@ -180,10 +200,17 @@ chmod +x .git/hooks/post-*
 echo "✓ GitMCP hooks installed"
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "✓ GitMCP URL: https://gitmcp.io/$REMOTE"
-''']
+''',
+]
 
 # Show GitMCP URL for current repo
-mcp-url = ["util", "exec", "--", "bash", "-c", '''
+mcp-url = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 if [ -n "$REMOTE" ]; then
     echo "GitMCP URL: https://gitmcp.io/$REMOTE"
@@ -195,17 +222,25 @@ if [ -n "$REMOTE" ]; then
 else
     echo "Not a GitHub repository"
 fi
-''']
+''',
+]
 
 # Open GitMCP URL in browser
-mcp-open = ["util", "exec", "--", "bash", "-c", '''
+mcp-open = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 if [ -n "$REMOTE" ]; then
     open "https://gitmcp.io/$REMOTE"
 else
     echo "Not a GitHub repository"
 fi
-''']
+''',
+]
 
 # Synthwave84 Color Scheme
 [colors]

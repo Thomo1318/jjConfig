@@ -33,13 +33,41 @@ make test
 
 # Deploy to test
 make deploy
- ✏️ Making Changes
-Configuration Changes
-	1.	Edit the main config: ⁠config.toml 	2.	Add reference files: Place in appropriate subdirectory (⁠aliases/, ⁠revsets/, etc.) 	3.	Update documentation: Reflect changes in relevant README files
-Documentation Changes
-	1.	Follow markdown best practices 	2.	Use proper headings (H1-H6) 	3.	Include code examples with syntax highlighting 	4.	Add emojis for visual appeal (sparingly) 	5.	Test all links
-Adding New Features
-	1.	Create reference file in appropriate directory 	2.	Add to README in that directory 	3.	Update main README if user-facing 	4.	Add to TASKS.md if part of roadmap
+ ## ✏️ Making Changes
+
+### The Golden Workflow
+
+Follow this "Inner Loop" to ensure quality and security:
+
+#### 1. The Inner Loop (Iterate)
+> **Goal**: Get the code working and documented locally.
+1.  **Code**: `micro config.toml` (Edit your files)
+2.  **Test**: `make test` or `trunk check` (Verify immediately)
+3.  **Docs**: Update `README.md` or `alias/*.md` **in parallel** with code changes.
+4.  *Repeat until tests pass and docs match code.*
+
+#### 2. Quality Assurance
+> **Goal**: Polish before committing.
+1.  **Formating**: `trunk fmt` (Standardize style)
+2.  **AI Review**: `scripts/ai-review.sh` (Catch bugs/impovements)
+
+#### 3. Commit & Sanitize
+> **Goal**: Secure your work.
+1.  **Snapshot**: `jj describe -m "feat: description"`
+2.  **Sanitize**: `jj security-sanitize` (Scrub PII/emails)
+    *   *Critical*: Must run before pushing!
+
+#### 4. Publish
+> **Goal**: Share with the world.
+1.  **Push**: `jj git push`
+    *   *Note*: This triggers the `pre-push` hook (GitGuardian).
+2.  **PR**: `gh pr create` (Triggers CI/CD)
+
+### Adding New Features
+1.	Create reference file in appropriate directory
+2.	Add to README in that directory
+3.	Update main README if user-facing
+4.	Add to TASKS.md if part of roadmap
 🧪 Testing Changes
 Syntax Validation
  # Test configuration syntax
@@ -179,3 +207,4 @@ Your contributions make jjConfig better for everyone. We appreciate your time an
 Happy contributing! 🎉
  
 ---
+```

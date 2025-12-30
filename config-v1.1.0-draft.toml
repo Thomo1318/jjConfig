@@ -22,13 +22,34 @@ email = "steele.thompson13@gmail.com"
 # UI Settings
 [ui]
 editor = "micro"
+# Use diff-so-fancy via a wrapper script or pipe, but for a true editor integration, 'delta' is often preferred in terminals.
+# Since you have delta/diff-so-fancy, let's configure delta as the pager for diffs which is the standard "optimal" way.
+# For the actual 3-pane diff editor, use a GUI or keep jj-fzf? keeping jj-fzf as diff-editor for now.
 diff-editor = "jj-fzf"
 diff-formatter = ":color-words"
+# Better conflict markers
+conflict-marker-style = "snapshot"
+# Optimal Pager: Delta (Syntax highlighting for diffs)
+pager = "delta"
 graph.style = "curved"
-pager = ":builtin"
 log-word-wrap = true
 default-command = ["log"]
 color = "always"
+
+[ui.diff]
+tool = "difft" # Use difftastic by default for 'jj diff' content
+
+# Core Settings
+[core]
+fsmonitor = "watchman" # Instant file updates
+
+# Merge Tools - Difftastic (Semantic Diff)
+[merge-tools]
+difft = { program = "difft", diff-args = ["--color=always", "$left", "$right"] }
+
+# Snapshot Safety
+[snapshot]
+max-new-file-size = "10MiB"
 
 # Git Integration
 [git]
@@ -48,7 +69,7 @@ git_push_bookmark = '"Thomo1318/push-" ++ change_id.short()'
 [template-aliases]
 'format_short_id(id)' = "id.shortest()"
 'format_short_change_id(id)' = "format_short_id(id)"
-'format_timestamp(timestamp)' = "timestamp.ago()"
+'format_timestamp(timestamp)' = 'timestamp.format("%Y-%m-%d %H:%M")'
 'format_short_signature(signature)' = "signature.email().local()"
 'format_short_operation_id(id)' = "id.shortest()"
 'format_field(key, value)' = 'key ++ ": " ++ value ++ "\n"'
@@ -223,10 +244,15 @@ mcp-open = [
   '''
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 if [ -n "$REMOTE" ]; then
-    open "https://gitmcp.io/$REMOTE"
-else
-    echo "Not a GitHub repository"
-fi
+    if command -v python3 >/dev/null 2>&1; then
+        python3 -m webbrowser "https://gitmcp.io/$REMOTE"
+    elif command -v open >/dev/null 2>&1; then
+        open "https://gitmcp.io/$REMOTE"
+    elif command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "https://gitmcp.io/$REMOTE"
+    else
+        echo "Please open: https://gitmcp.io/$REMOTE"
+    fi
 ''',
 ]
 
