@@ -48,8 +48,9 @@
 
 **Key Features:**
 
-- **Conventional Commits**: `jj describe` template & `commitlint` validation (Gold Standard).
+- **Conventional Commits**: `jj describe` template (Gold Standard).
 - **Trunk Optimization**: Added `ruff` (Python), `codespell` (Typos), and `trivy` (Security).
+- **UI**: Upgrade pager to `delta` for rich diffs.
 - **Documentation**: Updated `usage.md` and `CONTRIBUTING.md`.
 
 ---
