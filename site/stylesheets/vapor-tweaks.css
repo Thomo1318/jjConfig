@@ -1,0 +1,47 @@
+:root {
+  /* Vapor Palette Overrides */
+  --md-hue: 260; /* Deep Purple base */
+  --md-default-bg-color: #1a0933; /* Deep Violet Background */
+  --md-default-fg-color: #e6e6e6;
+
+  /* Neon Accents */
+  --vapor-pink: #ff2a6d;
+  --vapor-teal: #05d9e8;
+  --vapor-purple: #7700ff;
+
+  /* Material Overrides */
+  --md-primary-fg-color: var(--vapor-purple);
+  --md-typeset-a-color: var(--vapor-pink);
+
+  /* Code blocks - Synthwave style */
+  --md-code-bg-color: #2b1c40;
+}
+
+/* Glow Effects for Headings */
+.md-typeset h1,
+.md-typeset h2 {
+  color: var(--vapor-teal);
+  text-shadow: 0 0 5px rgba(5, 217, 232, 0.4);
+  font-weight: 700;
+}
+
+.md-header {
+  background-color: #110524 !important;
+  border-bottom: 2px solid var(--vapor-pink);
+}
+
+.md-tabs {
+  background-color: #110524 !important;
+}
+
+/* Sidebar Styling */
+.md-sidebar {
+  background-color: #1a0933;
+}
+
+/* Admonitions */
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: #240d42;
+  border-color: var(--vapor-pink);
+}

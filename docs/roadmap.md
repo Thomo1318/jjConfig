@@ -2,6 +2,19 @@
 
 ## 🚀 Immediate Roadmap
 
+### v3.1.0 - Documentation Site
+
+**Priority:** High
+**Status:** Planned
+
+Transition static markdown files to a searchable, beautiful static site.
+
+- [ ] Evaluate Static Site Generators (MkDocs-Material recommended)
+- [ ] Set up `mkdocs.yml` configuration
+- [ ] Configure GitHub Pages deployment
+- [ ] Migrate existing `docs/` content
+- [ ] Implement versioning selector (if needed)
+
 ### v3.2.0 - CI/CD Foundation
 
 **Priority:** Medium
@@ -38,14 +51,6 @@ Establish a robust Continuous Integration pipeline to enforce quality gates auto
 ---
 
 ## ✅ Completed Tasks (Archive)
-
-### v3.1.0 - Documentation Site
-
-**Released:** 2026-01-02
-
-- [x] **MkDocs Setup:** Configured `mkdocs-material` with "Vapor" aesthetic (Synthwave/Cyberpunk).
-- [x] **Deployment:** GitHub Actions workflow for `gh-pages` deployment.
-- [x] **Content:** Migrated docs to static site structure.
 
 ### v3.0.0 - Conventional Commits & Quality
 
