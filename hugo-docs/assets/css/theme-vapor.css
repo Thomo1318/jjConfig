@@ -1,0 +1,112 @@
+/* Vapor Theme Variant for Hugo Relearn */
+/* A cyberpunk/synthwave aesthetic with deep purples, neon teals, and hot pinks */
+
+@import "theme-neon.css";
+
+:root {
+  /* Primary Colors */
+  --MAIN-BG-color: #1a1a2e;
+  --MAIN-TEXT-color: #e0e0e0;
+  --MAIN-LINK-color: #00f5d4;
+  --MAIN-LINK-HOVER-color: #ff6b9d;
+  
+  /* Accent Colors */
+  --MAIN-ACCENT-color: #9d4edd;
+  --MAIN-ANCHOR-color: #00f5d4;
+  
+  /* Menu Colors */
+  --MENU-HEADER-BG-color: #0f0f23;
+  --MENU-HEADER-BORDER-color: #9d4edd;
+  --MENU-HOME-LINK-color: #00f5d4;
+  --MENU-HOME-LINK-HOVER-color: #ff6b9d;
+  --MENU-SEARCH-BG-color: #16213e;
+  --MENU-SEARCH-color: #e0e0e0;
+  --MENU-SEARCH-BORDER-color: #9d4edd;
+  --MENU-SECTIONS-BG-color: #0f0f23;
+  --MENU-SECTIONS-LINK-color: #e0e0e0;
+  --MENU-SECTIONS-LINK-HOVER-color: #00f5d4;
+  --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #16213e;
+  --MENU-SECTION-ACTIVE-CATEGORY-color: #00f5d4;
+  --MENU-VISITED-color: #9d4edd;
+  
+  /* Box Colors */
+  --BOX-CAPTION-color: #ffffff;
+  --BOX-BG-color: #16213e;
+  --BOX-TEXT-color: #e0e0e0;
+  
+  /* Code Colors */
+  --CODE-theme: neon;
+  --CODE-BLOCK-color: #e0e0e0;
+  --CODE-BLOCK-BG-color: #0f0f23;
+  --CODE-INLINE-color: #00f5d4;
+  --CODE-INLINE-BG-color: rgba(157, 78, 221, 0.2);
+  --CODE-INLINE-BORDER-color: #9d4edd;
+}
+
+/* Glow Effects */
+a:hover {
+  text-shadow: 0 0 8px #00f5d4, 0 0 15px #00f5d4;
+}
+
+h1, h2, h3 {
+  color: #ff6b9d;
+  text-shadow: 0 0 5px rgba(255, 107, 157, 0.3);
+}
+
+code {
+  border: 1px solid #9d4edd;
+  box-shadow: 0 0 5px rgba(157, 78, 221, 0.3);
+}
+
+/* Menu Glow */
+#sidebar .highlightable {
+  border-right: 2px solid #9d4edd;
+  box-shadow: 2px 0 10px rgba(157, 78, 221, 0.3);
+}
+
+/* Button Styling */
+.btn {
+  background: linear-gradient(135deg, #9d4edd 0%, #16213e 100%);
+  border: 1px solid #00f5d4;
+  color: #ffffff;
+}
+
+.btn:hover {
+  box-shadow: 0 0 15px #00f5d4;
+  border-color: #ff6b9d;
+}
+
+/* Search Box Glow */
+#searchInput {
+  border: 1px solid #9d4edd;
+}
+
+#searchInput:focus {
+  box-shadow: 0 0 10px #9d4edd;
+  border-color: #00f5d4;
+}
+
+/* Table Styling */
+table {
+  background: #16213e;
+  border: 1px solid #9d4edd;
+}
+
+th {
+  background: linear-gradient(135deg, #9d4edd 0%, #0f0f23 100%);
+  color: #ffffff;
+}
+
+tr:hover {
+  background: rgba(0, 245, 212, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  background: #0f0f23;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #9d4edd, #00f5d4);
+  border-radius: 4px;
+}

@@ -45,3 +45,4 @@ backups/v*/applied-*.timestamp
 /.relay/
 .cache_ggshield
 .venv
+hugo-docs/public/
