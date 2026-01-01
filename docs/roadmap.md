@@ -2,50 +2,6 @@
 
 ## 🚀 Immediate Roadmap
 
-### v3.2.0 - CI/CD Foundation
-
-**Priority:** Medium
-**Status:** Planned
-
-Establish a robust Continuous Integration pipeline to enforce quality gates automatically.
-
-- [ ] **Linting Workflow**: Run `trunk check` on PRs
-- [ ] **Security Workflow**: Run `ggshield` and `trivy` on PRs
-- [ ] **Commit Workflow**: Enforce Conventional Commits (via `commitlint` or `jj` check)
-- [ ] **Build Workflow**: Verify `mkdocs build` passes
-
----
-
-## 🔮 Future Vision
-
-### v4.0.0 - Advanced Security & Insights
-
-**Priority:** Low
-**Status:** backlog
-
-- [ ] Snyk Integration (Vulnerability scanning)
-- [ ] SonarQube / CodeScene (Code health metrics)
-- [ ] SBOM Generation
-
-### v5.0.0 - Automation & ChatOps
-
-**Priority:** Low
-**Status:** backlog
-
-- [ ] Raycast AI / MCP deep integration
-- [ ] Slack/Discord notification webhooks
-
----
-
-## ✅ Completed Tasks (Archive)
-
-### v3.1.0 - Documentation Site
-
-**Released:** 2026-01-02
-
-- [x] **MkDocs Setup:** Configured `mkdocs-material` with "Vapor" aesthetic (Synthwave/Cyberpunk).
-- [x] **Deployment:** GitHub Actions workflow for `gh-pages` deployment.
-- [x] **Content:** Migrated docs to static site structure.
 ### v3.1.0 - Documentation Site
 
 **Priority:** High

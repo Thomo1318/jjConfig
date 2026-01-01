@@ -153,4 +153,4 @@ gh release create $(jj next-minor) --generate-notes
 
 ## 🔧 Troubleshooting
 
-See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) for solutions to common install issues.
+See [Troubleshooting Guide](../troubleshooting.md) for solutions to common install issues.
