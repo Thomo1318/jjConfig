@@ -21,12 +21,16 @@ lint:
     - yamllint@1.37.1
     - actionlint@1.7.9
     - checkov@3.2.496
+    - codespell@2.2.6
     - git-diff-check
     - markdownlint@0.47.0
     - prettier@3.7.4
-    - shellcheck@0.11.0
+    - ruff@0.1.6
+    - shellcheck@0.11.0:
+        autofix: false
     - shfmt@3.6.0
     - taplo@0.10.0
+    - trivy@0.48.1
     - trufflehog@3.92.4
 actions:
   disabled:

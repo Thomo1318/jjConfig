@@ -111,9 +111,17 @@ jj tui
 # Alternative UI (gg)
 jj ui
  Next Steps
-	•	Read the full README: README.md 	•	Explore aliases: aliases/README.md 	•	Learn revsets: revsets/README.md 	•	Customize colors: ui-configs/README.md 	•	Official tutorial: https://jj-vcs.github.io/jj/latest/tutorial/
+	•	Read the full README: [README.md](../../README.md)
+	•	Explore aliases: [Aliases Reference](../reference/aliases.md)
+	•	Learn revsets: [revsets/README.md](../../revsets/README.md)
+	•	Customize colors: [ui-configs/README.md](../../ui-configs/README.md)
+	•	Official tutorial: https://jj-vcs.github.io/jj/latest/tutorial/
+
 Need Help?
-	•	Troubleshooting: TROUBLESHOOTING.md 	•	Contributing: CONTRIBUTING.md 	•	Issues: https://github.com/Thomo1318/jjConfig/issues 	•	jj Discord: https://discord.gg/dkmfj3aGQN
+	•	Troubleshooting: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+	•	Contributing: [CONTRIBUTING.md](contributing.md)
+	•	Issues: https://github.com/Thomo1318/jjConfig/issues
+	•	jj Discord: https://discord.gg/dkmfj3aGQN
 Happy hacking! 🎉
  
 ---
