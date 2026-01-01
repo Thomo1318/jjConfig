@@ -1,0 +1,3 @@
+[submodule "hugo-docs/themes/relearn"]
+	path = hugo-docs/themes/relearn
+	url = https://github.com/McShelby/hugo-theme-relearn.git
