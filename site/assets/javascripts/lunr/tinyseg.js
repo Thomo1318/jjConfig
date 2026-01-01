@@ -28,7 +28,14 @@
         // TinySegmenter 0.1 -- Super compact Japanese tokenizer in Javascript
         // (c) 2008 Taku Kudo <taku@chasen.org>
         // TinySegmenter is freely distributable under the terms of a new BSD licence.
-        // For details, see http://chasen.org/~taku/software/TinySegmenter/LICENCE.txt
+        /**
+         * Creates a TinySegmenter instance configured with statistical tables for Japanese tokenization.
+         *
+         * Initializes character-type patterns and the internal weight tables used by the segmentation algorithm.
+         *
+         * @constructor
+         * @returns {TinySegmenter} The initialized TinySegmenter instance.
+         */
 
         function TinySegmenter() {
           var patterns = {
