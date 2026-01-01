@@ -3,7 +3,7 @@
 # ============================================================================
 # JJ Configuration - Version 1.1.0-mcp-integration
 # Created: 2025-11-07
-# 
+#
 # Additional configurations available in:
 # - ~/.config/jj/aliases/          (Command aliases - tier2, tier3, advanced, community)
 # - ~/.config/jj/revsets/          (Revset aliases - tier2, tier3, community)
@@ -32,10 +32,16 @@ color = "always"
 
 # Git Integration
 [git]
-push-new-bookmarks = true
-auto-local-bookmark = true
+sign-on-push = true
+# auto-local-bookmark = true
 fetch = "glob:*"
 private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+
+# Commit Signing (1Password SSH Agent)
+[signing]
+behavior = "drop"
+backend = "ssh"
+key = "~/.ssh/id_ed25519.pub"
 
 # Templates
 [templates]
@@ -46,22 +52,22 @@ git_push_bookmark = '"Thomo1318/push-" ++ change_id.short()'
 
 # Template Aliases
 [template-aliases]
-'format_short_id(id)' = 'id.shortest()'
-'format_short_change_id(id)' = 'format_short_id(id)'
-'format_timestamp(timestamp)' = 'timestamp.ago()'
-'format_short_signature(signature)' = 'signature.email().local()'
-'format_short_operation_id(id)' = 'id.shortest()'
+'format_short_id(id)' = "id.shortest()"
+'format_short_change_id(id)' = "format_short_id(id)"
+'format_timestamp(timestamp)' = "timestamp.ago()"
+'format_short_signature(signature)' = "signature.email().local()"
+'format_short_operation_id(id)' = "id.shortest()"
 'format_field(key, value)' = 'key ++ ": " ++ value ++ "\n"'
 
 # Revset Aliases
 [revset-aliases]
 'mine()' = 'author("steele.thompson13@gmail.com") | committer("steele.thompson13@gmail.com")'
 'trunk()' = 'latest(remote_bookmarks(exact:"main") | remote_bookmarks(exact:"master") | remote_bookmarks(exact:"trunk"))'
-'work' = 'ancestors(mutable() & ~empty(), 2) | trunk()'
-'recent()' = 'ancestors(@, 10)'
-'p(n)' = '@-n'
-'p(r, n)' = 'r-n'
-'active(rev)' = 'ancestors(rev) | descendants(rev) | rev'
+'work' = "ancestors(mutable() & ~empty(), 2) | trunk()"
+'recent()' = "ancestors(@, 10)"
+'p(n)' = "@-n"
+'p(r, n)' = "r-n"
+'active(rev)' = "ancestors(rev) | descendants(rev) | rev"
 
 # Revsets Section
 [revsets]
@@ -72,10 +78,31 @@ short-prefixes = "(trunk()..@)::"
 [aliases]
 # GitHub integration aliases (v1.1.1-gh-integration)
 # Uses external script for better maintainability and error handling
-gh-create = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh create"]
-init-github = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh init-github"]
-gh-clone = ["util", "exec", "--", "bash", "-c", "~/.config/jj/scripts/gh-helper.sh clone \"$@\"", "--"]
-
+gh-create = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  "~/.config/jj/scripts/gh-helper.sh create",
+]
+init-github = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  "~/.config/jj/scripts/gh-helper.sh init-github",
+]
+gh-clone = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  "~/.config/jj/scripts/gh-helper.sh clone \"$@\"",
+  "--",
+]
 # Basic operations
 st = ["status"]
 d = ["diff"]
@@ -83,40 +110,42 @@ ds = ["diff", "--stat"]
 s = ["show"]
 c = ["commit"]
 ci = ["commit", "--interactive"]
-
 # Log viewing
 l = ["log"]
 ll = ["log", "--limit", "20"]
 lll = ["log", "--limit", "50"]
-
 # Editing
 e = ["edit"]
 amend = ["squash"]
-
 # Rebase
 r = ["rebase"]
-
 # Git integration
 pull = ["git", "fetch"]
 push = ["git", "push", "--allow-new"]
 sync = ["git", "fetch", "--all-remotes"]
-
 # New changes
 n = ["new"]
 co = ["new"]
-
 # TUI launchers
 fzf = ["!jj-fzf"]
 tui = ["!lazyjj"]
 ui = ["!gg"]
-
 # Repository Initialization (v1.1.2 - MCP-enabled + git-confirm)
-init = ["util", "exec", "--", "bash", "-c", '''
+init = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Initializing jj repository with GitMCP integration..."
 
 # Initialize jj repo
 jj git init --colocate
+
+# Force usage of local hooks (override global ggshield/other configs)
+git config core.hooksPath .git/hooks
 
 # Install GitMCP hooks
 mkdir -p .git/hooks
@@ -167,10 +196,16 @@ if [ -n "$REMOTE" ]; then
 else
     echo "ℹ Local repo - MCP context generated for local use"
 fi
-''']
-
+''',
+]
 # Short version (same as init)
-i = ["util", "exec", "--", "bash", "-c", '''
+i = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 jj git init --colocate
 mkdir -p .git/hooks
@@ -181,15 +216,23 @@ chmod +x .git/hooks/post-*
 .git/hooks/post-commit
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "GitMCP: https://gitmcp.io/$REMOTE" || echo "Local repo initialized"
-''']
-
+''',
+]
 # Initialize without MCP (fallback)
 init-simple = ["git", "init", "--colocate"]
-
 # Install MCP hooks in existing repo
-mcp-update = ["util", "exec", "--", "bash", "-c", '''
+mcp-update = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Installing GitMCP hooks in existing repository..."
+
+# Force usage of local hooks
+git config core.hooksPath .git/hooks
 
 mkdir -p .git/hooks
 
@@ -212,10 +255,16 @@ chmod +x .git/hooks/pre-push
 echo "✓ GitMCP hooks installed"
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "✓ GitMCP URL: https://gitmcp.io/$REMOTE"
-''']
-
+''',
+]
 # Show GitMCP URL for current repo
-mcp-url = ["util", "exec", "--", "bash", "-c", '''
+mcp-url = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 if [ -n "$REMOTE" ]; then
     echo "GitMCP URL: https://gitmcp.io/$REMOTE"
@@ -227,21 +276,33 @@ if [ -n "$REMOTE" ]; then
 else
     echo "Not a GitHub repository"
 fi
-''']
-
+''',
+]
 # Open GitMCP URL in browser
-mcp-open = ["util", "exec", "--", "bash", "-c", '''
+mcp-open = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 if [ -n "$REMOTE" ]; then
     open "https://gitmcp.io/$REMOTE"
 else
     echo "Not a GitHub repository"
 fi
-''']
-
+''',
+]
 # Repomix Integration (v1.2.0)
 # Install/update repomix hooks
-repomix-update = ["util", "exec", "--", "bash", "-c", '''
+repomix-update = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Installing Repomix hooks..."
 
@@ -257,10 +318,16 @@ if command -v repomix &> /dev/null; then
 else
     echo "⚠️  repomix not installed. Install with: npm install -g repomix"
 fi
-''']
-
+''',
+]
 # Show repomix status
-repomix-status = ["util", "exec", "--", "bash", "-c", '''
+repomix-status = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 if [ -f .repomix/context.json ]; then
     echo "Repomix Status:"
     cat .repomix/context.json | grep -E "(repository|generated_at|latest_file)" || cat .repomix/context.json
@@ -275,8 +342,8 @@ if [ -f .repomix/context.json ]; then
 else
     echo "Repomix not initialized. Run: jj repomix-update"
 fi
-''']
-
+''',
+]
 # Generate repomix file manually
 repomix-generate = ["util", "exec", "--", "bash", "-c", '''
 if command -v repomix &> /dev/null; then
@@ -286,7 +353,6 @@ else
     echo "⚠️  repomix not installed. Install with: npm install -g repomix"
 fi
 ''']
-
 # View latest repomix file
 repomix-view = ["util", "exec", "--", "bash", "-c", '''
 if [ -f .repomix/repomix-latest.txt ]; then
@@ -295,7 +361,6 @@ else
     echo "No repomix file found. Run: jj repomix-generate"
 fi
 ''']
-
 # Show token counts
 repomix-tokens = ["util", "exec", "--", "bash", "-c", '''
 if command -v repomix &> /dev/null; then
@@ -304,9 +369,6 @@ else
     echo "⚠️  repomix not installed. Install with: npm install -g repomix"
 fi
 ''']
-
-
-
 # Security Integration (v1.2.0)
 # Install/update security hooks
 security-update = ["util", "exec", "--", "bash", "-c", '''
@@ -327,9 +389,14 @@ echo ""
 echo "To sanitize existing files:"
 echo "  python3 .build-artifacts/sanitize_email.py"
 ''']
-
 # Check for sensitive information
-security-check = ["util", "exec", "--", "bash", "-c", '''
+security-check = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 echo "Checking for sensitive information..."
 echo ""
 
@@ -348,8 +415,8 @@ else
     echo ""
     echo "Run sanitization: python3 .build-artifacts/sanitize_email.py"
 fi
-''']
-
+''',
+]
 # Sanitize email addresses
 security-sanitize = ["util", "exec", "--", "bash", "-c", '''
 if [ -f .build-artifacts/sanitize_email.py ]; then
@@ -359,7 +426,6 @@ else
     echo "   Expected: .build-artifacts/sanitize_email.py"
 fi
 ''']
-
 
 # Synthwave84 Color Scheme
 [colors]
@@ -394,3 +460,9 @@ fi
 "email" = { fg = "#24decd" }
 "timestamp" = { fg = "#480ca8" }
 "rest" = { fg = "#f15bb5" }
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
+
+[remotes.upstream]
+auto-track-bookmarks = "glob:*"

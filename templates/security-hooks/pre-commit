@@ -6,23 +6,24 @@
 set -e
 
 # Check if sanitization script exists
-if [ ! -f .build-artifacts/sanitize_all.py ]; then
-    exit 0
+if [ ! -f .build-artifacts/sanitize_email.py ]; then
+	echo "⚠️  Sanitization script not found. Skipping."
+	exit 0
 fi
 
 # Only sanitize if we're about to commit files with real email
 if git diff --cached --name-only | grep -qE "(config\.toml|README\.md|QUICKSTART\.md|TASKS\.md)"; then
-    if git diff --cached | grep -q "steele.thompson13@gmail.com"; then
-        echo "🔒 Sanitizing emails before commit..."
-        
-        # Run sanitization
-        python3 .build-artifacts/sanitize_all.py
-        
-        # Re-stage sanitized files
-        git add -u
-        
-        echo "✅ Files sanitized for commit"
-    fi
+	if git diff --cached | grep -q "steele.thompson13@gmail.com"; then
+		echo "🔒 Sanitizing emails before commit..."
+
+		# Run sanitization
+		python3 .build-artifacts/sanitize_email.py
+
+		# Re-stage sanitized files
+		git add -u
+
+		echo "✅ Files sanitized for commit"
+	fi
 fi
 
 exit 0

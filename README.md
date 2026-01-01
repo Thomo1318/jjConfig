@@ -44,18 +44,19 @@
 
 ## 🔧 Prerequisites
 
-| Requirement    | Version   | Installation                                                  |
-| -------------- | --------- | ------------------------------------------------------------ |
-| **Jujutsu (jj)** | 0.23.0+  | `brew install jj` or [build from source](https://github.com/jj-vcs/jj) |
-| **Git**         | 2.40+     | `brew install git`                                           |
-| **Bash**        | 4.0+      | Pre-installed on macOS/Linux                                 |
-| **Make**        | 3.81+     | Pre-installed on macOS/Linux                                 |
+| Requirement      | Version | Installation                                                           |
+| ---------------- | ------- | ---------------------------------------------------------------------- |
+| **Jujutsu (jj)** | 0.23.0+ | `brew install jj` or [build from source](https://github.com/jj-vcs/jj) |
+| **Git**          | 2.40+   | `brew install git`                                                     |
+| **Bash**         | 4.0+    | Pre-installed on macOS/Linux                                           |
+| **Make**         | 3.81+   | Pre-installed on macOS/Linux                                           |
 
-**Optional:**  
-- [jj-fzf](https://github.com/Cretezy/jj-fzf)  
-- [lazyjj](https://github.com/Cretezy/lazyjj)  
-- [gg](https://github.com/gulbanana/gg)  
-- [micro editor](https://micro-editor.github.io/)  
+**Optional:**
+
+- [jj-fzf](https://github.com/Cretezy/jj-fzf)
+- [lazyjj](https://github.com/Cretezy/lazyjj)
+- [gg](https://github.com/gulbanana/gg)
+- [micro editor](https://micro-editor.github.io/)
 
 ---
 
@@ -109,6 +110,7 @@ jj fzf       # jj-fzf
 jj tui       # lazyjj
 jj ui        # gg
 ```
+
 More aliases, advanced workflows, and troubleshooting: see [`aliases/README.md`](aliases/README.md).
 
 ---
@@ -140,6 +142,7 @@ jj push
 Main config: `config.toml` (v1.1.0-mcp-integration)
 
 Sections include:
+
 - `[user]` name and email
 - `[ui]` editor, pager, colors
 - `[git]` integration settings
@@ -147,6 +150,7 @@ Sections include:
 - `[revset-aliases]` custom commit queries
 
 Reference documentation:
+
 - [`aliases/README.md`](aliases/README.md) for command aliases and workflow scripts
 - [`revsets/README.md`](revsets/README.md) for revset language and practical queries
 - [`ui-configs/README.md`](ui-configs/README.md) for UI, color, and diff/pager settings
@@ -162,16 +166,19 @@ Above files have verified relevant documentation for usage and implementation.
 
 GitMCP provides local AI repository context for tools—no API tokens required.
 
-**How It Works:**  
-- Git hooks (`post-commit`, `post-merge`, `post-checkout`) generate `.mcp/context.json`  
-- 100% local processing  
+**How It Works:**
+
+- Git hooks (`post-commit`, `post-merge`, `post-checkout`) generate `.mcp/context.json`
+- 100% local processing
 - Compatible with IDEs and desktop AIs
 
-**Setup:**  
+**Setup:**
+
 ```bash
 cat .mcp/cursor-config.json >> ~/.cursor/mcp.json       # Cursor IDE
 cat .mcp/claude-config.json >> ~/Library/Application\ Support/Claude/claude_desktop_config.json   # Claude Desktop
 ```
+
 MCP server URL:  
 `https://gitmcp.io/Thomo1318/jjConfig`
 
@@ -183,13 +190,15 @@ See [MCP docs](https://gitmcp.io/docs) for details.
 
 Repomix consolidates your entire repository into a single AI-friendly file for context injection.
 
-**How It Works:**  
-- Git hooks automatically generate `.repomix/repomix-latest.txt` after commits  
-- Contains full repository content optimized for AI tools  
-- Includes token counts and file statistics  
+**How It Works:**
+
+- Git hooks automatically generate `.repomix/repomix-latest.txt` after commits
+- Contains full repository content optimized for AI tools
+- Includes token counts and file statistics
 - Automatic cleanup (keeps last 3 versions)
 
-**Generated Files:**  
+**Generated Files:**
+
 ```
 .repomix/
 ├── context.json              # Metadata and usage info
@@ -198,7 +207,8 @@ Repomix consolidates your entire repository into a single AI-friendly file for c
 └── repomix-repo-TIMESTAMP.txt  # Previous versions
 ```
 
-**Usage:**  
+**Usage:**
+
 ```bash
 # Copy to AI tool
 cat .repomix/repomix-latest.txt | pbcopy
@@ -210,7 +220,8 @@ repomix --token-count-tree 50 .
 wc -l .repomix/repomix-latest.txt
 ```
 
-**Aliases:**  
+**Aliases:**
+
 ```bash
 jj repomix-update    # Install/update hooks
 jj repomix-status    # Show status
@@ -270,11 +281,11 @@ jjConfig/
 
 ## 📜 Version History
 
-| Version   | Date        | Description                        |
-| --------- | ---------- | ----------------------------------- |
-| v1.1.0    | 2025-11-07 | GitMCP integration, hooks, AI gen   |
-| v1.0.0    | 2025-11-01 | Synthwave84, aliases, references    |
-| v0.1.0    | 2025-11-01 | Original basic config               |
+| Version | Date       | Description                       |
+| ------- | ---------- | --------------------------------- |
+| v1.1.0  | 2025-11-07 | GitMCP integration, hooks, AI gen |
+| v1.0.0  | 2025-11-01 | Synthwave84, aliases, references  |
+| v0.1.0  | 2025-11-01 | Original basic config             |
 
 Full changelog: [`backups/VERSION_HISTORY.md`](backups/VERSION_HISTORY.md)  
 Roadmap: [`TASKS.md`](TASKS.md)
@@ -283,7 +294,8 @@ Roadmap: [`TASKS.md`](TASKS.md)
 
 ## 🤝 Contributing
 
-Contributions welcome!  
+Contributions welcome!
+
 - See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, backups, code style, PR process.
 
 ---
@@ -291,6 +303,7 @@ Contributions welcome!
 ## 🐛 Troubleshooting
 
 See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) for common issues:
+
 - Installation
 - Symlinks
 - GitMCP hook failures
@@ -308,7 +321,7 @@ MIT License. See [LICENSE](LICENSE).
 ## 👤 Author
 
 **Thomo1318**  
-Email: <steele.thompson13@gmail.com>  
+Email: <YOUR_EMAIL@example.com>  
 GitHub: [@Thomo1318](https://github.com/Thomo1318)
 
 ---

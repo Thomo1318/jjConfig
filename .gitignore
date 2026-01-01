@@ -43,3 +43,4 @@ backups/v*/applied-*.timestamp
 
 # relay state
 /.relay/
+.cache_ggshield

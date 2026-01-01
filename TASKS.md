@@ -3,6 +3,7 @@
 ## Immediate Tasks
 
 ### TASK 1: Evaluate Pager Configuration
+
 **Priority:** Medium  
 **Version:** v1.1.0-pager  
 **Status:** Pending
@@ -11,23 +12,50 @@
 **Action:** Test in daily use, consider alternatives (delta, bat, diff-so-fancy)  
 **Reference:** `ui-configs/tier3-advanced-ui.toml`
 
+### TASK 2: Audit Trunk Configuration
+
+**Priority:** High
+**Status:** Pending
+**Action:** Investigate `trunk check` autofix behavior (caused brace corruption in shell scripts). Ensure `.trunk/trunk.yaml` is configured for safety (Gold Standard).
+
+### TASK 3: Documentation Overhaul
+
+**Priority:** High
+**Status:** Pending
+**Action:** Consolidate fragmented READMEs, fix broken links, standardize formatting, and improve navigation.
+**Reference:** `documentation_audit.md`
+
+### TASK 4: Docs Site Generation
+
+**Priority:** Medium
+**Status:** Planned
+**Action:** Evaluate and implement a static site generator (e.g., MkDocs) for project documentation.
+
+### TASK 5: Update Roadmap
+
+**Priority:** Medium
+**Status:** Pending
+**Action:** Review and refine the project roadmap (TASKS.md, VERSION_HISTORY.md) to ensure it reflects current priorities and completed work.
+
 ---
 
 ## Future Version Tasks
 
 ### v2.0.0-formatters - Code Formatters & Linters
+
 **Priority:** High  
 **Status:** Planned
 
 **Tools to Integrate:**
-- [ ] Ruff (Python linter/formatter)
-- [ ] Prettier (JS/TS/JSON/MD formatter)
-- [ ] MegaLinter (https://github.com/oxsecurity/megalinter)
+
+- [x] Ruff (Configured in Trunk)
+- [x] Prettier (Configured in Trunk)
+- [x] MegaLinter (Skipped - using Trunk)
 - [ ] python-lsp (Language server)
 - [ ] pylint (Python linter)
 - [ ] black (Python formatter)
 - [ ] pyright (Python type checker)
-- [ ] Trunk.io (https://trunk.io/)
+- [x] Trunk.io (Implemented v1.2.0)
 
 **Configuration Section:** `[fix.tools]`  
 **Reference:** `ui-configs/tier3-advanced-ui.toml`
@@ -35,12 +63,14 @@
 ---
 
 ### v3.0.0-conventional - Conventional Commits
+
 **Priority:** Medium  
 **Status:** Planned
 
 **Spec:** https://www.conventionalcommits.org/en/v1.0.0/
 
 **Implementation:**
+
 - [ ] Commit message templates
 - [ ] Validation hooks
 - [ ] Changelog generation
@@ -51,16 +81,19 @@
 ---
 
 ### v4.0.0-release-automation - Release Management
+
 **Priority:** Medium  
 **Status:** Planned
 
 **Tool Options (Choose ONE):**
+
 - [ ] release-please (https://github.com/googleapis/release-please)
 - [ ] semantic-release (https://github.com/semantic-release/semantic-release)
 - [ ] GitVersion (https://github.com/GitTools/GitVersion)
 - [ ] release-it (https://github.com/release-it/release-it)
 
 **Features:**
+
 - Automated version bumping
 - Changelog generation
 - GitHub release creation
@@ -69,15 +102,18 @@
 ---
 
 ### v5.0.0-cicd - CI/CD Integration
+
 **Priority:** High  
 **Status:** Planned
 
 **Platforms:**
+
 - [ ] GitHub Actions
 - [ ] CircleCI (https://circleci.com/)
 - [ ] Jenkins (https://www.jenkins.io/)
 
 **Workflows:**
+
 - Automated testing
 - Code quality checks
 - Security scanning
@@ -86,20 +122,23 @@
 ---
 
 ### v6.0.0-security - Security & Code Quality
+
 **Priority:** High  
 **Status:** Planned
 
 **Tools to Integrate:**
-- [ ] GitGuardian ggshield (https://www.gitguardian.com/ggshield)
-- [ ] Snyk (https://snyk.io/)
-- [ ] Semgrep (https://semgrep.dev/)
-- [ ] Trivy (https://trivy.dev/latest/)
+
+- [x] GitGuardian ggshield (Implemented v1.2.0)
+- [ ] Snyk (Deferred to agent rules)
+- [ ] Semgrep (via Trunk)
+- [ ] Trivy (via Trunk)
 - [ ] SonarQube (https://www.sonarsource.com/products/sonarqube/)
 - [ ] Checkmarx (https://checkmarx.com/)
 - [ ] CodeScene-CE (https://codescene.com/product/codescene-for-open-source)
 - [ ] Task (https://github.com/go-task/task)
 
 **Integration Points:**
+
 - Pre-commit hooks
 - CI/CD pipelines
 - IDE integration
@@ -110,18 +149,21 @@
 ## Task Tracking
 
 ### Completed
+
 - [x] v0.1.0 - Original config backup
 - [x] v1.0.0 - Optimized configuration with Synthwave84
 
 ### In Progress
+
 - [ ] v1.1.0 - Pager evaluation
 
 ### Planned
-- [ ] v2.0.0 - Code formatters
+
+- [x] v2.0.0 - Code formatters (Trunk.io integrated)
 - [ ] v3.0.0 - Conventional commits
 - [ ] v4.0.0 - Release automation
 - [ ] v5.0.0 - CI/CD integration
-- [ ] v6.0.0 - Security tools
+- [x] v6.0.0 - Security tools (Partially Implemented v1.2.0)
 
 ---
 
@@ -137,6 +179,7 @@
 ## TODO Items
 
 ### TODO 1: Assess Raycast AI MCP Integration
+
 **Priority:** Medium  
 **Version:** TBD  
 **Status:** Research needed
@@ -144,6 +187,7 @@
 **Question:** Can Raycast AI automatically use `.mcp/context.json` files for repo context?
 
 **Action Items:**
+
 - [ ] Check Raycast AI documentation for MCP support
 - [ ] Test if Raycast AI can read local `.mcp/` files
 - [ ] Determine if manual configuration needed
@@ -151,25 +195,28 @@
 - [ ] If supported: Document configuration steps
 
 **Current State:**
+
 - GitMCP integration creates `.mcp/context.json` locally
 - Works with Cursor IDE, Claude Desktop (confirmed)
 - Raycast AI compatibility: **UNKNOWN**
 
 **Fallback:**
+
 - Use context files as reference in prompts
 - Copy `.mcp/README.md` content when needed
 - Use MCP-compatible tools (Cursor, Claude) for AI-assisted development
 
-**Reference:** 
+**Reference:**
+
 - GitMCP article: https://medium.com/the-context-layer/stop-letting-ai-guess-your-code-instantly-make-every-github-repo-ai-savvy-with-this-one-liner-cc23e00c9ea2
 - Raycast AI docs: https://developers.raycast.com/
-
 
 ---
 
 ## GitHub Integration TODO
 
 ### TODO 4: GitHub CLI Integration with Interactive Prompts
+
 **Priority:** High  
 **Version:** v1.1.1-gh-integration  
 **Status:** ✅ Implemented
@@ -179,6 +226,7 @@
 **Implementation:** External script approach (recommended in Task4.md analysis)
 
 **Features Implemented:**
+
 - [x] Interactive repo creation with prompts
 - [x] Auto-generate description from repo content (README.md, package.json, pyproject.toml, Cargo.toml)
 - [x] Choose public/private visibility
@@ -193,6 +241,7 @@
 **Implemented Solution:**
 
 **File Structure:**
+
 ```
 ~/.config/jj/
 ├── scripts/
@@ -227,15 +276,15 @@ jj gh-clone https://github.com/owner/repo
 
 **Key Improvements Over Original Plan:**
 
-| Feature | Original Plan | Implemented Solution |
-|---------|--------------|---------------------|
-| Error Handling | Minimal (`set -e`) | Comprehensive validation |
-| Username | Hardcoded "Thomo1318" | Dynamic via `gh api user` |
-| Description | Basic README check | Multi-source (README, package.json, etc.) |
-| Maintainability | Inline bash (hard to edit) | Separate script file |
-| UX | Plain text | Colored output, progress indicators |
-| Testing | Difficult | Easy to test independently |
-| Dependencies | No checking | Validates gh, jj, git, auth status |
+| Feature         | Original Plan              | Implemented Solution                      |
+| --------------- | -------------------------- | ----------------------------------------- |
+| Error Handling  | Minimal (`set -e`)         | Comprehensive validation                  |
+| Username        | Hardcoded "Thomo1318"      | Dynamic via `gh api user`                 |
+| Description     | Basic README check         | Multi-source (README, package.json, etc.) |
+| Maintainability | Inline bash (hard to edit) | Separate script file                      |
+| UX              | Plain text                 | Colored output, progress indicators       |
+| Testing         | Difficult                  | Easy to test independently                |
+| Dependencies    | No checking                | Validates gh, jj, git, auth status        |
 
 **Installation Steps:**
 
@@ -257,12 +306,13 @@ gh auth status || gh auth login
 ```
 
 **Testing Results:**
+
 - ✅ Help command works
 - ✅ Script is executable
 - ✅ All dependencies available (gh, jj, git)
 - ✅ Invalid command handling works
 - ✅ Auto-description generation works
-- ⚠️  Interactive tests require GitHub authentication
+- ⚠️ Interactive tests require GitHub authentication
 
 **Commit Signing Integration:**
 
@@ -277,6 +327,7 @@ key = "~/.ssh/id_ed25519"
 ```
 
 **Reference:**
+
 - GitHub CLI: https://cli.github.com/
 - SSH signing: https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification
 - jj signing docs: https://jj-vcs.github.io/jj/latest/config/#signing

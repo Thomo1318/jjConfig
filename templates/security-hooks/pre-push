@@ -1,30 +1,52 @@
-#!/usr/bin/env bash
-# Security Pre-Push Hook
-# Automatically sanitizes sensitive information before pushing
-# Version: 2.2.0 - Comprehensive sanitization including repomix files
+#!/bin/sh
+# GitGuardian Hook (pre-push)
+# Scans commits for secrets before pushing to remote
 
-set -e
-
-echo "🔒 Running pre-push security check..."
-
-# Check if sanitization script exists
-if [ ! -f .build-artifacts/sanitize_all.py ]; then
-    echo "⚠️  Sanitization script not found"
-    echo "   Expected: .build-artifacts/sanitize_all.py"
-    exit 0
+# Check if ggshield is installed
+if ! command -v ggshield >/dev/null 2>&1; then
+	echo "⚠️  ggshield not found in PATH"
+	echo "   Skipping secret scan (install with 'brew install ggshield')"
+	exit 0
 fi
 
-# Run comprehensive sanitization (includes repomix files)
-python3 .build-artifacts/sanitize_all.py
+# Check if user is authenticated (fast check)
+if ! ggshield quota >/dev/null 2>&1; then
+	echo "⚠️  ggshield not authenticated"
+	echo "   Run 'ggshield auth login' to enable secret scanning"
+	exit 0
+fi
 
-# Stage all sanitized files
-git add -u
+echo "🛡️  Scanning for secrets (GitGuardian)..."
 
-echo ""
-echo "✅ All files sanitized (including .repomix/)"
-echo "   Real email → Placeholder for public repo"
-echo ""
-echo "⚠️  Note: After push, restore locally with:"
-echo "   sed -i '' 's/YOUR_EMAIL@example.com/steele.thompson13@gmail.com/g' config.toml README.md QUICKSTART.md TASKS.md"
+# Scan commits being pushed
+# $1 = remote name, $2 = remote URL
+# Input format: <local_ref> <local_sha> <remote_ref> <remote_sha>
+while read local_ref local_sha remote_ref remote_sha; do
+	echo "🔍 Scanning push: $local_ref ($local_sha) -> $remote_ref ($remote_sha)"
+
+	if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+		echo "ℹ️  Deletion detected, skipping scan."
+		continue
+	fi
+
+	if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+		# New branch - scan all commits (fallback to HEAD^1 for safety if just one commit)
+		echo "🆕 New branch detected. Scanning HEAD."
+		# Use HEAD~1 if it exists, otherwise just HEAD
+		if git rev-parse HEAD~1 >/dev/null 2>&1; then
+			RANGE="HEAD~1..HEAD"
+		else
+			RANGE="HEAD"
+		fi
+
+		# In pre-push, for a new branch, we might want to scan all commits unique to this branch
+		# But for new repo, HEAD works.
+		ggshield secret scan commit-range "$RANGE" || exit 1
+	else
+		# Scan range
+		echo "🔄 Scanning commit range: $remote_sha..$local_sha"
+		ggshield secret scan commit-range "$remote_sha..$local_sha" || exit 1
+	fi
+done
 
 exit 0
