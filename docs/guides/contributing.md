@@ -43,7 +43,7 @@ Follow this "Inner Loop" to ensure quality and security:
 > **Goal**: Get the code working and documented locally.
 1.  **Code**: `micro config.toml` (Edit your files)
 2.  **Test**: `make test` or `trunk check` (Verify immediately)
-3.  **Docs**: Update `README.md` or `alias/*.md` **in parallel** with code changes.
+3.  **Docs**: Update `../../README.md` or `../reference/aliases.md` **in parallel** with code changes.
 4.  *Repeat until tests pass and docs match code.*
 
 #### 2. Quality Assurance
@@ -66,8 +66,8 @@ Follow this "Inner Loop" to ensure quality and security:
 ### Adding New Features
 1.	Create reference file in appropriate directory
 2.	Add to README in that directory
-3.	Update main README if user-facing
-4.	Add to TASKS.md if part of roadmap
+3.	Update main [README](../../README.md) if user-facing
+4.	Add to [TASKS.md](../../TASKS.md) if part of roadmap
 🧪 Testing Changes
 Syntax Validation
  # Test configuration syntax
@@ -100,7 +100,7 @@ When releasing a new version:
  # Create version backup
 mkdir -p backups/v1.X.Y-description
 cp config.toml backups/v1.X.Y-description/
- Update ⁠backups/VERSION_HISTORY.md with:
+ Update [backups/VERSION_HISTORY.md](../../backups/VERSION_HISTORY.md) with:
 	•	Version number 	•	Date 	•	Description 	•	Breaking changes 	•	New features
 🔢 Version Numbering
 We follow Semantic Versioning:
@@ -121,9 +121,25 @@ jj describe -m "feat: add new feature"
 # Push to your fork
 jj push
  2. Create Pull Request
-	•	Title: Use conventional commit format
-	▪	⁠feat: - New feature 	▪	⁠fix: - Bug fix 	▪	⁠docs: - Documentation only 	▪	⁠style: - Formatting, no code change 	▪	⁠refactor: - Code restructuring 	▪	⁠test: - Adding tests 	▪	⁠chore: - Maintenance tasks 	•	Description: Include:
-	▪	What changed 	▪	Why it changed 	▪	How to test 	▪	Related issues
+    *   **Title**: MUST use [Conventional Commits](https://www.conventionalcommits.org/) format.
+    *   **Format**: `<type>(<scope>): <description>`
+
+    | Type | Description |
+    | :--- | :--- |
+    | `feat` | New feature |
+    | `fix` | Bug fix |
+    | `docs` | Documentation only |
+    | `style` | Formatting, no code change |
+    | `refactor` | Code restructuring |
+    | `perf` | Performance improvement |
+    | `test` | Adding missing tests |
+    | `chore` | Maintenance tasks |
+
+    *   **Description**: Include:
+        *   What changed
+        *   Why it changed
+        *   How to test
+        *   Related issues
 3. Review Process
 	•	Maintainer will review within 7 days 	•	Address any feedback 	•	Once approved, changes will be merged
 📝 Code Style
@@ -174,7 +190,9 @@ echo "Hello"
 \`\`\`
  🐛 Reporting Issues
 Before Creating an Issue
-	1.	Check existing issues 	2.	Review TROUBLESHOOTING.md 	3.	Test with latest version
+	1.	Check existing issues
+	2.	Review [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+	3.	Test with latest version
 Issue Template
  **Description**
 Clear description of the issue

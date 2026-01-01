@@ -14,6 +14,18 @@
 
 ---
 
+## v1.2.1-docs (2026-01-01)
+
+**Location:** `backups/v1.2.1-docs/` (TBD)
+**Status:** Released
+**Description:** Documentation Overhaul and centralisation.
+
+**Key Features:**
+
+- **Centralized Docs**: New `docs/` directory with `guides/`, `reference/`, `architecture/`.
+- **Navigation Hub**: Root `README.md` simplified to point to sub-docs.
+- **Workflow Guides**: Explicit "Gold Standard" contribution workflow documentation.
+
 ## v1.2.0-security (2026-01-01)
 
 **Location:** `backups/v1.2.0-security/` (TBD)
@@ -27,6 +39,19 @@
 - **AI Review**: `scripts/ai-review.sh` for on-demand CodeRabbit analysis
 - **Workflow**: Automated `/publish-change` agent workflow
 - **Automation**: `sanitize_email.py` auto-discovery
+
+## v3.0.0-conventional (2026-01-02)
+
+**Location:** `backups/v3.0.0-conventional/`
+**Status:** Released
+**Description:** Implemented Conventional Commits and optimized Trunk configuration.
+
+**Key Features:**
+
+- **Conventional Commits**: `jj describe` template (Gold Standard).
+- **Trunk Optimization**: Added `ruff` (Python), `codespell` (Typos), and `trivy` (Security).
+- **UI**: Upgrade pager to `delta` for rich diffs.
+- **Documentation**: Updated `usage.md` and `CONTRIBUTING.md`.
 
 ---
 
