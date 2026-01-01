@@ -49,6 +49,14 @@ log = "builtin_log_comfortable"
 show = "builtin_log_detailed"
 op_log = "builtin_op_log_comfortable"
 git_push_bookmark = '"Thomo1318/push-" ++ change_id.short()'
+draft_commit_description = '''
+concat(
+  description,
+  "\n",
+  "# <type>(<scope>): <description>\n",
+  "# Types: feat, fix, docs, style, refactor, perf, test, chore\n",
+)
+'''
 
 # Template Aliases
 [template-aliases]
@@ -345,33 +353,60 @@ fi
 ''',
 ]
 # Generate repomix file manually
-repomix-generate = ["util", "exec", "--", "bash", "-c", '''
+repomix-generate = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 if command -v repomix &> /dev/null; then
     .git/hooks/post-commit-repomix
     echo "✓ Repomix file generated"
 else
     echo "⚠️  repomix not installed. Install with: npm install -g repomix"
 fi
-''']
+'''
+]
 # View latest repomix file
-repomix-view = ["util", "exec", "--", "bash", "-c", '''
+repomix-view = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 if [ -f .repomix/repomix-latest.txt ]; then
     ${EDITOR:-micro} .repomix/repomix-latest.txt
 else
     echo "No repomix file found. Run: jj repomix-generate"
 fi
-''']
+'''
+]
 # Show token counts
-repomix-tokens = ["util", "exec", "--", "bash", "-c", '''
+repomix-tokens = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 if command -v repomix &> /dev/null; then
     repomix --token-count-tree 50 .
 else
     echo "⚠️  repomix not installed. Install with: npm install -g repomix"
 fi
-''']
+'''
+]
 # Security Integration (v1.2.0)
 # Install/update security hooks
-security-update = ["util", "exec", "--", "bash", "-c", '''
+security-update = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 echo "Installing security hooks..."
 
@@ -388,7 +423,8 @@ echo "  - Sensitive credentials (future)"
 echo ""
 echo "To sanitize existing files:"
 echo "  python3 .build-artifacts/sanitize_email.py"
-''']
+'''
+]
 # Check for sensitive information
 security-check = [
   "util",
@@ -418,14 +454,53 @@ fi
 ''',
 ]
 # Sanitize email addresses
-security-sanitize = ["util", "exec", "--", "bash", "-c", '''
+security-sanitize = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 if [ -f .build-artifacts/sanitize_email.py ]; then
     python3 .build-artifacts/sanitize_email.py
 else
     echo "⚠️  Sanitization script not found"
     echo "   Expected: .build-artifacts/sanitize_email.py"
 fi
-''']
+'''
+]
+# Versioning (git-semver)
+semver = ["util", "exec", "--", "git-semver", "-match", "v*"]
+next-patch = [
+  "util",
+  "exec",
+  "--",
+  "git-semver",
+  "-target",
+  "patch",
+  "-match",
+  "v*"
+]
+next-minor = [
+  "util",
+  "exec",
+  "--",
+  "git-semver",
+  "-target",
+  "minor",
+  "-match",
+  "v*"
+]
+next-major = [
+  "util",
+  "exec",
+  "--",
+  "git-semver",
+  "-target",
+  "major",
+  "-match",
+  "v*"
+]
 
 # Synthwave84 Color Scheme
 [colors]

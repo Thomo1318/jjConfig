@@ -15,13 +15,13 @@
 ### TASK 2: Audit Trunk Configuration
 
 **Priority:** High
-**Status:** Pending
+**Status:** ✅ Complete
 **Action:** Investigate `trunk check` autofix behavior (caused brace corruption in shell scripts). Ensure `.trunk/trunk.yaml` is configured for safety (Gold Standard).
 
 ### TASK 3: Documentation Overhaul
 
 **Priority:** High
-**Status:** Pending
+**Status:** ✅ Complete
 **Action:** Consolidate fragmented READMEs, fix broken links, standardize formatting, and improve navigation.
 **Reference:** `documentation_audit.md`
 
@@ -48,7 +48,7 @@
 
 **Tools to Integrate:**
 
-- [x] Ruff (Configured in Trunk)
+- [x] Ruff (Configured in Trunk v1)
 - [x] Prettier (Configured in Trunk)
 - [x] MegaLinter (Skipped - using Trunk)
 - [ ] python-lsp (Language server)
@@ -65,16 +65,16 @@
 ### v3.0.0-conventional - Conventional Commits
 
 **Priority:** Medium  
-**Status:** Planned
+**Status:** ✅ Complete
 
 **Spec:** https://www.conventionalcommits.org/en/v1.0.0/
 
 **Implementation:**
 
-- [ ] Commit message templates
-- [ ] Validation hooks
-- [ ] Changelog generation
-- [ ] Scope definitions
+- [x] Commit message templates
+- [x] Validation hooks (Trunk/Commitlint)
+- [x] Changelog generation (Enabled via git-semver/workflow)
+- [x] Scope definitions
 
 **Configuration:** `templates.draft_commit_description`
 
@@ -91,6 +91,7 @@
 - [ ] semantic-release (https://github.com/semantic-release/semantic-release)
 - [ ] GitVersion (https://github.com/GitTools/GitVersion)
 - [ ] release-it (https://github.com/release-it/release-it)
+- [x] git-semver (https://github.com/mdomke/git-semver)
 
 **Features:**
 
@@ -131,7 +132,7 @@
 - [x] GitGuardian ggshield (Implemented v1.2.0)
 - [ ] Snyk (Deferred to agent rules)
 - [ ] Semgrep (via Trunk)
-- [ ] Trivy (via Trunk)
+- [x] Trivy (via Trunk)
 - [ ] SonarQube (https://www.sonarsource.com/products/sonarqube/)
 - [ ] Checkmarx (https://checkmarx.com/)
 - [ ] CodeScene-CE (https://codescene.com/product/codescene-for-open-source)

@@ -48,5 +48,12 @@ Finalize the snapshot and push to the remote.
 
 Once the PR is approved and merged into the integration branch:
 
-7. Create a release tag
-   `gh release create v1.0.0 --generate-notes`
+8. Create a release tag (Automated)
+
+   ```bash
+   # Dry run to check version
+   jj next-minor
+
+   # Create release
+   gh release create $(jj next-minor) --generate-notes
+   ```
