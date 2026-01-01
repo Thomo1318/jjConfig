@@ -1,4 +1,7 @@
-# 🐛 Troubleshooting Guide
++++
+title = "Troubleshooting"
+weight = 30
++++
 
 Common issues and solutions for jjConfig.
 
@@ -23,6 +26,7 @@ Common issues and solutions for jjConfig.
 **Problem**: `~/.config/jj` already exists and is not a symlink
 
 **Solution**:
+
 ```bash
 # Backup existing config
 mv ~/.config/jj ~/.config/jj.backup-$(date +%Y%m%d-%H%M%S)
@@ -343,3 +347,4 @@ If you can't resolve the issue:
 	▪	Description of the problem 	▪	Steps to reproduce 	▪	Expected vs actual behavior 	▪	Environment info (jj version, OS, etc.) 	▪	Relevant config sections 	▪	Error messages (if any)
 📚 Additional Resources
 	•	jj Documentation: https://jj-v
+```

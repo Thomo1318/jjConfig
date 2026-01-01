@@ -1,7 +1,8 @@
 +++
-archetype = "home"
 title = "jjConfig"
 description = "Comprehensive configuration for Jujutsu (jj) VCS with 20+ aliases, AI-powered GitMCP, and retro themes."
+archetype = "home"
+weight = 1
 +++
 
 # 🎨 jjConfig

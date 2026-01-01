@@ -1,4 +1,7 @@
-# JJ Configuration Version History
++++
+title = "Changelog"
+weight = 50
++++
 
 ## v0.1.0-original (2025-11-01)
 

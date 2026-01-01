@@ -204,22 +204,38 @@ if [ -n "$REMOTE" ]; then
 else
     echo "ℹ Local repo - MCP context generated for local use"
 fi
-
-# Generate mise.toml if not exists
+# Generate mise.toml if not exists with smart defaults
 if [ ! -f mise.toml ]; then
     echo "Generating mise.toml..."
-    cat > mise.toml <<EOF
-[tools]
-node = "lts"
-python = "latest"
-# go = "latest"
-# rust = "latest"
+    echo "[tools]" > mise.toml
+    
+    # Smart Detection
+    [ -f package.json ] && echo 'node = "lts"' >> mise.toml || echo '# node = "lts"' >> mise.toml
+    if [ -f pyproject.toml ] || [ -f requirements.txt ]; then
+        echo 'python = "latest"' >> mise.toml
+        echo 'uv = "latest"' >> mise.toml
+    else
+        echo '# python = "latest"' >> mise.toml
+        echo '# uv = "latest"' >> mise.toml
+    fi
+    [ -f go.mod ] && echo 'go = "latest"' >> mise.toml || echo '# go = "latest"' >> mise.toml
+    [ -f Cargo.toml ] && echo 'rust = "latest"' >> mise.toml || echo '# rust = "latest"' >> mise.toml
+
+    # Settings & Tasks
+    cat >> mise.toml <<EOF
+
+[settings]
+experimental = true
+not_found_auto_install = true
+[settings.python]
+uv_venv_auto = true
 
 [tasks]
-build = "echo 'No build command defined'"
-test = "echo 'No test command defined'"
+install = { description = "Install dependencies", run = "echo 'No install defined'" }
+test = { description = "Run tests", run = "echo 'No test defined'" }
+ci = { description = "CI Pipeline", depends = ["test"] }
 EOF
-    echo "✓ mise.toml created"
+    echo "✓ mise.toml created (with smart detection)"
 else
     echo "ℹ mise.toml already exists"
 fi
@@ -244,7 +260,12 @@ chmod +x .git/hooks/post-*
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "GitMCP: https://gitmcp.io/$REMOTE" || echo "Local repo initialized"
 if [ ! -f mise.toml ]; then
-    echo "[tools]\nnode = \"lts\"\npython = \"latest\"" > mise.toml
+    echo "[tools]" > mise.toml
+    [ -f package.json ] && echo 'node = "lts"' >> mise.toml
+    if [ -f pyproject.toml ] || [ -f requirements.txt ]; then echo 'python = "latest"\nuv = "latest"' >> mise.toml; fi
+    [ -f go.mod ] && echo 'go = "latest"' >> mise.toml
+    [ -f Cargo.toml ] && echo 'rust = "latest"' >> mise.toml
+    echo "\n[settings]\nexperimental = true\nnot_found_auto_install = true\n\n[tasks]\ninstall = { run = \"echo 'No install'\" }\ntest = { run = \"echo 'No test'\" }" >> mise.toml
     echo "mise.toml created"
 fi
 ''',

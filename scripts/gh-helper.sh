@@ -69,24 +69,59 @@ auto_generate_description() {
 # Generate mise.toml
 generate_mise_toml() {
 	if [ ! -f "mise.toml" ]; then
-		log_info "Generating mise.toml..."
-		cat > mise.toml <<EOF
-[tools]
-node = "lts"
-python = "latest"
-# go = "latest"
-# rust = "latest"
+		log_info "Generating smart mise.toml..."
+		echo "[tools]" > mise.toml
+		
+		# Smart Detection
+		if [ -f package.json ]; then
+			echo 'node = "lts"' >> mise.toml
+			log_info "  Detected Node.js project"
+		else
+			echo '# node = "lts"' >> mise.toml
+		fi
+
+		if [ -f pyproject.toml ] || [ -f requirements.txt ]; then
+			echo 'python = "latest"' >> mise.toml
+			echo 'uv = "latest"' >> mise.toml
+			log_info "  Detected Python project"
+		else
+			echo '# python = "latest"' >> mise.toml
+			echo '# uv = "latest"' >> mise.toml
+		fi
+
+		if [ -f go.mod ]; then
+			echo 'go = "latest"' >> mise.toml
+			log_info "  Detected Go project"
+		else
+			echo '# go = "latest"' >> mise.toml
+		fi
+
+		if [ -f Cargo.toml ]; then
+			echo 'rust = "latest"' >> mise.toml
+			log_info "  Detected Rust project"
+		else
+			echo '# rust = "latest"' >> mise.toml
+		fi
+
+		# Settings & Tasks
+		cat >> mise.toml <<EOF
+
+[settings]
+experimental = true
+not_found_auto_install = true
+[settings.python]
+uv_venv_auto = true
 
 [tasks]
-build = "echo 'No build command defined'"
-test = "echo 'No test command defined'"
+install = { description = "Install dependencies", run = "echo 'No install defined'" }
+test = { description = "Run tests", run = "echo 'No test defined'" }
+ci = { description = "CI Pipeline", depends = ["test"] }
 EOF
 		log_success "mise.toml created"
 	else
 		log_info "mise.toml already exists"
 	fi
 }
-
 # Prompt for input with default
 prompt_with_default() {
 	local prompt="$1"
