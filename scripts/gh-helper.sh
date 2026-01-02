@@ -66,6 +66,27 @@ auto_generate_description() {
 	echo "$desc"
 }
 
+# Generate mise.toml
+generate_mise_toml() {
+	if [ ! -f "mise.toml" ]; then
+		log_info "Generating mise.toml..."
+		cat > mise.toml <<EOF
+[tools]
+node = "lts"
+python = "latest"
+# go = "latest"
+# rust = "latest"
+
+[tasks]
+build = "echo 'No build command defined'"
+test = "echo 'No test command defined'"
+EOF
+		log_success "mise.toml created"
+	else
+		log_info "mise.toml already exists"
+	fi
+}
+
 # Prompt for input with default
 prompt_with_default() {
 	local prompt="$1"
@@ -241,6 +262,9 @@ cmd_init_github() {
 	fi
 	log_success "jj initialized"
 
+	# Generate mise.toml
+	generate_mise_toml
+
 	# Add remote (SSH for 1Password agent compatibility)
 	log_info "Adding remote..."
 	if ! git remote add origin "git@github.com:${username}/${repo_name}.git" 2>/dev/null; then
@@ -299,6 +323,7 @@ cmd_clone() {
 
 	if jj init --git-repo=. 2>/dev/null; then
 		log_success "jj initialized"
+		generate_mise_toml
 		log_success "Complete! Repository ready at: ${PWD}"
 	else
 		log_error "Failed to initialize jj"

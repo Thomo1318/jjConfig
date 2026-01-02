@@ -204,6 +204,25 @@ if [ -n "$REMOTE" ]; then
 else
     echo "ℹ Local repo - MCP context generated for local use"
 fi
+
+# Generate mise.toml if not exists
+if [ ! -f mise.toml ]; then
+    echo "Generating mise.toml..."
+    cat > mise.toml <<EOF
+[tools]
+node = "lts"
+python = "latest"
+# go = "latest"
+# rust = "latest"
+
+[tasks]
+build = "echo 'No build command defined'"
+test = "echo 'No test command defined'"
+EOF
+    echo "✓ mise.toml created"
+else
+    echo "ℹ mise.toml already exists"
+fi
 ''',
 ]
 # Short version (same as init)
@@ -224,6 +243,10 @@ chmod +x .git/hooks/post-*
 .git/hooks/post-commit
 REMOTE=$(git remote get-url origin 2>/dev/null | sed "s/.*github.com[:/]//" | sed "s/.git$//" || echo "")
 [ -n "$REMOTE" ] && echo "GitMCP: https://gitmcp.io/$REMOTE" || echo "Local repo initialized"
+if [ ! -f mise.toml ]; then
+    echo "[tools]\nnode = \"lts\"\npython = \"latest\"" > mise.toml
+    echo "mise.toml created"
+fi
 ''',
 ]
 # Initialize without MCP (fallback)
