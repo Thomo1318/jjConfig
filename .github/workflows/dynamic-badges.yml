@@ -1,0 +1,39 @@
+name: Update Dynamic Badges
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  update-version-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install gh
+        run: |
+          if ! command -v gh >/dev/null; then
+            sudo apt-get update && sudo apt-get install -y gh
+          fi
+
+      - name: Authenticate
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: Update Version Badge (Gist)
+        env:
+          GIST_ID: e766526dd2d577b808dc24e114e1cd0b
+          VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          # Handle manual dispatch fallback
+          if [ -z "$VERSION" ]; then
+            VERSION="v1.1.0+" # fallback or fetch latest tag via gh
+          fi
+
+          # Create JSON payload for Shields.io endpoint
+          # Schema: https://shields.io/endpoint
+          echo "{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}" > version.json
+
+          # Update Gist
+          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json
+          echo "Updated Gist $GIST_ID with version $VERSION"
