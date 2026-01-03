@@ -4,36 +4,34 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Project Version (e.g. v1.1.0)"
+        required: false
+      jj_version:
+        description: "Jujutsu Version (e.g. 0.23.0+)"
+        required: false
+        default: "0.23.0+"
 
 jobs:
-  update-version-badge:
+  update-badges:
     runs-on: ubuntu-latest
     steps:
-      - name: Install gh
-        run: |
-          if ! command -v gh >/dev/null; then
-            sudo apt-get update && sudo apt-get install -y gh
-          fi
-
-      - name: Authenticate
+      - name: Update Badges (Gist)
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: echo "$GH_TOKEN" | gh auth login --with-token
-
-      - name: Update Version Badge (Gist)
-        env:
           GIST_ID: e766526dd2d577b808dc24e114e1cd0b
-          VERSION: ${{ github.event.release.tag_name }}
+          VERSION: ${{ github.event.release.tag_name || github.event.inputs.version }}
+          JJ_VERSION: ${{ github.event.inputs.jj_version }}
         run: |
-          # Handle manual dispatch fallback
-          if [ -z "$VERSION" ]; then
-            VERSION="v1.1.0+" # fallback or fetch latest tag via gh
-          fi
+          # Fallback logic
+          if [ -z "$VERSION" ]; then VERSION="v1.1.0+"; fi
+          if [ -z "$JJ_VERSION" ]; then JJ_VERSION="0.23.0+"; fi
 
-          # Create JSON payload for Shields.io endpoint
-          # Schema: https://shields.io/endpoint
+          # Create JSON payloads
           echo "{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}" > version.json
+          echo "{\"schemaVersion\":1,\"label\":\"jj\",\"message\":\"$JJ_VERSION\",\"color\":\"purple\"}" > jj.json
 
-          # Update Gist
-          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json
-          echo "Updated Gist $GIST_ID with version $VERSION"
+          # Update Gist with both files
+          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json jj.json
+          echo "Updated Gist $GIST_ID with version $VERSION and jj $JJ_VERSION"

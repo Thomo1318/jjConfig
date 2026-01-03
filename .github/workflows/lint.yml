@@ -1,0 +1,24 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  trunk_check:
+    name: Trunk Check
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write # For Trunk to post check runs
+      contents: read # For cloning repository
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          check-mode: all

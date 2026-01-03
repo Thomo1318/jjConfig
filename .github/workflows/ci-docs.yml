@@ -8,6 +8,10 @@ on:
     paths:
       - "hugo-docs/**"
       - ".github/workflows/ci-docs.yml"
+  pull_request:
+    paths:
+      - "hugo-docs/**"
+      - ".github/workflows/ci-docs.yml"
 
 permissions:
   contents: write
@@ -32,6 +36,7 @@ jobs:
         run: hugo --minify
 
       - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
