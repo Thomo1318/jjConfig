@@ -1,73 +1,116 @@
-name: Badgetizr PR Badges
+name: Badgetizr (gh replacement)
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - edited
-      - closed
+    types: [opened, synchronize, reopened, closed]
+
+env:
+  REPO: ${{ github.repository }}
 
 concurrency:
   group: badgetizr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
-  badgetizr-start:
-    # Skip Dependabot PRs
-    if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
+  update-pr-badges:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Badgetizr - Start
-        uses: aiKrice/homebrew-badgetizr@3.0.2
-        with:
-          pr_id: ${{ github.event.pull_request.number }}
-          configuration: .badgetizr.yml
-          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
-          pr_build_number: ${{ github.run_id }}
-          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          ci_status: "started"
-          ci_text: "Running CI"
+      - name: Install gh (if missing)
+        run: |
+          if ! command -v gh >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y gh
+          fi
+
+      - name: Authenticate gh with GH_PAT
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          echo "$GH_PAT" | gh auth login --with-token
+          gh auth status
 
-  # Wait for other CI jobs to complete
-  badgetizr-result:
-    needs: [badgetizr-start]
-    runs-on: ubuntu-latest
-    if: ${{ always() && !startsWith(github.head_ref, 'dependabot/') }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Badgetizr - Success
-        if: ${{ success() }}
-        uses: aiKrice/homebrew-badgetizr@3.0.2
-        with:
-          pr_id: ${{ github.event.pull_request.number }}
-          configuration: .badgetizr.yml
-          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
-          pr_build_number: ${{ github.run_id }}
-          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          ci_status: "passed"
+      - name: Generate and Update Badges
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          GH_EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -x # Debug mode
 
-      - name: Badgetizr - Failed
-        if: ${{ failure() }}
-        uses: aiKrice/homebrew-badgetizr@3.0.2
-        with:
-          pr_id: ${{ github.event.pull_request.number }}
-          configuration: .badgetizr.yml
-          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
-          pr_build_number: ${{ github.run_id }}
-          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          ci_status: "failed"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 1. Fetch PR Data
+          echo "Fetching PR data..."
+          # Simplified fields to avoid 'Unknown field' errors
+          PR_JSON=$(gh pr view "$PR_NUM" --json title,body,state,labels)
+
+          TITLE=$(echo "$PR_JSON" | jq -r .title)
+          BODY=$(echo "$PR_JSON" | jq -r .body)
+          # Safely extract label names
+          LABELS=$(echo "$PR_JSON" | jq -r '.labels[].name' 2>/dev/null || echo "")
+          STATE=$(echo "$PR_JSON" | jq -r .state)
+
+          # 2. Determine CI Status
+          CI_STATUS="Running"
+          CI_COLOR="yellow"
+          # In a real setup, you might query other workflow runs here.
+          # For now, we point to this run.
+
+          # Badges Construction
+          BADGES=""
+
+          # Badge: CI
+          BADGES="${BADGES} [![CI](https://img.shields.io/badge/CI-${CI_STATUS}-${CI_COLOR}?style=flat-square&logo=githubactions)](${RUN_URL})"
+
+          # Badge: WIP
+          # Check title or labels
+          if echo "$TITLE" | grep -qiE "WIP|Work In Progress" || echo "$LABELS" | grep -q "work in progress"; then
+             BADGES="${BADGES} [![WIP](https://img.shields.io/badge/Status-WIP-orange?style=flat-square&logo=vlcmediaplayer)]()"
+          fi
+
+          # Badge: Type
+          if echo "$TITLE" | grep -qiE "^(feat|feat\(.*\)):"; then
+             BADGES="${BADGES} [![Type](https://img.shields.io/badge/Type-Feature-green?style=flat-square)]()"
+          elif echo "$TITLE" | grep -qiE "^(fix|fix\(.*\)):"; then
+             BADGES="${BADGES} [![Type](https://img.shields.io/badge/Type-Bugfix-orange?style=flat-square)]()"
+          elif echo "$TITLE" | grep -qiE "^(docs|chore\(docs\)):"; then
+             BADGES="${BADGES} [![Type](https://img.shields.io/badge/Type-Documentation-blue?style=flat-square)]()"
+          elif echo "$TITLE" | grep -qiE "^(test|test\(.*\)):"; then
+             BADGES="${BADGES} [![Type](https://img.shields.io/badge/Type-Test-yellowgreen?style=flat-square)]()"
+          elif echo "$TITLE" | grep -qiE "^(sec|security):"; then
+             BADGES="${BADGES} [![Type](https://img.shields.io/badge/Type-Security-red?style=flat-square)]()"
+          fi
+
+          # Badge: Breaking
+          if echo "$TITLE" | grep -q "!:"; then
+             BADGES="${BADGES} [![Breaking](https://img.shields.io/badge/⚠️-Breaking-red?style=flat-square)]()"
+          fi
+
+          echo "Generated Badges: $BADGES"
+
+          # 3. Update PR Body
+          START_MARKER="<!-- badgetizr-start -->"
+          END_MARKER="<!-- badgetizr-end -->"
+          BADGE_BLOCK="${START_MARKER}\n${BADGES}\n${END_MARKER}"
+
+          # Check if body is empty or null, handle gracefully
+          if [ "$BODY" == "null" ]; then BODY=""; fi
+
+          echo "$BODY" > pr_body.txt
+
+          if grep -q "$START_MARKER" pr_body.txt; then
+            # Remove old block
+            sed -i "/$START_MARKER/,/$END_MARKER/d" pr_body.txt
+            # Prepend new block (and ensure newline)
+            NEW_BODY="${BADGE_BLOCK}\n\n$(cat pr_body.txt)"
+          else
+            # Prepend to top
+            NEW_BODY="${BADGE_BLOCK}\n\n$(cat pr_body.txt)"
+          fi
+
+          # Update via gh
+          # Use file input for body to avoid shell escaping issues
+          echo -e "$NEW_BODY" > new_body.txt
+          gh pr edit "$PR_NUM" --body-file new_body.txt
+          echo "PR Updated."

@@ -1,0 +1,183 @@
+debug-token	Set up job	﻿2026-01-03T12:47:01.9068592Z Current runner version: '2.330.0'
+debug-token	Set up job	2026-01-03T12:47:01.9100615Z ##[group]Runner Image Provisioner
+debug-token	Set up job	2026-01-03T12:47:01.9102124Z Hosted Compute Agent
+debug-token	Set up job	2026-01-03T12:47:01.9102957Z Version: 20251211.462
+debug-token	Set up job	2026-01-03T12:47:01.9103841Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+debug-token	Set up job	2026-01-03T12:47:01.9104815Z Build Date: 2025-12-11T16:28:49Z
+debug-token	Set up job	2026-01-03T12:47:01.9105928Z Worker ID: {c8fb8d63-4d36-4082-84e4-09ec55a6177f}
+debug-token	Set up job	2026-01-03T12:47:01.9106957Z ##[endgroup]
+debug-token	Set up job	2026-01-03T12:47:01.9107754Z ##[group]Operating System
+debug-token	Set up job	2026-01-03T12:47:01.9108600Z Ubuntu
+debug-token	Set up job	2026-01-03T12:47:01.9109221Z 24.04.3
+debug-token	Set up job	2026-01-03T12:47:01.9109902Z LTS
+debug-token	Set up job	2026-01-03T12:47:01.9110565Z ##[endgroup]
+debug-token	Set up job	2026-01-03T12:47:01.9111271Z ##[group]Runner Image
+debug-token	Set up job	2026-01-03T12:47:01.9112090Z Image: ubuntu-24.04
+debug-token	Set up job	2026-01-03T12:47:01.9112818Z Version: 20251215.174.1
+debug-token	Set up job	2026-01-03T12:47:01.9114421Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251215.174/images/ubuntu/Ubuntu2404-Readme.md
+debug-token	Set up job	2026-01-03T12:47:01.9116877Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251215.174
+debug-token	Set up job	2026-01-03T12:47:01.9118565Z ##[endgroup]
+debug-token	Set up job	2026-01-03T12:47:01.9122785Z ##[group]GITHUB_TOKEN Permissions
+debug-token	Set up job	2026-01-03T12:47:01.9125886Z Actions: write
+debug-token	Set up job	2026-01-03T12:47:01.9126829Z ArtifactMetadata: write
+debug-token	Set up job	2026-01-03T12:47:01.9127633Z Attestations: write
+debug-token	Set up job	2026-01-03T12:47:01.9128400Z Checks: write
+debug-token	Set up job	2026-01-03T12:47:01.9129184Z Contents: write
+debug-token	Set up job	2026-01-03T12:47:01.9129886Z Deployments: write
+debug-token	Set up job	2026-01-03T12:47:01.9130681Z Discussions: write
+debug-token	Set up job	2026-01-03T12:47:01.9131430Z Issues: write
+debug-token	Set up job	2026-01-03T12:47:01.9132225Z Metadata: read
+debug-token	Set up job	2026-01-03T12:47:01.9132908Z Models: read
+debug-token	Set up job	2026-01-03T12:47:01.9133634Z Packages: write
+debug-token	Set up job	2026-01-03T12:47:01.9134376Z Pages: write
+debug-token	Set up job	2026-01-03T12:47:01.9135101Z PullRequests: write
+debug-token	Set up job	2026-01-03T12:47:01.9136250Z RepositoryProjects: write
+debug-token	Set up job	2026-01-03T12:47:01.9137114Z SecurityEvents: write
+debug-token	Set up job	2026-01-03T12:47:01.9137831Z Statuses: write
+debug-token	Set up job	2026-01-03T12:47:01.9138656Z ##[endgroup]
+debug-token	Set up job	2026-01-03T12:47:01.9141464Z Secret source: Actions
+debug-token	Set up job	2026-01-03T12:47:01.9142763Z Prepare workflow directory
+debug-token	Set up job	2026-01-03T12:47:01.9578318Z Prepare all required actions
+debug-token	Set up job	2026-01-03T12:47:01.9633278Z Getting action download info
+debug-token	Set up job	2026-01-03T12:47:02.1958431Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+debug-token	Set up job	2026-01-03T12:47:02.3660758Z Complete job name: debug-token
+debug-token	Run actions/checkout@v4	﻿2026-01-03T12:47:02.4925056Z ##[group]Run actions/checkout@v4
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4926049Z with:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4926476Z   repository: Thomo1318/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4927185Z   token: ***
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4927594Z   ssh-strict: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4928065Z   ssh-user: git
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4928522Z   persist-credentials: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4928997Z   clean: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4929447Z   sparse-checkout-cone-mode: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4929975Z   fetch-depth: 1
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4930387Z   fetch-tags: false
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4930852Z   show-progress: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4931251Z   lfs: false
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4931693Z   submodules: false
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4932165Z   set-safe-directory: true
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.4932832Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5906203Z Syncing repository: Thomo1318/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5908055Z ##[group]Getting Git version info
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5908800Z Working directory is '/home/runner/work/jjConfig/jjConfig'
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5909810Z [command]/usr/bin/git version
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5958589Z git version 2.52.0
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5981565Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5995172Z Temporarily overriding HOME='/home/runner/work/_temp/a25a5ce1-ec9d-46b6-b474-86a6d047f10d' before making global git config changes
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.5996652Z Adding repository directory to the temporary git global config as a safe directory
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6000201Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/jjConfig/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6032205Z Deleting the contents of '/home/runner/work/jjConfig/jjConfig'
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6035085Z ##[group]Initializing the repository
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6039031Z [command]/usr/bin/git init /home/runner/work/jjConfig/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6116496Z hint: Using 'master' as the name for the initial branch. This default branch name
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6118210Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6119726Z hint: to use in all of your new repositories, which will suppress this warning,
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6120709Z hint: call:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6121160Z hint:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6121664Z hint: 	git config --global init.defaultBranch <name>
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6122230Z hint:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6122819Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6123748Z hint: 'development'. The just-created branch can be renamed via this command:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6124723Z hint:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6125183Z hint: 	git branch -m <name>
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6125799Z hint:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6126395Z hint: Disable this message with "git config set advice.defaultBranchName false"
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6127417Z Initialized empty Git repository in /home/runner/work/jjConfig/jjConfig/.git/
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6129341Z [command]/usr/bin/git remote add origin https://github.com/Thomo1318/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6156972Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6158379Z ##[group]Disabling automatic garbage collection
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6161735Z [command]/usr/bin/git config --local gc.auto 0
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6184230Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6185388Z ##[group]Setting up auth
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6191408Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6216253Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6469325Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6493183Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6665582Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6689578Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6852628Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6878916Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6880299Z ##[group]Fetching the repository
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.6887788Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0cba3f02a89e97b02bea6fed152e69b0aef7b611:refs/remotes/pull/19/merge
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9533959Z From https://github.com/Thomo1318/jjConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9536696Z  * [new ref]         0cba3f02a89e97b02bea6fed152e69b0aef7b611 -> pull/19/merge
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9564492Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9566112Z ##[group]Determining the checkout info
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9567747Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9571358Z [command]/usr/bin/git sparse-checkout disable
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9607507Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9630502Z ##[group]Checking out the ref
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9634861Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/19/merge
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9703318Z Note: switching to 'refs/remotes/pull/19/merge'.
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9704142Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9704534Z You are in 'detached HEAD' state. You can look around, make experimental
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9705497Z changes and commit them, and you can discard any commits you make in this
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9706583Z state without impacting any branches by switching back to a branch.
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9707347Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9707808Z If you want to create a new branch to retain commits you create, you may
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9709228Z do so (now or later) by using -c with the switch command. Example:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9709884Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9710101Z   git switch -c <new-branch-name>
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9710451Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9710657Z Or undo this operation with:
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9710995Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9711174Z   git switch -
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9711432Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9711822Z Turn off this advice by setting config variable advice.detachedHead to false
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9712377Z 
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9713000Z HEAD is now at 0cba3f0 Merge 138f55988bbf8461c181168f50bc9ef1f86cca2e into 7a0f7bbb4e0c8fec868ccfe0903ee41596d345dc
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9714905Z ##[endgroup]
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9737199Z [command]/usr/bin/git log -1 --format=%H
+debug-token	Run actions/checkout@v4	2026-01-03T12:47:02.9753675Z 0cba3f02a89e97b02bea6fed152e69b0aef7b611
+debug-token	Debug Permissions	﻿2026-01-03T12:47:02.9956675Z ##[group]Run echo "Unsetting GITHUB_TOKEN just in case..."
+debug-token	Debug Permissions	2026-01-03T12:47:02.9957527Z [36;1mecho "Unsetting GITHUB_TOKEN just in case..."[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9958160Z [36;1munset GITHUB_TOKEN[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9958630Z [36;1m[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9959023Z [36;1mgh auth status[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9959457Z [36;1m[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9959882Z [36;1mecho "Fetching PR Node ID..."[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9960523Z [36;1mPR_NODE_ID=$(gh pr view 19 --json id -q .id)[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9961139Z [36;1mecho "PR Node ID: $PR_NODE_ID"[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9961656Z [36;1m[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9962084Z [36;1mecho "Attempting GraphQL mutation..."[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9962666Z [36;1mgh api graphql -f query='[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9963217Z [36;1m  mutation($pullRequestId: ID!) {[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9964190Z [36;1m    updatePullRequest(input: {pullRequestId: $pullRequestId, body: "Testing GraphQL Update from Debug Job"}) {[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9965140Z [36;1m      pullRequest {[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9965739Z [36;1m        id[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9966170Z [36;1m        body[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9966594Z [36;1m      }[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9966982Z [36;1m    }[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9967376Z [36;1m  }[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9967796Z [36;1m' -f pullRequestId="$PR_NODE_ID"[0m
+debug-token	Debug Permissions	2026-01-03T12:47:02.9990452Z shell: /usr/bin/bash -e {0}
+debug-token	Debug Permissions	2026-01-03T12:47:02.9990995Z env:
+debug-token	Debug Permissions	2026-01-03T12:47:02.9991625Z   GH_TOKEN: ***
+debug-token	Debug Permissions	2026-01-03T12:47:02.9992029Z   GITHUB_TOKEN: 
+debug-token	Debug Permissions	2026-01-03T12:47:02.9992432Z ##[endgroup]
+debug-token	Debug Permissions	2026-01-03T12:47:03.0052236Z Unsetting GITHUB_TOKEN just in case...
+debug-token	Debug Permissions	2026-01-03T12:47:03.4021706Z github.com
+debug-token	Debug Permissions	2026-01-03T12:47:03.4023799Z   ✓ Logged in to github.com account Thomo1318 (GH_TOKEN)
+debug-token	Debug Permissions	2026-01-03T12:47:03.4025885Z   - Active account: true
+debug-token	Debug Permissions	2026-01-03T12:47:03.4027244Z   - Git operations protocol: https
+debug-token	Debug Permissions	2026-01-03T12:47:03.4028829Z   - Token: ghp_************************************
+debug-token	Debug Permissions	2026-01-03T12:47:03.4035326Z   - Token scopes: 'admin:repo_hook', 'codespace:secrets', 'gist', 'manage_runners:org', 'notifications', 'project', 'read:audit_log', 'read:user', 'repo', 'user:email', 'user:follow', 'workflow', 'write:discussion', 'write:gpg_key', 'write:network_configurations', 'write:org', 'write:packages', 'write:public_key', 'write:ssh_signing_key'
+debug-token	Debug Permissions	2026-01-03T12:47:03.4041969Z Fetching PR Node ID...
+debug-token	Debug Permissions	2026-01-03T12:47:03.7406050Z PR Node ID: PR_kwDOQQ95Ic67XcIO
+debug-token	Debug Permissions	2026-01-03T12:47:03.7407749Z Attempting GraphQL mutation...
+debug-token	Debug Permissions	2026-01-03T12:47:04.4196130Z {"data":{"updatePullRequest":{"pullRequest":{"id":"PR_kwDOQQ95Ic67XcIO","body":"Testing GraphQL Update from Debug Job"}}}}
+debug-token	Post Run actions/checkout@v4	﻿2026-01-03T12:47:04.4292957Z Post job cleanup.
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5139266Z [command]/usr/bin/git version
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5171412Z git version 2.52.0
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5215913Z Temporarily overriding HOME='/home/runner/work/_temp/9927c6fd-4628-4b87-9468-ab237d0e2b46' before making global git config changes
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5217290Z Adding repository directory to the temporary git global config as a safe directory
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5221917Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/jjConfig/jjConfig
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5250091Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5276205Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5451264Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5466604Z http.https://github.com/.extraheader
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5476680Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5499149Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5660891Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+debug-token	Post Run actions/checkout@v4	2026-01-03T12:47:04.5683750Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+debug-token	Complete job	﻿2026-01-03T12:47:04.5933614Z Cleaning up orphan processes
