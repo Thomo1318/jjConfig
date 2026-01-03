@@ -34,7 +34,7 @@ jobs:
 
           # Update Gist
           gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json
-          # Handle jj.json: try to add (if new), otherwise edit
-          gh gist edit "$GIST_ID" -a jj.json || gh gist edit "$GIST_ID" jj.json
+          # Handle jj.json: use --add equivalent by specifying file mapping
+          gh gist edit "$GIST_ID" -a jj.json || gh gist edit "$GIST_ID" -f jj.json jj.json
 
           echo "Updated Gist $GIST_ID with version $VERSION and jj $JJ_VERSION"
