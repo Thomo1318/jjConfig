@@ -24,9 +24,12 @@ jobs:
           VERSION: ${{ github.event.release.tag_name || github.event.inputs.version }}
           JJ_VERSION: ${{ github.event.inputs.jj_version }}
         run: |
-          # Fallback logic
-          if [ -z "$VERSION" ]; then VERSION="v1.1.0+"; fi
-          if [ -z "$JJ_VERSION" ]; then JJ_VERSION="0.23.0+"; fi
+          # Fallback logic: Fetch latest release if not provided
+          if [ -z "$VERSION" ]; then 
+            LATEST_TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+            VERSION="${LATEST_TAG:-v1.1.0+}"
+          fi
+          if [ -z "$JJ_VERSION" ]; then JJ_VERSION="0.36.0"; fi
 
           # Create JSON content strings
           VERSION_JSON="{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}"
