@@ -32,6 +32,9 @@ jobs:
           echo "{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}" > version.json
           echo "{\"schemaVersion\":1,\"label\":\"jj\",\"message\":\"$JJ_VERSION\",\"color\":\"purple\"}" > jj.json
 
-          # Update Gist with both files
-          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json jj.json
+          # Update Gist
+          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json
+          # Handle jj.json: try to add (if new), otherwise edit
+          gh gist edit "$GIST_ID" -a jj.json || gh gist edit "$GIST_ID" jj.json
+
           echo "Updated Gist $GIST_ID with version $VERSION and jj $JJ_VERSION"
