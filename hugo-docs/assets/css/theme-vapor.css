@@ -9,11 +9,11 @@
   --MAIN-TEXT-color: #e0e0e0;
   --MAIN-LINK-color: #00f5d4;
   --MAIN-LINK-HOVER-color: #ff6b9d;
-  
+
   /* Accent Colors */
   --MAIN-ACCENT-color: #9d4edd;
   --MAIN-ANCHOR-color: #00f5d4;
-  
+
   /* Menu Colors */
   --MENU-HEADER-BG-color: #0f0f23;
   --MENU-HEADER-BORDER-color: #9d4edd;
@@ -28,12 +28,12 @@
   --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #16213e;
   --MENU-SECTION-ACTIVE-CATEGORY-color: #00f5d4;
   --MENU-VISITED-color: #9d4edd;
-  
+
   /* Box Colors */
   --BOX-CAPTION-color: #ffffff;
   --BOX-BG-color: #16213e;
   --BOX-TEXT-color: #e0e0e0;
-  
+
   /* Code Colors */
   --CODE-theme: neon;
   --CODE-BLOCK-color: #e0e0e0;
@@ -45,10 +45,14 @@
 
 /* Glow Effects */
 a:hover {
-  text-shadow: 0 0 8px #00f5d4, 0 0 15px #00f5d4;
+  text-shadow:
+    0 0 8px #00f5d4,
+    0 0 15px #00f5d4;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #ff6b9d;
   text-shadow: 0 0 5px rgba(255, 107, 157, 0.3);
 }

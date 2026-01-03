@@ -46,6 +46,7 @@ Establish a robust Continuous Integration pipeline to enforce quality gates auto
 - [x] **MkDocs Setup:** Configured `mkdocs-material` with "Vapor" aesthetic (Synthwave/Cyberpunk).
 - [x] **Deployment:** GitHub Actions workflow for `gh-pages` deployment.
 - [x] **Content:** Migrated docs to static site structure.
+
 ### v3.1.0 - Documentation Site
 
 **Priority:** High

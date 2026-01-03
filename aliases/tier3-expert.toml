@@ -7,17 +7,28 @@
 # Advanced rebase operations
 rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]
 reheat = ["rebase", "-d", "trunk()", "-s", "all:roots(trunk()..stack(@))"]
-rebasestale = ["rebase", "--source=all:roots(localstale)", "--destination=trunk()", "--skip-emptied"]
+rebasestale = [
+  "rebase",
+  "--source=all:roots(localstale)",
+  "--destination=trunk()",
+  "--skip-emptied",
+]
 
 # Content movement between commits
-consume = ["squash", "--into", "@", "--from"]  # Pull content into current
-eject = ["squash", "--from", "@", "--into"]  # Push content to another
+consume = ["squash", "--into", "@", "--from"] # Pull content into current
+eject = ["squash", "--from", "@", "--into"]   # Push content to another
 
 # Cleanup operations
 hideempty = ["abandon", "empty() & local() ~ root()"]
 
 # Complex push workflow (auto-commit and push)
-ps = ["util", "exec", "--", "bash", "-c", '''
+ps = [
+  "util",
+  "exec",
+  "--",
+  "bash",
+  "-c",
+  '''
 set -e
 has_description=$(jj log -r @ --no-graph --color never -T 'description' | grep -q . && echo "yes" || echo "no")
 has_changes=$(jj log -r @ --no-graph --color never -T 'empty' | grep -q "false" && echo "yes" || echo "no")
@@ -32,7 +43,8 @@ fi
 jj bookmark set "$bookmark" -r @-
 jj git fetch
 jj git push --bookmark "$bookmark" --allow-new
-''']
+''',
+]
 
 # Archive/unarchive commits (prefix description)
 archive = ["util", "exec", "--", "sh", "-c", '''

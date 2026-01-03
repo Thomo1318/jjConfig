@@ -9,6 +9,7 @@ The repomix hooks automatically generate a consolidated repository file after co
 ## What is Repomix?
 
 **Repomix** is a tool that packs your entire repository into a single AI-friendly file. It:
+
 - Consolidates all repository content (code, docs, configs)
 - Generates token counts for each file
 - Provides optimal formatting for AI context
@@ -20,12 +21,15 @@ The repomix hooks automatically generate a consolidated repository file after co
 ## How It Works
 
 ### Automatic Generation
+
 The `post-commit` hook automatically runs after:
+
 - `git commit` - After committing changes
 - `git merge` - After merging branches
 - `git checkout` - After switching branches
 
 ### File Organization
+
 ```
 .repomix/
 ├── context.json              # Metadata and usage info
@@ -36,6 +40,7 @@ The `post-commit` hook automatically runs after:
 ```
 
 ### Automatic Cleanup
+
 - Keeps only the last 3 generated files
 - Creates symlink to latest for easy access
 - Removes old files automatically
@@ -43,6 +48,7 @@ The `post-commit` hook automatically runs after:
 ## Usage
 
 ### Automatic (Default)
+
 ```bash
 # Just commit - repomix runs automatically
 git commit -m "feat: add new feature"
@@ -51,6 +57,7 @@ git commit -m "feat: add new feature"
 ```
 
 ### Manual Generation
+
 ```bash
 # Manually trigger hook
 .git/hooks/post-commit
@@ -62,6 +69,7 @@ repomix --output .repomix/repomix-manual.txt .
 ### Using with AI Tools
 
 #### Copy to AI Tool
+
 ```bash
 # Copy latest file to clipboard
 cat .repomix/repomix-latest.txt | pbcopy
@@ -71,6 +79,7 @@ open .repomix/repomix-latest.txt
 ```
 
 #### Check Token Count
+
 ```bash
 # Show token counts
 repomix --token-count-tree .repomix/repomix-latest.txt
@@ -80,6 +89,7 @@ repomix --token-count-tree 100 .repomix/repomix-latest.txt
 ```
 
 #### Get File Statistics
+
 ```bash
 # Line count
 wc -l .repomix/repomix-latest.txt
@@ -94,6 +104,7 @@ repomix --top-files-len 20 .
 ## Configuration
 
 ### Repomix Config File
+
 Create `.repomixignore` to exclude files:
 
 ```
@@ -112,6 +123,7 @@ build/
 ### Hook Behavior
 
 The hook:
+
 - ✅ Runs silently (no console output unless errors)
 - ✅ Checks if repomix is installed
 - ✅ Creates .repomix/ directory automatically
@@ -125,6 +137,7 @@ The hook:
 ## Installation
 
 ### Automatic (via jjConfig)
+
 ```bash
 jj init              # Installs all hooks including repomix
 # or
@@ -132,6 +145,7 @@ jj repomix-update   # Install/update repomix hooks only
 ```
 
 ### Manual Installation
+
 ```bash
 # Copy hook
 mkdir -p .git/hooks
@@ -145,6 +159,7 @@ chmod +x .git/hooks/post-commit
 ## Aliases
 
 ### Available Commands
+
 ```bash
 # Install/update repomix hooks
 jj repomix-update
@@ -166,16 +181,17 @@ jj repomix-tokens
 
 Both .mcp and .repomix hooks work together:
 
-| Feature | .mcp | .repomix |
-|---------|------|----------|
-| **Purpose** | Repository metadata | Full content consolidation |
-| **Output** | JSON metadata | Text file |
-| **Size** | ~1 KB | Varies (full repo) |
-| **Use Case** | AI tool configuration | AI context injection |
-| **Trigger** | post-commit, post-merge, post-checkout | Same |
-| **Frequency** | Always | Always |
+| Feature       | .mcp                                   | .repomix                   |
+| ------------- | -------------------------------------- | -------------------------- |
+| **Purpose**   | Repository metadata                    | Full content consolidation |
+| **Output**    | JSON metadata                          | Text file                  |
+| **Size**      | ~1 KB                                  | Varies (full repo)         |
+| **Use Case**  | AI tool configuration                  | AI context injection       |
+| **Trigger**   | post-commit, post-merge, post-checkout | Same                       |
+| **Frequency** | Always                                 | Always                     |
 
 ### Combined Workflow
+
 ```bash
 # Commit changes
 git commit -m "feat: add feature"
@@ -192,6 +208,7 @@ git commit -m "feat: add feature"
 ## Troubleshooting
 
 ### Hook Not Running
+
 ```bash
 # Check if hook exists and is executable
 ls -la .git/hooks/post-commit
@@ -204,6 +221,7 @@ chmod +x .git/hooks/post-commit
 ```
 
 ### Repomix Not Found
+
 ```bash
 # Install repomix
 npm install -g repomix
@@ -214,6 +232,7 @@ repomix --version
 ```
 
 ### .repomix Directory Not Created
+
 ```bash
 # Manually create and trigger
 mkdir -p .repomix
@@ -221,6 +240,7 @@ mkdir -p .repomix
 ```
 
 ### Old Files Not Cleaning Up
+
 ```bash
 # Manually clean old files (keep last 3)
 ls -t .repomix/repomix-*.txt | tail -n +4 | xargs rm -f
@@ -232,11 +252,13 @@ ln -sf "$(ls -t .repomix/repomix-*.txt | head -1)" .repomix/repomix-latest.txt
 ## Performance
 
 ### Hook Execution Time
+
 - Typical: 0.5-2 seconds (depends on repo size)
 - Runs silently in background
 - Doesn't block commit process
 
 ### File Size Impact
+
 - .repomix/ directory: Varies by repo size
 - Typical: 1-10 MB per file
 - Keep 3 files: ~3-30 MB total
@@ -245,6 +267,7 @@ ln -sf "$(ls -t .repomix/repomix-*.txt | head -1)" .repomix/repomix-latest.txt
 ## Advanced Usage
 
 ### Custom Output Location
+
 ```bash
 # Generate to custom location
 repomix --output ~/ai-context/repo.txt .
@@ -255,6 +278,7 @@ echo "$REPO_CONTENT" | your-ai-tool
 ```
 
 ### Filtering Content
+
 ```bash
 # Create .repomixignore to exclude files
 cat > .repomixignore << 'IGNORE'
@@ -270,6 +294,7 @@ repomix --output .repomix/repomix-filtered.txt .
 ```
 
 ### Token Analysis
+
 ```bash
 # Show detailed token breakdown
 repomix --token-count-tree 50 .

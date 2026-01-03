@@ -9,36 +9,37 @@ buildFuture = false
 buildExpired = false
 
 [params]
-  # Theme settings
-  themeVariant = [
-    { identifier = 'vapor', name = 'Vapor (Default)', auto = [] },
-    { identifier = 'neon', name = 'Neon' },
-    { identifier = 'relearn-dark', name = 'Relearn Dark' },
-  ]
-  
-  # Author
-  author.name = 'Thomo1318'
-  
-  # Show edit link
-  editURL = 'https://github.com/Thomo1318/jjConfig/edit/main/hugo-docs/content/'
-  
-  # Show breadcrumbs
-  showVisitedLinks = true
-  
-  # Code highlighting
-  highlightWrap = true
+# Theme settings
+themeVariant = [
+  { identifier = 'vapor', name = 'Vapor (Default)', auto = [
+  ] },
+  { identifier = 'neon', name = 'Neon' },
+  { identifier = 'relearn-dark', name = 'Relearn Dark' },
+]
+
+# Author
+author.name = 'Thomo1318'
+
+# Show edit link
+editURL = 'https://github.com/Thomo1318/jjConfig/edit/main/hugo-docs/content/'
+
+# Show breadcrumbs
+showVisitedLinks = true
+
+# Code highlighting
+highlightWrap = true
 
 [markup]
-  [markup.highlight]
-    codeFences = true
-    guessSyntax = true
-    lineNos = false
-    noClasses = false
-    style = 'dracula'
-  [markup.goldmark.renderer]
-    unsafe = true
+[markup.highlight]
+codeFences = true
+guessSyntax = true
+lineNos = false
+noClasses = false
+style = 'dracula'
+[markup.goldmark.renderer]
+unsafe = true
 
 [outputs]
-  home = ['html', 'rss']
-  section = ['html', 'rss']
-  page = ['html', 'rss']
+home = ['html', 'rss']
+section = ['html', 'rss']
+page = ['html', 'rss']

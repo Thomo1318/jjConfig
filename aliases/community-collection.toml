@@ -31,7 +31,8 @@ commits = ["list", "--template=commit_id.short() ++ \"\\n\""]
 # Delta diff viewer integration
 delta = [
   "--config=ui.pager=[\"delta\", \"--line-numbers\", \"--navigate\", \"--side-by-side\"]",
-  "diff", "--git"
+  "diff",
+  "--git",
 ]
 
 # From willhbr.net

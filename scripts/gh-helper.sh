@@ -70,7 +70,7 @@ auto_generate_description() {
 generate_mise_toml() {
 	if [ ! -f "mise.toml" ]; then
 		log_info "Generating mise.toml..."
-		cat > mise.toml <<EOF
+		cat >mise.toml <<EOF
 [tools]
 node = "lts"
 python = "latest"

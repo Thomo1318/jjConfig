@@ -7,26 +7,26 @@ set -e
 
 # Define PII patterns to block (add your real email here locally)
 BLOCKED_PATTERNS=(
-    "steele.thompson13@gmail.com"
-    # Add other PII patterns as needed
+	"steele.thompson13@gmail.com"
+	# Add other PII patterns as needed
 )
 
 echo "🔒 Checking for PII in staged files..."
 
 # Check each blocked pattern
 for pattern in "${BLOCKED_PATTERNS[@]}"; do
-    if git diff --cached | grep -q "$pattern"; then
-        echo ""
-        echo "❌ BLOCKED: Found PII pattern in staged changes: $pattern"
-        echo ""
-        echo "   Files containing PII:"
-        git diff --cached --name-only | xargs grep -l "$pattern" 2>/dev/null || true
-        echo ""
-        echo "   Replace with placeholder before committing:"
-        echo "   sed -i '' 's/$pattern/YOUR_EMAIL@example.com/g' <file>"
-        echo ""
-        exit 1
-    fi
+	if git diff --cached | grep -q "$pattern"; then
+		echo ""
+		echo "❌ BLOCKED: Found PII pattern in staged changes: $pattern"
+		echo ""
+		echo "   Files containing PII:"
+		git diff --cached --name-only | xargs grep -l "$pattern" 2>/dev/null || true
+		echo ""
+		echo "   Replace with placeholder before committing:"
+		echo "   sed -i '' 's/$pattern/YOUR_EMAIL@example.com/g' <file>"
+		echo ""
+		exit 1
+	fi
 done
 
 echo "✅ No PII detected in staged changes"

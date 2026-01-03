@@ -5,30 +5,36 @@ These Git hooks automatically generate AI context files for your repositories.
 ## Hooks:
 
 ### post-commit
+
 **Triggers:** After every commit
 **Action:** Updates `.mcp/context.json` with current repo state
 
 ### post-merge
+
 **Triggers:** After git pull/merge
 **Action:** Calls post-commit to update context
 
 ### post-checkout
+
 **Triggers:** After branch switch
 **Action:** Calls post-commit to update context
 
 ## Installation:
 
 ### Automatic (via jj init)
+
 ```bash
 jj init  # Hooks auto-installed
 ```
 
 ### Manual (existing repos)
+
 ```bash
 jj mcp-update  # Install hooks in current repo
 ```
 
 ### Batch (all repos)
+
 ```bash
 find ~/dev -name \".git\" -type d | while read gitdir; do
     repo=$(dirname \"$gitdir\")

@@ -5,14 +5,17 @@ This directory contains template aliases and custom templates for jj output cust
 ## Files:
 
 ### `tier2-template-aliases.toml`
+
 **Purpose:** Enhanced template aliases for better formatting
 **When to use:**
+
 - Want different ID formatting options (uppercase, bracketed, fixed-length)
 - Need full signatures instead of shortened
 - Prefer ISO timestamps over relative
 - Want custom field formatters
 
 **Key aliases:**
+
 - `format_short_id_upper()` - Uppercase IDs
 - `format_short_id_bracketed()` - Show prefix + [rest]
 - `format_timestamp_iso()` - ISO 8601 timestamps
@@ -20,8 +23,10 @@ This directory contains template aliases and custom templates for jj output cust
 - `commit_change_ids` - Combined ID display
 
 ### `tier3-custom-templates.toml`
+
 **Purpose:** Advanced custom templates for specific workflows
 **When to use:**
+
 - Gerrit/GitHub workflows (commit trailers, hyperlinks)
 - Custom log node symbols
 - Draft commit descriptions with diff stats
@@ -29,6 +34,7 @@ This directory contains template aliases and custom templates for jj output cust
 - Advanced string manipulation
 
 **Key templates:**
+
 - `log_node` - Custom graph symbols
 - `draft_commit_description` - Rich commit editor
 - `commit_trailers` - Auto-add Signed-off-by, Change-Id
@@ -36,14 +42,17 @@ This directory contains template aliases and custom templates for jj output cust
 - String manipulation helpers
 
 ### `community-templates.toml`
+
 **Purpose:** Community-contributed template patterns
 **When to use:**
+
 - Want proven patterns from experienced users
 - Need custom log formats (log1, logv)
 - Redacted output for sharing
 - Advanced filtering and formatting
 
 **Key patterns:**
+
 - `log1` - Compact one-line format (simonmichael)
 - `logv` - Verbose format with full descriptions
 - Hyperlink helpers
@@ -53,6 +62,7 @@ This directory contains template aliases and custom templates for jj output cust
 ## Template Language Features:
 
 ### String Methods:
+
 - `.upper()`, `.lower()` - Case conversion
 - `.trim()`, `.trim_start()`, `.trim_end()` - Whitespace removal
 - `.pad_start()`, `.pad_end()`, `.pad_centered()` - Padding
@@ -62,18 +72,21 @@ This directory contains template aliases and custom templates for jj output cust
 - `.escape_json()` - JSON escaping
 
 ### List Methods:
+
 - `.join()` - Join with separator
 - `.map()` - Transform elements
 - `.filter()` - Filter by predicate
 - `.any()`, `.all()` - Boolean checks
 
 ### Timestamp Methods:
+
 - `.ago()` - Relative time ("2 hours ago")
 - `.format()` - Custom strftime format
 - `.after()`, `.before()` - Comparisons
 - `.utc()`, `.local()` - Timezone conversion
 
 ### Special Functions:
+
 - `label()` - Custom color labels
 - `json()` - JSON serialization
 - `hyperlink()` - OSC8 terminal links
@@ -85,6 +98,7 @@ This directory contains template aliases and custom templates for jj output cust
 ## Implementation Guide:
 
 ### Quick Start:
+
 ```bash
 # Add specific template alias
 echo '[template-aliases]' >> ~/.config/jj/config.toml
@@ -92,6 +106,7 @@ echo "'format_short_id(id)' = 'id.shortest()'" >> ~/.config/jj/config.toml
 ```
 
 ### Testing Templates:
+
 ```bash
 # Test custom template
 jj log -T 'change_id.shortest() ++ " " ++ description.first_line()'
@@ -104,6 +119,7 @@ jj --config-file=~/.config/jj/template-configs/tier2-template-aliases.toml log
 ```
 
 ### Built-in Templates:
+
 - `builtin_log_compact` - Default compact log
 - `builtin_log_comfortable` - More spacing
 - `builtin_log_detailed` - Full details
@@ -117,6 +133,7 @@ jj --config-file=~/.config/jj/template-configs/tier2-template-aliases.toml log
 - `builtin_config_list_detailed` - Config with origins
 
 ## References:
+
 - Template language: https://jj-vcs.github.io/jj/latest/templates/
 - Template aliases: https://jj-vcs.github.io/jj/latest/config/#template-aliases
 - Community configs: https://github.com/jj-vcs/jj/discussions/5812

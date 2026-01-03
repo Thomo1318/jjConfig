@@ -9,6 +9,7 @@ This directory contains helper scripts for extending JJ functionality.
 GitHub integration helper for JJ with interactive prompts.
 
 **Features:**
+
 - Create GitHub repositories with interactive prompts
 - Initialize jj repos and push to GitHub (all-in-one)
 - Clone GitHub repos and initialize with jj
@@ -18,6 +19,7 @@ GitHub integration helper for JJ with interactive prompts.
 - Colored output for better UX
 
 **Dependencies:**
+
 - [GitHub CLI (gh)](https://cli.github.com/)
 - [Jujutsu (jj)](https://github.com/martinvonz/jj)
 - git
@@ -93,6 +95,7 @@ rm -rf /tmp/jj-test
 ## Contributing
 
 When adding new scripts:
+
 1. Follow bash best practices
 2. Include comprehensive error handling
 3. Add usage documentation

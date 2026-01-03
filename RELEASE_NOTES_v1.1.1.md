@@ -13,16 +13,19 @@ Streamlined GitHub repository management directly from jj with three new command
 ## ✨ Key Features
 
 ### Smart & Dynamic
+
 - **Dynamic username detection** - No hardcoded usernames, works for any authenticated user
 - **Auto-description generation** - Intelligently extracts descriptions from README.md, package.json, pyproject.toml, or Cargo.toml
 - **Interactive prompts** - Choose repository visibility (public/private) with confirmation
 
 ### Robust & Reliable
+
 - **Comprehensive error handling** - Validates dependencies (gh, jj, git) and authentication
 - **Input validation** - Ensures repository names follow GitHub conventions
 - **Colored output** - Clear visual feedback with info, success, warning, and error messages
 
 ### Maintainable & Extensible
+
 - **External script approach** - Separate `gh-helper.sh` script for easy editing and testing
 - **Modular design** - Clean functions following bash best practices
 - **Well documented** - Comprehensive inline comments and separate README
@@ -54,6 +57,7 @@ jj gh-clone owner/repo
 ## 📊 Improvements
 
 This implementation uses an **external script approach** instead of inline bash for:
+
 - ✅ Better error handling and validation
 - ✅ Dynamic username detection (no hardcoding)
 - ✅ Multi-source description generation
@@ -63,11 +67,13 @@ This implementation uses an **external script approach** instead of inline bash 
 ## 🔗 Files Added/Modified
 
 ### New Files
+
 - `scripts/gh-helper.sh` - Main helper script
 - `scripts/README.md` - Scripts documentation
 - `IMPLEMENTATION.md` - Implementation details
 
 ### Modified Files
+
 - `config.toml` - Added gh-create, init-github, gh-clone aliases
 - `TASKS.md` - Marked TODO 4 as implemented
 
