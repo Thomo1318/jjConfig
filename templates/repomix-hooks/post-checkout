@@ -30,17 +30,17 @@ OUTPUT_FILE=".repomix/repomix-${REPO_NAME}-$(date +%Y%m%d-%H%M%S).txt"
 # Run repomix with appropriate flags
 # --quiet: Suppress console output (runs silently in hook)
 # --output: Specify output file location
-repomix --quiet --output "$OUTPUT_FILE" . 2>/dev/null || {
-	echo "⚠️  repomix generation failed for $REPO_NAME"
+repomix --quiet --output "${OUTPUT_FILE}" . 2>/dev/null || {
+	echo "⚠️  repomix generation failed $$${${${${${}}r $R}EPO_}NAME"
 	exit 0
 }
 
 # Keep only the latest repomix file (clean up old ones)
 # This prevents accumulation of historical files
 LATEST_FILE=$(ls -t .repomix/repomix-*.txt 2>/dev/null | head -1)
-if [ -n "$LATEST_FILE" ]; then
+if [[ -n ${LATEST_FILE} ]]; then
 	# Create symlink to latest for easy access
-	ln -sf "$(basename "$LATEST_FILE")" .repomix/repomix-latest.txt
+	ln -sf "$(basename "${LATEST_FILE}")" .repomix/repomix-latest.txt
 fi
 
 # Remove old files (keep only last 3)
@@ -53,7 +53,7 @@ cat >.repomix/context.json <<CTXEOF
   "generated_at": "${TIMESTAMP}",
   "branch": "${BRANCH}",
   "commit": "${COMMIT}",
-  "latest_file": "$(basename "$LATEST_FILE")",
+  "latest_file": "$(basename "${LATEST_FILE}")",
   "description": "Complete repository consolidation for AI context generation",
   "usage": {
     "ai_tools": "Copy repomix-latest.txt content to AI tool context",
@@ -69,7 +69,7 @@ cat >.repomix/context.json <<CTXEOF
 CTXEOF
 
 # Add .repomix to .gitignore
-if [ -f .gitignore ]; then
+if [[ -f .gitignore ]]; then
 	grep -q '^\.repomix' .gitignore 2>/dev/null || echo ".repomix/" >>.gitignore
 fi
 

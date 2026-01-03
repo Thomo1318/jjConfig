@@ -25,7 +25,7 @@ check_dependencies() {
 	command -v jj >/dev/null 2>&1 || missing+=("jj (Jujutsu)")
 	command -v git >/dev/null 2>&1 || missing+=("git")
 
-	if [ ${#missing[@]} -gt 0 ]; then
+	if [[ ${#missing[@]} -gt 0 ]]; then
 		log_error "Missing required dependencies:"
 		printf '%s\n' "${missing[@]}" | sed 's/^/  - /'
 		exit 1
@@ -48,27 +48,27 @@ auto_generate_description() {
 	local desc=""
 
 	# Try README.md first line
-	if [ -f "README.md" ]; then
+	if [[ -f "README.md" ]]; then
 		desc=$(head -1 README.md | sed 's/^# *//' | sed 's/^## *//')
-	elif [ -f "README" ]; then
+	elif [[ -f "README" ]]; then
 		desc=$(head -1 README)
-	elif [ -f "package.json" ]; then
+	elif [[ -f "package.json" ]]; then
 		desc=$(jq -r '.description // empty' package.json 2>/dev/null)
-	elif [ -f "pyproject.toml" ]; then
+	elif [[ -f "pyproject.toml" ]]; then
 		desc=$(grep '^description = ' pyproject.toml | cut -d'"' -f2 2>/dev/null)
-	elif [ -f "Cargo.toml" ]; then
+	elif [[ -f "Cargo.toml" ]]; then
 		desc=$(grep '^description = ' Cargo.toml | cut -d'"' -f2 2>/dev/null)
 	fi
 
 	# Fallback
-	[ -z "$desc" ] && desc="Personal repository"
+	[[ -z ${desc} ]] && desc="Personal repository"
 
-	echo "$desc"
+	echo "${desc}"
 }
 
 # Generate mise.toml
 generate_mise_toml() {
-	if [ ! -f "mise.toml" ]; then
+	if [[ ! -f "mise.toml" ]]; then
 		log_info "Generating mise.toml..."
 		cat >mise.toml <<EOF
 [tools]
@@ -93,12 +93,12 @@ prompt_with_default() {
 	local default="$2"
 	local value
 
-	if [ -n "$default" ]; then
+	if [[ -n ${default} ]]; then
 		read -rp "$(echo -e "${prompt} ${YELLOW}[${default}]${NC}: ")" value
-		echo "${value:-$default}"
+		echo "${value:-${default}}"
 	else
 		read -rp "${prompt}: " value
-		echo "$value"
+		echo "${value}"
 	fi
 }
 
@@ -108,7 +108,7 @@ prompt_yes_no() {
 	local default="${2:-n}"
 	local value
 
-	if [ "$default" = "y" ]; then
+	if [[ ${default} == "y" ]]; then
 		read -rp "$(echo -e "${prompt} ${YELLOW}[Y/n]${NC}: ")" value
 		value="${value:-y}"
 	else
@@ -116,7 +116,7 @@ prompt_yes_no() {
 		value="${value:-n}"
 	fi
 
-	[[ $value =~ ^[Yy] ]]
+	[[ ${value} =~ ^[Yy] ]]
 }
 
 # Create GitHub repository
@@ -126,7 +126,7 @@ cmd_create() {
 
 	local username
 	username=$(get_github_username)
-	[ -z "$username" ] && {
+	[[ -z ${username} ]] && {
 		log_error "Could not determine GitHub username"
 		exit 1
 	}
@@ -134,11 +134,11 @@ cmd_create() {
 	# Get repository name
 	local repo_name
 	local default_name
-	default_name=$(basename "$PWD")
-	repo_name=$(prompt_with_default "Repository name" "$default_name")
+	default_name=$(basename "${PWD}")
+	repo_name=$(prompt_with_default "Repository name" "${default_name}")
 
 	# Validate repo name
-	if [[ ! $repo_name =~ ^[a-zA-Z0-9._-]+$ ]]; then
+	if [[ ! ${repo_name} =~ ^[a-zA-Z0-9._-]+$ ]]; then
 		log_error "Invalid repository name. Use only letters, numbers, dots, hyphens, and underscores."
 		exit 1
 	fi
@@ -147,7 +147,7 @@ cmd_create() {
 	local description
 	local auto_desc
 	auto_desc=$(auto_generate_description)
-	description=$(prompt_with_default "Description" "$auto_desc")
+	description=$(prompt_with_default "Description" "${auto_desc}")
 
 	# Choose visibility
 	echo ""
@@ -159,14 +159,14 @@ cmd_create() {
 	visibility="${visibility:-1}"
 
 	local visibility_flag="--public"
-	[ "$visibility" = "2" ] && visibility_flag="--private"
+	[[ ${visibility} == "2" ]] && visibility_flag="--private"
 
 	# Confirm
 	echo ""
 	log_info "Summary:"
 	echo "  Repository: ${username}/${repo_name}"
 	echo "  Description: ${description}"
-	echo "  Visibility: $([ "$visibility" = "2" ] && echo "Private" || echo "Public")"
+	echo "  Visibility: $([[ ${visibility} == "2" ]] && echo "Private" || echo "Public")"
 	echo ""
 
 	if ! prompt_yes_no "Create repository?" "y"; then
@@ -175,8 +175,8 @@ cmd_create() {
 	fi
 
 	# Create repository
-	if gh repo create "${username}/${repo_name}" $visibility_flag \
-		--description "$description" 2>/dev/null; then
+	if gh repo create "${username}/${repo_name}" "${visibility_flag}" \
+		--description "${description}" 2>/dev/null; then
 		log_success "Repository created: https://github.com/${username}/${repo_name}"
 	else
 		log_error "Failed to create repository"
@@ -190,14 +190,14 @@ cmd_init_github() {
 	check_dependencies
 
 	# Check if already in a jj repo
-	if [ -d ".jj" ]; then
+	if [[ -d ".jj" ]]; then
 		log_error "Already in a jj repository"
 		exit 1
 	fi
 
 	local username
 	username=$(get_github_username)
-	[ -z "$username" ] && {
+	[[ -z ${username} ]] && {
 		log_error "Could not determine GitHub username"
 		exit 1
 	}
@@ -205,11 +205,11 @@ cmd_init_github() {
 	# Get repository name
 	local repo_name
 	local default_name
-	default_name=$(basename "$PWD")
-	repo_name=$(prompt_with_default "Repository name" "$default_name")
+	default_name=$(basename "${PWD}")
+	repo_name=$(prompt_with_default "Repository name" "${default_name}")
 
 	# Validate repo name
-	if [[ ! $repo_name =~ ^[a-zA-Z0-9._-]+$ ]]; then
+	if [[ ! ${repo_name} =~ ^[a-zA-Z0-9._-]+$ ]]; then
 		log_error "Invalid repository name"
 		exit 1
 	fi
@@ -218,7 +218,7 @@ cmd_init_github() {
 	local description
 	local auto_desc
 	auto_desc=$(auto_generate_description)
-	description=$(prompt_with_default "Description" "$auto_desc")
+	description=$(prompt_with_default "Description" "${auto_desc}")
 
 	# Choose visibility
 	echo ""
@@ -230,14 +230,14 @@ cmd_init_github() {
 	visibility="${visibility:-1}"
 
 	local visibility_flag="--public"
-	[ "$visibility" = "2" ] && visibility_flag="--private"
+	[[ ${visibility} == "2" ]] && visibility_flag="--private"
 
 	# Confirm
 	echo ""
 	log_info "Summary:"
 	echo "  Repository: ${username}/${repo_name}"
 	echo "  Description: ${description}"
-	echo "  Visibility: $([ "$visibility" = "2" ] && echo "Private" || echo "Public")"
+	echo "  Visibility: $([[ ${visibility} == "2" ]] && echo "Private" || echo "Public")"
 	echo ""
 
 	if ! prompt_yes_no "Create repository and initialize?" "y"; then
@@ -247,8 +247,8 @@ cmd_init_github() {
 
 	# Create GitHub repository
 	log_info "Creating GitHub repository..."
-	if ! gh repo create "${username}/${repo_name}" $visibility_flag \
-		--description "$description" 2>/dev/null; then
+	if ! gh repo create "${username}/${repo_name}" "${visibility_flag}" \
+		--description "${description}" 2>/dev/null; then
 		log_error "Failed to create repository"
 		exit 1
 	fi
@@ -296,30 +296,30 @@ cmd_clone() {
 
 	local repo_url="$1"
 
-	if [ -z "$repo_url" ]; then
+	if [[ -z ${repo_url} ]]; then
 		read -rp "Repository URL or owner/repo: " repo_url
 	fi
 
 	# Validate input
-	if [ -z "$repo_url" ]; then
+	if [[ -z ${repo_url} ]]; then
 		log_error "Repository URL required"
 		exit 1
 	fi
 
 	# Clone with gh
 	log_info "Cloning repository..."
-	if ! gh repo clone "$repo_url" 2>/dev/null; then
+	if ! gh repo clone "${repo_url}" 2>/dev/null; then
 		log_error "Failed to clone repository"
 		exit 1
 	fi
 
 	# Extract repo name
 	local repo_name
-	repo_name=$(basename "$repo_url" .git)
+	repo_name=$(basename "${repo_url}" .git)
 
 	# Initialize jj
 	log_info "Initializing jj in ${repo_name}..."
-	cd "$repo_name" || exit 1
+	cd "${repo_name}" || exit 1
 
 	if jj init --git-repo=. 2>/dev/null; then
 		log_success "jj initialized"
@@ -363,7 +363,7 @@ EOF
 main() {
 	local cmd="${1-}"
 
-	case "$cmd" in
+	case "${cmd}" in
 	create)
 		cmd_create
 		;;
@@ -384,7 +384,7 @@ main() {
 		exit 1
 		;;
 	*)
-		log_error "Unknown command: $cmd"
+		log_error "Unknown command: ${cmd}"
 		echo ""
 		usage
 		exit 1

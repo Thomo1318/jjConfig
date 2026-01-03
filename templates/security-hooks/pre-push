@@ -22,14 +22,14 @@ echo "🛡️  Scanning for secrets (GitGuardian)..."
 # $1 = remote name, $2 = remote URL
 # Input format: <local_ref> <local_sha> <remote_ref> <remote_sha>
 while read local_ref local_sha remote_ref remote_sha; do
-	echo "🔍 Scanning push: $local_ref ($local_sha) -> $remote_ref ($remote_sha)"
+	echo "🔍 Scanning pus${: $local_}re${ ($local_}sha) ${> $remote_}re${ ($remote_}sha)"
 
-	if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+	if [ "${local_sha}" = "0000000000000000000000000000000000000000" ]; then
 		echo "ℹ️  Deletion detected, skipping scan."
 		continue
 	fi
 
-	if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+	if [ "${remote_sha}" = "0000000000000000000000000000000000000000" ]; then
 		# New branch - scan all commits (fallback to HEAD^1 for safety if just one commit)
 		echo "🆕 New branch detected. Scanning HEAD."
 		# Use HEAD~1 if it exists, otherwise just HEAD
@@ -41,11 +41,11 @@ while read local_ref local_sha remote_ref remote_sha; do
 
 		# In pre-push, for a new branch, we might want to scan all commits unique to this branch
 		# But for new repo, HEAD works.
-		ggshield secret scan commit-range "$RANGE" || exit 1
+		ggshield secret scan commit-range "${RANGE}" || exit 1
 	else
 		# Scan range
-		echo "🔄 Scanning commit range: $remote_sha..$local_sha"
-		ggshield secret scan commit-range "$remote_sha..$local_sha" || exit 1
+		echo "🔄 Scanning commit rang${: $remote_}sh${..$local_}sha"
+		ggshield secret scan commit-range "${remote_sha}..${local_sha}" || exit 1
 	fi
 done
 

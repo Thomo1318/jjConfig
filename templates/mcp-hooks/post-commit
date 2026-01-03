@@ -14,7 +14,7 @@ COMMIT=$(git rev-parse HEAD 2>/dev/null || echo "none")
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 # Extract GitHub repo path if it exists
-if [[ $REPO_URL =~ github\.com[:/](.+)\.git$ ]] || [[ $REPO_URL =~ github\.com[:/](.+)$ ]]; then
+if [[ ${REPO_URL} =~ github\.com[:/](.+)\.git$ ]] || [[ ${REPO_URL} =~ github\.com[:/](.+)$ ]]; then
 	GITHUB_REPO="${BASH_REMATCH[1]}"
 	MCP_URL="https://gitmcp.io/${GITHUB_REPO}"
 	IS_GITHUB="true"
@@ -52,7 +52,7 @@ cat >.mcp/context.json <<CTXEOF
 CTXEOF
 
 # Only generate AI configs if it's a GitHub repo
-if [ "$IS_GITHUB" = "true" ]; then
+if [[ "${IS_GITHUB}" = "true" ]]; then
 	cat >.mcp/cursor-config.json <<CURSOREOF
 {
   "mcpServers": {
@@ -110,7 +110,7 @@ else
 fi
 
 # Add .mcp to .gitignore
-if [ -f .gitignore ]; then
+if [[ -f .gitignore ]]; then
 	grep -q "^\.mcp" .gitignore 2>/dev/null || echo ".mcp/" >>.gitignore
 fi
 
