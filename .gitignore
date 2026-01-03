@@ -1,5 +1,8 @@
-# Redundant backups (local only)
+# Backups (local only - contain PII)
+backups/
 .backups-redundant/
+*.backup
+*.backup-*
 
 # Temporary files
 *.tmp
@@ -20,13 +23,8 @@ Thumbs.db
 # JJ files
 .jj/
 
-# Keep version-tracked backups in repo
-!backups/VERSION_HISTORY.md
-!backups/v*/config.toml
-!backups/v*/metadata.json
-
-# Exclude timestamp markers (regenerated)
-backups/v*/applied-*.timestamp
+# Bevel (local tool state)
+.bevel/
 
 # TODO: GitGuardian (will be added in v1.2.0)
 # .ggshield.yaml

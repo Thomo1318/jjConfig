@@ -17,7 +17,7 @@
 # User Information
 [user]
 name = "Thomo1318"
-email = "steele.thompson13@gmail.com"
+email = "YOUR_EMAIL@example.com"
 
 # UI Settings
 [ui]
@@ -69,7 +69,7 @@ concat(
 
 # Revset Aliases
 [revset-aliases]
-'mine()' = 'author("steele.thompson13@gmail.com") | committer("steele.thompson13@gmail.com")'
+'mine()' = 'author("YOUR_EMAIL@example.com") | committer("YOUR_EMAIL@example.com")'
 'trunk()' = 'latest(remote_bookmarks(exact:"main") | remote_bookmarks(exact:"master") | remote_bookmarks(exact:"trunk"))'
 'work' = "ancestors(mutable() & ~empty(), 2) | trunk()"
 'recent()' = "ancestors(@, 10)"
@@ -462,7 +462,7 @@ echo ""
 FOUND=false
 
 # Check for email
-if grep -r "steele.thompson13@gmail.com" --exclude-dir=.git --exclude-dir=backups --exclude-dir=.build-artifacts . 2>/dev/null; then
+if grep -r "YOUR_EMAIL@example.com" --exclude-dir=.git --exclude-dir=backups --exclude-dir=.build-artifacts . 2>/dev/null; then
     echo ""
     echo "⚠️  Found sensitive email address"
     FOUND=true

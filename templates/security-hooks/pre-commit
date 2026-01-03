@@ -1,29 +1,33 @@
 #!/usr/bin/env bash
 # Security Pre-Commit Hook
-# Automatically sanitizes sensitive information before committing
-# Version: 1.0.0 - Sanitize before commit
+# Blocks commits containing PII (emails, real names)
+# Version: 2.0.0 - Block before commit
 
 set -e
 
-# Check if sanitization script exists
-if [ ! -f .build-artifacts/sanitize_email.py ]; then
-	echo "⚠️  Sanitization script not found. Skipping."
-	exit 0
-fi
+# Define PII patterns to block (add your real email here locally)
+BLOCKED_PATTERNS=(
+    "steele.thompson13@gmail.com"
+    # Add other PII patterns as needed
+)
 
-# Only sanitize if we're about to commit files with real email
-if git diff --cached --name-only | grep -qE "(config\.toml|README\.md|QUICKSTART\.md|TASKS\.md)"; then
-	if git diff --cached | grep -q "steele.thompson13@gmail.com"; then
-		echo "🔒 Sanitizing emails before commit..."
+echo "🔒 Checking for PII in staged files..."
 
-		# Run sanitization
-		python3 .build-artifacts/sanitize_email.py
+# Check each blocked pattern
+for pattern in "${BLOCKED_PATTERNS[@]}"; do
+    if git diff --cached | grep -q "$pattern"; then
+        echo ""
+        echo "❌ BLOCKED: Found PII pattern in staged changes: $pattern"
+        echo ""
+        echo "   Files containing PII:"
+        git diff --cached --name-only | xargs grep -l "$pattern" 2>/dev/null || true
+        echo ""
+        echo "   Replace with placeholder before committing:"
+        echo "   sed -i '' 's/$pattern/YOUR_EMAIL@example.com/g' <file>"
+        echo ""
+        exit 1
+    fi
+done
 
-		# Re-stage sanitized files
-		git add -u
-
-		echo "✅ Files sanitized for commit"
-	fi
-fi
-
+echo "✅ No PII detected in staged changes"
 exit 0
