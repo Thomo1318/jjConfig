@@ -1,0 +1,73 @@
+name: Badgetizr PR Badges
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - closed
+
+concurrency:
+  group: badgetizr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  badgetizr-start:
+    # Skip Dependabot PRs
+    if: ${{ !startsWith(github.head_ref, 'dependabot/') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Badgetizr - Start
+        uses: aiKrice/homebrew-badgetizr@3.0.2
+        with:
+          pr_id: ${{ github.event.pull_request.number }}
+          configuration: .badgetizr.yml
+          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
+          pr_build_number: ${{ github.run_id }}
+          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          ci_status: "started"
+          ci_text: "Running CI"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Wait for other CI jobs to complete
+  badgetizr-result:
+    needs: [badgetizr-start]
+    runs-on: ubuntu-latest
+    if: ${{ always() && !startsWith(github.head_ref, 'dependabot/') }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Badgetizr - Success
+        if: ${{ success() }}
+        uses: aiKrice/homebrew-badgetizr@3.0.2
+        with:
+          pr_id: ${{ github.event.pull_request.number }}
+          configuration: .badgetizr.yml
+          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
+          pr_build_number: ${{ github.run_id }}
+          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          ci_status: "passed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Badgetizr - Failed
+        if: ${{ failure() }}
+        uses: aiKrice/homebrew-badgetizr@3.0.2
+        with:
+          pr_id: ${{ github.event.pull_request.number }}
+          configuration: .badgetizr.yml
+          pr_destination_branch: ${{ github.event.pull_request.base.ref }}
+          pr_build_number: ${{ github.run_id }}
+          pr_build_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          ci_status: "failed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
