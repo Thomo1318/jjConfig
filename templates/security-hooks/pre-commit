@@ -7,7 +7,7 @@ set -e
 
 # Define PII patterns to block (add your real email here locally)
 BLOCKED_PATTERNS=(
-	"steele.thompson13@gmail.com"
+	"YOUR_EMAIL@example.com"
 	# Add other PII patterns as needed
 )
 
