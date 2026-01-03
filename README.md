@@ -5,7 +5,6 @@
 [![Version](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Thomo1318/e766526dd2d577b808dc24e114e1cd0b/raw/version.json)](https://github.com/Thomo1318/jjConfig/releases)
 [![GitGuardian](https://img.shields.io/github/actions/workflow/status/Thomo1318/jjConfig/ggshield.yml?label=Security&logo=gitguardian)](https://github.com/Thomo1318/jjConfig/actions/workflows/ggshield.yml)
 ![CodeRabbit Badge](https://img.shields.io/badge/CodeRabbit-FF570A?logo=coderabbit&logoColor=fff&style=flat)
-
 [![Docs](https://img.shields.io/github/actions/workflow/status/Thomo1318/jjConfig/ci-docs.yml?label=Docs&logo=materialformkdocs)](https://github.com/Thomo1318/jjConfig/actions/workflows/ci-docs.yml)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Jujutsu](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Thomo1318/e766526dd2d577b808dc24e114e1cd0b/raw/jj.json)](https://github.com/jj-vcs/jj)

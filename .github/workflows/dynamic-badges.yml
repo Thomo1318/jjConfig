@@ -28,13 +28,25 @@ jobs:
           if [ -z "$VERSION" ]; then VERSION="v1.1.0+"; fi
           if [ -z "$JJ_VERSION" ]; then JJ_VERSION="0.23.0+"; fi
 
-          # Create JSON payloads
-          echo "{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}" > version.json
-          echo "{\"schemaVersion\":1,\"label\":\"jj\",\"message\":\"$JJ_VERSION\",\"color\":\"purple\"}" > jj.json
+          # Create JSON content strings
+          VERSION_JSON="{\"schemaVersion\":1,\"label\":\"Release\",\"message\":\"$VERSION\",\"color\":\"blue\"}"
+          JJ_JSON="{\"schemaVersion\":1,\"label\":\"jj\",\"message\":\"$JJ_VERSION\",\"color\":\"purple\"}"
 
-          # Update Gist
-          gh gist edit "$GIST_ID" -d "jjConfig Dynamic Badges (Updated: $(date))" version.json
-          # Handle jj.json: use --add equivalent by specifying file mapping
-          gh gist edit "$GIST_ID" --filename jj.json=jj.json
+          # Construct API payload securely with jq
+          # We update description and files in one go
+          jq -n \
+            --arg desc "jjConfig Dynamic Badges (Updated: $(date))" \
+            --arg v "$VERSION_JSON" \
+            --arg j "$JJ_JSON" \
+            '{description: $desc, files: {"version.json": {content: $v}, "jj.json": {content: $j}}}' > payload.json
+
+          # Update Gist via API
+          curl -L \
+            -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/gists/$GIST_ID" \
+            -d @payload.json
 
           echo "Updated Gist $GIST_ID with version $VERSION and jj $JJ_VERSION"
