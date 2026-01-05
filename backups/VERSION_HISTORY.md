@@ -55,6 +55,20 @@
 
 ---
 
+## v3.1.0-docs (2026-01-02)
+
+**Location:** `backups/v3.0.0-conventional/`
+**Status:** Released
+**Description:** Documentation overhaul with MkDocs static site.
+
+**Key Features:**
+
+- **MkDocs Site**: Beautiful, searchable documentation site.
+- **Auto-Deployment**: GitHub Actions workflow for automated docs deployment.
+- **Structure**: Reorganized `docs/` folder.
+
+---
+
 ## v1.0.0-optimized (2025-11-01) ← CURRENT
 
 **Location:** `backups/v1.0.0-optimized/`

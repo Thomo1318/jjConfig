@@ -92,5 +92,5 @@ MIT License. See [LICENSE](LICENSE).
 ## 👤 Author
 
 **Thomo1318**
-Email: <YOUR_EMAIL@example.com>
+Email: <steele.thompson13@gmail.com>
 GitHub: [@Thomo1318](https://github.com/Thomo1318)

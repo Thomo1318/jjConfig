@@ -47,31 +47,6 @@ Establish a robust Continuous Integration pipeline to enforce quality gates auto
 - [x] **Deployment:** GitHub Actions workflow for `gh-pages` deployment.
 - [x] **Content:** Migrated docs to static site structure.
 
-### v3.1.0 - Documentation Site
-
-**Priority:** High
-**Status:** Planned
-
-Transition static markdown files to a searchable, beautiful static site.
-
-- [ ] Evaluate Static Site Generators (MkDocs-Material recommended)
-- [ ] Set up `mkdocs.yml` configuration
-- [ ] Configure GitHub Pages deployment
-- [ ] Migrate existing `docs/` content
-- [ ] Implement versioning selector (if needed)
-
-### v3.2.0 - CI/CD Foundation
-
-**Priority:** Medium
-**Status:** Planned
-
-Establish a robust Continuous Integration pipeline to enforce quality gates automatically.
-
-- [ ] **Linting Workflow**: Run `trunk check` on PRs
-- [ ] **Security Workflow**: Run `ggshield` and `trivy` on PRs
-- [ ] **Commit Workflow**: Enforce Conventional Commits (via `commitlint` or `jj` check)
-- [ ] **Build Workflow**: Verify `mkdocs build` passes
-
 ---
 
 ## 🔮 Future Vision
