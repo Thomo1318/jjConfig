@@ -13,6 +13,7 @@
 [![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?logo=gnu-bash&logoColor=white)]()
 ![TOML Badge](https://img.shields.io/badge/TOML-9C4121?logo=toml&logoColor=fff&style=flat)
 ![JSON Badge](https://img.shields.io/badge/JSON-000?logo=json&logoColor=fff&style=flat)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 
 [![Version](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Thomo1318/e766526dd2d577b808dc24e114e1cd0b/raw/version.json)](https://github.com/Thomo1318/jjConfig/releases)
 [![Last Commit](https://img.shields.io/github/last-commit/Thomo1318/jjConfig?color=red)](https://github.com/Thomo1318/jjConfig/commits)
@@ -111,3 +112,5 @@ MIT License. See [LICENSE](LICENSE).
 **Thomo1318**
 Email: <YOUR_EMAIL@example.com>
 GitHub: [@Thomo1318](https://github.com/Thomo1318)
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Thomo1318/jjConfig)

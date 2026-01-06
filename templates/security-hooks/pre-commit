@@ -7,7 +7,7 @@ set -e
 
 # Define PII patterns to block (add your real email here locally)
 BLOCKED_PATTERNS=(
-	"YOUR_EMAIL@example.com"
+	"steele.thompson13@gmail.com"
 	# Add other PII patterns as needed
 )
 
@@ -23,7 +23,7 @@ for pattern in "${BLOCKED_PATTERNS[@]}"; do
 		git diff --cached --name-only | xargs grep -l "${pattern}" 2>/dev/null || true
 		echo ""
 		echo "   Replace with placeholder before committing:"
-		echo "   sed -i '' 's/${pattern}/YOUR_EMAIL@example.com/g' <file>"
+		echo "   sed -i '' 's/${pattern}/steele.thompson13@gmail.com/g' <file>"
 		echo ""
 		exit 1
 	fi
